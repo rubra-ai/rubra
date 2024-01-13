@@ -28,7 +28,7 @@ fi
 source "$venv_dir/bin/activate"
 
 # Install dependencies
-pip install cmake scikit-build setuptools fastapi uvicorn sse-starlette pydantic-settings starlette-context
+python3 -m pip install cmake scikit-build setuptools fastapi uvicorn sse-starlette pydantic-settings starlette-context
 
 # Install llama-cpp-python from source
 if [ -d "llama-cpp-python" ]; then
