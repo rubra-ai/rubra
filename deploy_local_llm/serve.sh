@@ -46,7 +46,7 @@ fi
 # Download the LLM
 llm_file="${model_dir}/openhermes-2.5-neural-chat-v3-3-slerp.Q6_K.gguf"
 if [ ! -f "$llm_file" ]; then
-    wget -O "$llm_file" https://huggingface.co/TheBloke/OpenHermes-2.5-neural-chat-v3-3-Slerp-GGUF/resolve/main/openhermes-2.5-neural-chat-v3-3-slerp.Q6_K.gguf
+    curl -o "$llm_file" https://huggingface.co/TheBloke/OpenHermes-2.5-neural-chat-v3-3-Slerp-GGUF/resolve/main/openhermes-2.5-neural-chat-v3-3-slerp.Q6_K.gguf
 fi
 
 # Start server
