@@ -1,0 +1,28 @@
+root ::= Function
+Function ::= Chat | FileKnowledge | GoogleSearch
+Chat ::= "{"   ws   "\"choice\":"   ws   "\"Chat\","   ws   "\"content\":"   ws   string   "}"
+FileKnowledge ::= "{"   ws   "\"function\":"   ws   "\"FileKnowledge\","   ws   "\"args\":"   ws   object   "}"
+GoogleSearch ::= "{"   ws   "\"function\":"   ws   "\"GoogleSearchTool\","   ws   "\"args\":"   ws   object   "}"
+
+value  ::= object | array | string | number | ("true" | "false" | "null") ws
+
+object ::=
+  "{" ws (
+            string ":" ws value
+    ("," ws string ":" ws value)*
+  )? "}" ws
+
+array  ::=
+  "[" ws (
+            value
+    ("," ws value)*
+  )? "]" ws
+
+string ::=
+  "\"" (
+    [^"\\] |
+    "\\" (["\\/bfnrt] | "u" [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F]) # escapes
+  )* "\"" ws
+
+# Optional space: by convention, applied in this grammar after literal chars when allowed
+ws ::= ([ ] ws)?

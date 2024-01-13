@@ -152,9 +152,70 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# PyCharm
-#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
-#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
-#  and can be added to the global gitignore or merged into this file.  For a more nuclear
-#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#.idea/
+# Docusaurus
+/website/build/
+/website/i18n/
+/website/node_modules/
+
+# Docker
+*.log
+Dockerfile*
+docker-compose.yml
+.dockerignore
+.docker/
+
+# Streamlit
+.streamlit/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Python/FastAPI
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Environment variables
+.env
+
+# Virtual Environment
+venv/
+
+# IDE specific (VS Code)
+.vscode/
+
+# Logs
+logs/
+*.log
+
+# Database
+*.db
+*.sqlite
+
+# Celery
+*.pid
+*.log
+*.log.*
+*.pyc
+
+# Docker volumes
+*.data
+volumes/
+
+# LLM files
+*.gguf
+
+# Mac
+.DS_Store
+
+# Rubra
+.rubra_serve_env/
+llama-cpp-python/
