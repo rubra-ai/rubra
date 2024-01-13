@@ -195,4 +195,3 @@ services:
 
 networks:
   rubra:
-    name: rubra
