@@ -12,12 +12,6 @@ if version_gt "$required_python_version" "$current_python_version"; then
     exit 1
 fi
 
-# Check if pip is installed
-if ! command -v pip > /dev/null; then
-    echo "Error: pip is not installed."
-    exit 1
-fi
-
 # Create virtual environment
 venv_dir=".rubra_serve_env"
 if [ ! -d "$venv_dir" ]; then
@@ -38,7 +32,7 @@ if [ -d "llama-cpp-python" ]; then
 else
     git clone --recurse-submodules https://github.com/tybalex/llama-cpp-python.git
 fi
-pip install --no-cache -e ./llama-cpp-python
+python3 -m pip install --no-cache -e ./llama-cpp-python
 
 # (Optional) export grammar file path as environment variable
 export GRAMMAR_FILE=grammar/json_grammar.gbnf
