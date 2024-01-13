@@ -24,13 +24,16 @@ sh serve.sh
 You can serve the model using Docker. If you'd like to run just the model you can:
   
   1. Download the quantized LLM:
-    ```sh
-    wget https://huggingface.co/TheBloke/OpenHermes-2.5-neural-chat-v3-3-Slerp-GGUF/resolve/main/openhermes-2.5-neural-chat-v3-3-slerp.Q6_K.gguf
-    ```
+
+```sh
+wget https://huggingface.co/TheBloke/OpenHermes-2.5-neural-chat-v3-3-Slerp-GGUF/resolve/main/openhermes-2.5-neural-chat-v3-3-slerp.Q6_K.gguf
+```
+    
   2. Run the docker container using docker-compose:
-    ```sh
-    docker-compose up
-    ```
+
+```sh
+docker-compose up
+```
 
 You can set the `api_base` of your custom model in [llm-config.yaml](../llm-config.yaml#L10) to `"http://llama_cpp_python:1234/v1"`
 

@@ -219,3 +219,4 @@ volumes/
 # Rubra
 .rubra_serve_env/
 llama-cpp-python/
+llm-config.yaml

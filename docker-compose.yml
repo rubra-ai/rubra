@@ -1,0 +1,198 @@
+version: '3.8'
+
+services:
+  etcd:
+    container_name: milvus-etcd
+    image: quay.io/coreos/etcd:v3.5.5
+    environment:
+      - ETCD_AUTO_COMPACTION_MODE=revision
+      - ETCD_AUTO_COMPACTION_RETENTION=1000
+      - ETCD_QUOTA_BACKEND_BYTES=4294967296
+      - ETCD_SNAPSHOT_COUNT=50000
+    volumes:
+      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/etcd:/etcd
+    command: etcd -advertise-client-urls=http://127.0.0.1:2379 -listen-client-urls http://0.0.0.0:2379 --data-dir /etcd
+    healthcheck:
+      test: ["CMD", "etcdctl", "endpoint", "health"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - rubra
+
+  minio:
+    container_name: milvus-minio
+    image: minio/minio:RELEASE.2023-03-20T20-16-18Z
+    environment:
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+    ports:
+      - "9001:9001"
+      - "9000:9000"
+    volumes:
+      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/minio:/minio_data
+    command: minio server /minio_data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - rubra
+
+  standalone:
+    container_name: milvus
+    image: milvusdb/milvus:v2.3.3
+    command: ["milvus", "run", "standalone"]
+    security_opt:
+      - seccomp:unconfined
+    environment:
+      ETCD_ENDPOINTS: etcd:2379
+      MINIO_ADDRESS: minio:9000
+    volumes:
+      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/milvus:/var/lib/milvus
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
+      interval: 30s
+      start_period: 90s
+      timeout: 20s
+      retries: 3
+    ports:
+      - "19530:19530"
+      - "9091:9091"
+    depends_on:
+      - "etcd"
+      - "minio"
+    networks:
+      - rubra
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/mongodb:/data/db
+    networks:
+      - rubra
+
+  redis:
+    image: redis
+    container_name: my-redis
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    networks:
+      - rubra
+
+  litellm:
+    image: ghcr.io/berriai/litellm:main-v1.15.3
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./llm-config.yaml:/app/config.yaml
+    command: ["--config", "/app/config.yaml", "--port", "8002", "--num_workers", "8"]
+    networks:
+      - rubra
+
+  embedding_model:
+    build: 
+      context: ./backend/app/embedding_model
+      dockerfile: Dockerfile
+    container_name: embedding_model
+    image: ghcr.io/rubra-ai/embedding_model:latest
+    ports:
+      - "8020:8020"
+    environment:
+      - MODEL_NAME=sentence-transformers/all-MiniLM-L6-v2
+    networks:
+      - rubra
+
+  vector_db:
+    build: 
+      context: ./backend/app/vector_db
+      dockerfile: Dockerfile
+    container_name: vector_db
+    image: ghcr.io/rubra-ai/vector_db:latest
+    ports:
+      - "8010:8010"
+    environment:
+      - MILVUS_HOST=milvus
+      - EMBEDDING_HOST=embedding_model
+    networks:
+      - rubra
+
+
+  rubra_task_executor:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile_task_executor
+    image: ghcr.io/rubra-ai/rubra_task_executor:latest
+    container_name: rubra_task_executor
+    environment:
+      - REDIS_HOST=redis
+      - MONGODB_HOST=mongodb
+      - LITELLM_HOST=litellm
+      - EMBEDDING_HOST=embedding_model
+      - VECTOR_DB_HOST=vector_db
+      - MILVUS_HOST=milvus
+    depends_on:
+      - redis
+      - mongodb
+    networks:
+      - rubra
+
+
+  rubra_backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile_backend
+    image: ghcr.io/rubra-ai/rubra_backend:latest
+    container_name: rubra_backend
+    environment:
+      - REDIS_HOST=redis
+      - MONGODB_HOST=mongodb
+      - LITELLM_HOST=litellm
+    ports:
+      - "8000:8000"
+    depends_on:
+      - rubra_task_executor
+    networks:
+      - rubra
+
+  rubra_frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: ghcr.io/rubra-ai/rubra_frontend:latest
+    container_name: rubra_frontend
+    environment:
+      - RUBRA_BACKEND_HOST=rubra_backend
+      - LITELLM_HOST=litellm
+    ports:
+      - "8501:8501"
+    networks:
+      - rubra
+  
+  # Preferably use GPU acceleration when available. If not, uncomment to run on CPU
+  # llama_cpp:
+  #   image: ghcr.io/rubra-ai/llama-cpp-python-rubra-local:latest
+  #   container_name: llama_cpp_python
+  #   environment:
+  #     - GRAMMAR_FILE=grammar/json_grammar.gbnf # apply grammar rule file
+  #   ports:
+  #     - "1234:1234"
+  #   volumes:
+  #     - ./deploy_local_llm/model/openhermes-2.5-neural-chat-v3-3-slerp.Q6_K.gguf:/model/openhermes-2.5-neural-chat-v3-3-slerp.Q6_K.gguf  # change this to the path of your model if you want to use a different model
+  #   command: --server --model /model/openhermes-2.5-neural-chat-v3-3-slerp.Q6_K.gguf --port 1234 --chat_format chatml --host 0.0.0.0 --n_ctx 16000  # change the name of the model file accordingly
+  #   networks:
+  #     - rubra
+
+networks:
+  rubra:
+    name: rubra
