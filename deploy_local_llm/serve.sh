@@ -32,7 +32,8 @@ if [ -d "llama-cpp-python" ]; then
 else
     git clone --recurse-submodules https://github.com/tybalex/llama-cpp-python.git
 fi
-python3 -m pip install --no-cache -e ./llama-cpp-python
+# python3 -m pip install --no-cache -e ./llama-cpp-python
+python3 -m pip install -e ./llama-cpp-python
 
 # (Optional) export grammar file path as environment variable
 export GRAMMAR_FILE=grammar/json_grammar.gbnf
@@ -42,11 +43,13 @@ model_dir="./model"
 if [ ! -d "$model_dir" ]; then
     mkdir "$model_dir"
 fi
+model_name="openhermes-2.5-neural-chat-v3-3-slerp.Q6_K.gguf"
+llm_file="${model_dir}/${model_name}"
+model_url="https://huggingface.co/TheBloke/OpenHermes-2.5-neural-chat-v3-3-Slerp-GGUF/resolve/main/${model_name}"
 
 # Download the LLM
-llm_file="${model_dir}/openhermes-2.5-neural-chat-v3-3-slerp.Q6_K.gguf"
 if [ ! -f "$llm_file" ]; then
-    curl -o "$llm_file" https://huggingface.co/TheBloke/OpenHermes-2.5-neural-chat-v3-3-Slerp-GGUF/resolve/main/openhermes-2.5-neural-chat-v3-3-slerp.Q6_K.gguf
+    curl -L -o "$llm_file" "$model_url"
 fi
 
 # Start server
