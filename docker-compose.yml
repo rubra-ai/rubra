@@ -182,3 +182,5 @@ services:
   
 networks:
   rubra:
+    name: rubra
+    driver: bridge
