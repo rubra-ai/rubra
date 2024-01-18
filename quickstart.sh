@@ -126,7 +126,7 @@ download_rubra_llamafile() {
     RUBRA_LLAMAFILE="rubra.llamafile"
     if [ ! -f "$RUBRA_LLAMAFILE" ]; then
         info "Downloading rubra.llamafile from $RUBRA_LLAMAFILE_URL"
-        curl -sSL "$RUBRA_LLAMAFILE_URL" -o "$RUBRA_LLAMAFILE" || fatal "Failed to download rubra.llamafile"
+        curl -# -L "$RUBRA_LLAMAFILE_URL" -o "$RUBRA_LLAMAFILE" || fatal "Failed to download rubra.llamafile"
         chmod +x "$RUBRA_LLAMAFILE"
     else
         info "rubra.llamafile already exists, skipping download."
