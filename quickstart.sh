@@ -192,6 +192,47 @@ start_docker_containers() {
     docker-compose pull && docker-compose up -d || fatal "Failed to start Docker containers"
 }
 
+# --- helper function to check if all containers in the rubra network are running ---
+check_containers_running() {
+    RUBRA_NETWORK="rubra"
+    info "Checking if all containers in the '$RUBRA_NETWORK' network are running..."
+
+    # Get the list of container IDs in the rubra network
+    CONTAINER_IDS=$(docker network inspect "$RUBRA_NETWORK" -f '{{range .Containers}}{{.Name}} {{end}}')
+
+    # Check the status of each container
+    for CONTAINER in $CONTAINER_IDS; do
+        STATUS=$(docker inspect --format '{{.State.Status}}' "$CONTAINER")
+        if [ "$STATUS" != "running" ]; then
+            warn "Container $CONTAINER is not running. Status: $STATUS"
+            return 1
+        fi
+    done
+
+    info "All containers in the '$RUBRA_NETWORK' network are running."
+    return 0
+}
+
+# --- helper function to wait for all containers to be running ---
+wait_for_containers_to_run() {
+    local retries=5
+    local wait_seconds=5
+    local post_wait_seconds=15  # Additional wait time after containers are confirmed running
+
+    for ((i=0; i<retries; i++)); do
+        if check_containers_running; then
+            info "All containers are running. Waiting an additional $post_wait_seconds seconds before proceeding to allow for Rubra backend to load."
+            sleep "$post_wait_seconds"
+            return 0
+        else
+            warn "Not all containers are running. Waiting for $wait_seconds seconds before retrying..."
+            sleep "$wait_seconds"
+        fi
+    done
+
+    fatal "Not all containers are running after $retries retries."
+}
+
 # --- stop docker containers and rubra.llamafile ---
 stop_rubra() {
     RUBRA_DIR="$HOME/.rubra"
@@ -218,11 +259,35 @@ stop_rubra() {
     fi
 }
 
+# --- helper function to open URL in default browser ---
+open_url_in_browser() {
+    URL=$1
+    case "$(uname -s)" in
+        Linux)
+            if command -v xdg-open >/dev/null 2>&1; then
+                xdg-open "$URL"
+            else
+                warn "xdg-open command not found. Cannot open URL: $URL"
+            fi
+            ;;
+        Darwin)
+            if command -v open >/dev/null 2>&1; then
+                open "$URL"
+            else
+                warn "open command not found. Cannot open URL: $URL"
+            fi
+            ;;
+        *)
+            warn "Unsupported operating system. Cannot open URL: $URL"
+            ;;
+    esac
+}
+
 # --- main logic ---
 main() {
-    report_system_info
     case "$1" in
         start)
+            report_system_info
             create_rubra_dir
             check_docker
             check_docker_compose
@@ -232,7 +297,10 @@ main() {
             download_docker_compose_yml
             download_llm_config_yaml
             start_docker_containers
+            wait_for_containers_to_run
             info "Rubra started successfully"
+            info "Rubra frontend is now running at http://localhost:8501"
+            open_url_in_browser "http://localhost:8501"
             ;;
         stop)
             stop_rubra
