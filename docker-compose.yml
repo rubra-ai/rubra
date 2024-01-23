@@ -91,7 +91,7 @@ services:
       - rubra
 
   litellm:
-    image: ghcr.io/berriai/litellm:main-v1.15.3
+    image: ghcr.io/berriai/litellm:main-v1.18.9
     ports:
       - "8002:8002"
     volumes:
