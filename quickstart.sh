@@ -192,7 +192,29 @@ start_docker_containers() {
     docker-compose pull && docker-compose up -d || fatal "Failed to start Docker containers"
 }
 
-# --- helper function to check if all containers in the rubra network are running ---
+# --- helper function to check if the model inference server is healthy ---
+check_model_inference_server() {
+    local retries=12
+    local wait_seconds=5
+
+    for ((i=0; i<retries; i++)); do
+        local response=$(curl -s -X 'GET' 'http://localhost:8002/health/readiness' -H 'accept: application/json')
+        local status=$(echo "$response" | grep -o '"status":"healthy"')
+
+        if [ -n "$status" ]; then
+            info "Model inference server is healthy."
+            return 0
+        else
+            warn "Model inference server is not healthy. Status: $status. Retrying in $wait_seconds seconds..."
+            sleep "$wait_seconds"
+        fi
+    done
+
+    fatal "Model inference server is not healthy after $retries retries."
+}
+
+
+# --- modify check_containers_running to include the model inference server check ---
 check_containers_running() {
     RUBRA_NETWORK="rubra"
     info "Checking if all containers in the '$RUBRA_NETWORK' network are running..."
@@ -210,7 +232,10 @@ check_containers_running() {
     done
 
     info "All containers in the '$RUBRA_NETWORK' network are running."
-    return 0
+
+    # Now check the model inference server
+    check_model_inference_server
+    return $?
 }
 
 # --- helper function to wait for all containers to be running ---
