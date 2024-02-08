@@ -1,0 +1,22 @@
+name: Validate docs build
+on:
+  push:
+    paths:
+      - docs/**
+    branches:
+      - main
+  pull_request:
+    paths:
+      - docs/**
+    branches:
+      - main
+
+jobs:
+  validate-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - run: make init-docs
+      - run: make validate-docs

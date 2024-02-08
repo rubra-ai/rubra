@@ -220,3 +220,10 @@ volumes/
 .rubra_serve_env/
 llama-cpp-python/
 llm-config.yaml
+
+# NodeJS
+**/node_modules
+**/docs/yarn.lock
+
+#Tauri
+tauri/src-tauri/target
