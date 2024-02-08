@@ -1,5 +1,9 @@
 name: Build and Push Docker Images on Merge
 
+concurrency:
+  group: main-release
+  cancel-in-progress: true
+
 on:
   push:
     branches:

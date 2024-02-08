@@ -1,0 +1,44 @@
+{
+  "name": "rubra-docs",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "docusaurus": "./node_modules/.bin/docusaurus",
+    "start": "./node_modules/.bin/docusaurus start",
+    "build": "./node_modules/.bin/docusaurus build",
+    "swizzle": "./node_modules/.bin/docusaurus swizzle",
+    "deploy": "./node_modules/.bin/docusaurus deploy",
+    "clear": "./node_modules/.bin/docusaurus clear",
+    "serve": "./node_modules/.bin/docusaurus serve",
+    "write-translations": "./node_modules/.bin/docusaurus write-translations",
+    "write-heading-ids": "./node_modules/.bin/docusaurus write-heading-ids"
+  },
+  "dependencies": {
+    "@docusaurus/core": "3.1.1",
+    "@docusaurus/preset-classic": "3.1.1",
+    "@mdx-js/react": "^3.0.0",
+    "clsx": "^2.0.0",
+    "prism-react-renderer": "^2.3.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "3.1.1",
+    "@docusaurus/types": "3.1.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 3 chrome version",
+      "last 3 firefox version",
+      "last 5 safari version"
+    ]
+  },
+  "engines": {
+    "node": ">=18.0"
+  }
+}

@@ -1,0 +1,85 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+/*:root {
+  --ifm-color-primary: #2e8555;
+  --ifm-color-primary-dark: #29784c;
+  --ifm-color-primary-darker: #277148;
+  --ifm-color-primary-darkest: #205d3b;
+  --ifm-color-primary-light: #33925d;
+  --ifm-color-primary-lighter: #359962;
+  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}*/
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+/*[data-theme='dark'] {
+  --ifm-color-primary: #25c2a0;
+  --ifm-color-primary-dark: #21af90;
+  --ifm-color-primary-darker: #1fa588;
+  --ifm-color-primary-darkest: #1a8870;
+  --ifm-color-primary-light: #29d5b0;
+  --ifm-color-primary-lighter: #32d8b4;
+  --ifm-color-primary-lightest: #4fddbf;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}*/
+
+/* Base theme */
+:root {
+  --ifm-color-primary: #A1263D;
+  /* New primary color */
+  --ifm-color-primary-dark: #6A0D3F;
+  /* Slightly darker variation */
+  --ifm-color-primary-darker: #380067;
+  /* Even darker variation */
+  --ifm-color-primary-darkest: #380067;
+  /* Darkest variation for consistency */
+  --ifm-color-primary-light: #f5B7C9;
+  /* Light variation */
+  --ifm-color-primary-lighter: #B3A9A5;
+  /* Lighter variation */
+  --ifm-color-primary-lightest: #f5deb3;
+  /* Lightest variation */
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  /* Additional variable for the highlight/accent color */
+  --ifm-color-accent: #D4AF37;
+  /* Accent color for buttons, links, etc. */
+}
+
+/* Dark theme adjustments */
+[data-theme='dark'] {
+  --ifm-color-primary: #f5B7C9;
+  /* Using a lighter color for the primary color in dark mode for contrast */
+  --ifm-color-primary-dark: #A1263D;
+  /* Primary dark color for dark mode */
+  --ifm-color-primary-darker: #6A0D3F;
+  /* Additional darker variation for depth */
+  --ifm-color-primary-darkest: #380067;
+  /* Darkest variation for consistency */
+  --ifm-color-primary-light: #B3A9A5;
+  /* Adjusted light variation */
+  --ifm-color-primary-lighter: #D4AF37;
+  /* Using the accent color as a lighter variation */
+  --ifm-color-primary-lightest: #f5deb3;
+  /* Lightest variation for backgrounds or accents */
+  --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.1);
+  /* Lighter highlight for code lines in dark mode */
+}
+
+/* You might want to add custom styles for elements using the accent color */
+a,
+button {
+  color: var(--ifm-color-accent);
+}
+
+/* Adjust code block background or other specific elements as needed */
+.code-block,
+pre {
+  background-color: var(--ifm-color-primary-lightest);
+}
