@@ -186,35 +186,21 @@ download_llm_config_yaml() {
     curl -sSL "$LLM_CONFIG_URL" -o llm-config.yaml || fatal "Failed to download llm-config.yaml"
 }
 
+# --- create local etcd config ---
+setup_milvus_etcd() {
+    info "Creating embedded etcd config"
+    echo "listen-client-urls: http://0.0.0.0:2379" > embedEtcd.yaml
+    echo "advertise-client-urls: http://0.0.0.0:2379" >> embedEtcd.yaml
+}
+
+
 # --- pull images and start docker containers ---
 start_docker_containers() {
     info "Pulling images and starting Docker containers"
     docker-compose pull && docker-compose up -d || fatal "Failed to start Docker containers"
 }
 
-# --- helper function to check if the model inference server is healthy ---
-check_model_inference_server() {
-    local retries=12
-    local wait_seconds=5
-
-    for ((i=0; i<retries; i++)); do
-        local response=$(curl -s -X 'GET' 'http://localhost:8002/health/readiness' -H 'accept: application/json')
-        local status=$(echo "$response" | grep -o '"status":"healthy"')
-
-        if [ -n "$status" ]; then
-            info "Model inference server is healthy."
-            return 0
-        else
-            warn "Model inference server is not healthy. Status: $status. Retrying in $wait_seconds seconds..."
-            sleep "$wait_seconds"
-        fi
-    done
-
-    fatal "Model inference server is not healthy after $retries retries."
-}
-
-
-# --- modify check_containers_running to include the model inference server check ---
+# --- helper function to check if all containers in the rubra network are running ---
 check_containers_running() {
     RUBRA_NETWORK="rubra"
     info "Checking if all containers in the '$RUBRA_NETWORK' network are running..."
@@ -232,10 +218,7 @@ check_containers_running() {
     done
 
     info "All containers in the '$RUBRA_NETWORK' network are running."
-
-    # Now check the model inference server
-    check_model_inference_server
-    return $?
+    return 0
 }
 
 # --- helper function to wait for all containers to be running ---
@@ -321,6 +304,7 @@ main() {
             check_rubra_llamafile_ready  # Add this line to perform the check
             download_docker_compose_yml
             download_llm_config_yaml
+            setup_milvus_etcd
             start_docker_containers
             wait_for_containers_to_run
             info "Rubra started successfully"
