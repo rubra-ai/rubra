@@ -217,9 +217,12 @@ volumes/
 .DS_Store
 
 # Rubra
-.rubra_serve_env/
+.*_env/
 llama-cpp-python/
 llm-config.yaml
+llamafile
+.args
+zipalign*
 
 # NodeJS
 **/node_modules
