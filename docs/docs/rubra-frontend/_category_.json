@@ -1,8 +1,8 @@
 {
-  "label": "Rubra Frontend",
+  "label": "Using Rubra",
   "position": 2,
   "link": {
     "type": "generated-index",
-    "description": "Details about Rubra frontend."
+    "description": "Details about how to use Rubra"
   }
 }

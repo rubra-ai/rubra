@@ -1,37 +1,33 @@
 ---
-title: Intro
-slug: /
-position: 0
+sidebar_position: 0
+title: What is Rubra?
 ---
 
 # Introduction
 
 ## Overview
+Rubra is an open-source ChatGPT. It's designed for users who want to:
 
-Rubra is an open source platform that merges a ChatGPT-like interface with an OpenAI compatible backend. No need to change your existing LLM apps that leverage OpenAI assistants, Rubra is a drop in replacement for OpenAI's API.
-
-With Rubra you get a chat inreface that is familiar to users, and a backend that is familiar to developers. Create assistants with a few clicks through the UI or through code. Use locally running LLMs or use proprietary ones like GPT4 and Claude. Rubra allows you to mix and match.
-
-Most importantly, **you are in control of your data** - Rubra is designed to be self-hosted, allowing you to keep your data private and secure.
+* **Engage with LLMs:** Utilize a familiar and straightforward chat interface that offers benefits such as multi-model selection and caching to save on token costs.
+* **Develop and Utilize Assistants:** Rubra enables the creation of assistants that utilize LLMs and tools like file knowledge and web browsing. Unlike OpenAI assistants, Rubra supports assistant streaming for OpenAI models, Claude, and local models.
+* **Employ OpenAI Compatible API:** Rubra serves as a drop-in replacement for OpenAI's API, allowing the use of OpenAI python and javascript libraries to interact with Rubra.
+* **Self-Host:** Rubra is designed for self-hosting, ensuring your data remains private and secure.
 
 ## Key Components
 
 ### Rubra Frontend
-
-- **Features a familiar, ChatGPT-style interface**
-  - Create assistants with a few clicks - no coding required
-    - Customize your assistant's name, description, and give it knowledge by uploading files for automated RAG
-  - Chat with your assistants and various proprietary LLMs like GPT4 and Claude
+- **Offers a familiar, ChatGPT-style interface** 
+  - Develop assistants with a few clicks - no coding necessary
+    - Personalize your assistant's name, description, and enhance its knowledge by uploading files for automated RAG
+  - Engage with your assistants and various proprietary LLMs like GPT4 and Claude
 
 ### Rubra Backend
-
-- **OpenAI Compatibility:** Drop in replacement for OpenAI's API, allowing for seamless integration with existing functionality. Check out the [API](https://platform.openai.com/docs/introduction) for more information
-- **Support for Multiple Models:** Accommodates various AI models, including Claude, Gemini, and open-source options
-- **Scalability:** Rubra leverages docker - so you can easily scale up Rubra components to meet your consumption requirements
+- **OpenAI Compatibility:** Serves as a drop-in replacement for OpenAI's API, facilitating seamless integration with existing functionality. Refer to the [API](/api) for more details
+- **Support for Multiple Models:** Supports a variety of AI models, including Claude, Gemini, and open-source options
+- **Scalability:** Rubra is designed to scale to meet your usage requirements, without the need for complex configurations
 
 ## Getting Started
+- **Self-Hosted:** Rubra is designed for self-hosting, ensuring your data remains private and secure. Refer to the [installation guide](/installation/installation) to get started
+- **Cloud:** One-click deployment to [Acorn](https://www.acorn.io/) and AWS ECS instructions will be available soon
 
-- **Self-Hosted:** Rubra is designed to be self-hosted, allowing you to keep your data private and secure. Check out the [installation guide](/getting-started/installation) to get started
-- **Cloud:** One click deploy to [Acorn](https://www.acorn.io/) and AWS ECS instructions coming soon
-
-[Architecture Diagram] (/img/application-architecture-diagram.png)
+![Architecture Diagram](/img/application-architecture-diagram.svg)
