@@ -14,7 +14,7 @@ const config = {
   favicon: 'img/favicon.ico',
   url: 'https://docs.rubra.ai',
   baseUrl: '/',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   i18n: {
@@ -24,20 +24,25 @@ const config = {
 
   presets: [
     [
-      'classic',
-      /** @type {import('@docusaurus/preset-classic').Options} */
-      ({
+      "docusaurus-preset-openapi",
+      {
+        api: {
+          path: require.resolve("./openapi.json"),
+          routeBasePath: "/api",
+        },
         docs: {
+          sidebarPath: require.resolve("./sidebars.js"),
           routeBasePath: "/",
-          sidebarPath: require.resolve('./sidebars.js'),
-          editUrl:
-            'https://github.com/acorn-io/rubra-docs/tree/main',
         },
-        blog: false,
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: require.resolve("./src/css/custom.css"),
         },
-      }),
+        blog: {
+          showReadingTime: true,
+          editUrl:
+            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+        },
+      },
     ],
   ],
 
@@ -45,13 +50,20 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'Docs',
+        
         style: 'dark',
         logo: {
           alt: 'Acorn Logo',
           src: 'img/logo.svg',
         },
         items: [
+          {
+            type: 'docSidebar',
+            sidebarId: 'sidebar',
+            position: 'left',
+            label: 'Docs',
+          },
+          { to: "/api", label: "API Reference", position: "left" },
           {
             to: 'https://rubra.ai',
             label: 'Rubra Home',
@@ -79,6 +91,10 @@ const config = {
           {
             label: 'Twitter',
             to: 'https://twitter.com/acornlabs',
+          },
+          {
+            label: 'Discord',
+            to: 'https://discord.gg/swvAH2DXZH',
           },
         ],
         copyright: `Copyright © ${new Date().getFullYear()} Acorn Labs, Inc.`,

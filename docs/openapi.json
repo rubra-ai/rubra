@@ -1,0 +1,3852 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000/",
+    }
+  ],
+  "paths": {
+    "/assistants": {
+      "get": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "List Assistants",
+        "description": "Returns a list of assistants.",
+        "operationId": "list_assistants_assistants_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "title": "Limit",
+              "default": 20
+            },
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Order1"
+                }
+              ],
+              "default": "desc"
+            },
+            "name": "order",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "After"
+            },
+            "name": "after",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Before"
+            },
+            "name": "before",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListAssistantsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "Create Assistant",
+        "description": "Create an assistant with a model and instructions.",
+        "operationId": "create_assistant_assistants_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAssistantRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssistantObject"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assistants/{assistant_id}": {
+      "get": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "Get Assistant",
+        "description": "Retrieves an assistant.",
+        "operationId": "get_assistant_assistants__assistant_id__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Assistant Id"
+            },
+            "name": "assistant_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssistantObject"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "Modify Assistant",
+        "description": "Modifies an assistant.",
+        "operationId": "modify_assistant_assistants__assistant_id__post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Assistant Id"
+            },
+            "name": "assistant_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModifyAssistantRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssistantObject"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "Delete Assistant",
+        "description": "Delete an assistant.",
+        "operationId": "delete_assistant_assistants__assistant_id__delete",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Assistant Id"
+            },
+            "name": "assistant_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteAssistantResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/threads": {
+      "post": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "Create Thread",
+        "description": "Create a thread.",
+        "operationId": "create_thread_threads_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateThreadRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThreadObject"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/threads/{thread_id}": {
+      "get": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "Get Thread",
+        "description": "Retrieves a thread.",
+        "operationId": "get_thread_threads__thread_id__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Thread Id"
+            },
+            "name": "thread_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThreadObject"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "Modify Thread",
+        "description": "Modifies a thread.",
+        "operationId": "modify_thread_threads__thread_id__post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Thread Id"
+            },
+            "name": "thread_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModifyThreadRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThreadObject"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "Delete Thread",
+        "description": "Delete a thread.",
+        "operationId": "delete_thread_threads__thread_id__delete",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Thread Id"
+            },
+            "name": "thread_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteThreadResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/threads/{thread_id}/messages": {
+      "get": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "List Messages",
+        "description": "Returns a list of messages for a given thread.",
+        "operationId": "list_messages_threads__thread_id__messages_get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Thread Id"
+            },
+            "name": "thread_id",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "title": "Limit",
+              "default": 20
+            },
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Order3"
+                }
+              ],
+              "default": "desc"
+            },
+            "name": "order",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "After"
+            },
+            "name": "after",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Before"
+            },
+            "name": "before",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListMessagesResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "Create Message",
+        "description": "Create a message in a thread.",
+        "operationId": "create_message_threads__thread_id__messages_post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Thread Id"
+            },
+            "name": "thread_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMessageRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageObject"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/threads/{thread_id}/messages/{message_id}": {
+      "get": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "Get Message",
+        "description": "Retrieve a message from a thread.",
+        "operationId": "get_message_threads__thread_id__messages__message_id__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Thread Id"
+            },
+            "name": "thread_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Message Id"
+            },
+            "name": "message_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageObject"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "Modify Message",
+        "description": "Modifies a message within a thread.",
+        "operationId": "modify_message_threads__thread_id__messages__message_id__post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Thread Id"
+            },
+            "name": "thread_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Message Id"
+            },
+            "name": "message_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModifyMessageRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageObject"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/threads/{thread_id}/runs": {
+      "post": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "Create Run",
+        "description": "Create a run.",
+        "operationId": "create_run_threads__thread_id__runs_post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Thread Id"
+            },
+            "name": "thread_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRunRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunObject"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/threads/{thread_id}/runs/{run_id}": {
+      "get": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "Get Run",
+        "description": "Retrieves a run associated with a given thread.",
+        "operationId": "get_run_threads__thread_id__runs__run_id__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Thread Id"
+            },
+            "name": "thread_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            },
+            "name": "run_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunObject"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "Modify Run",
+        "description": "Modifies a run.",
+        "operationId": "modify_run_threads__thread_id__runs__run_id__post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Thread Id"
+            },
+            "name": "thread_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            },
+            "name": "run_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModifyRunRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunObject"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/models": {
+      "get": {
+        "tags": [
+          "Models"
+        ],
+        "summary": "List Models",
+        "operationId": "list_models_models_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListModelsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/files": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "List Files",
+        "description": "Returns a list of files that belong to the user's organization.",
+        "operationId": "list_files_files_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Purpose"
+            },
+            "name": "purpose",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListFilesResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Create File",
+        "description": "Upload a file that can be used across various endpoints/features. The size of all the files uploaded by one organization can be up to 100 GB.\n\nThe size of individual files for can be a maximum of 512MB. See the [Assistants Tools guide](/docs/assistants/tools) to learn more about the types of files supported. The Fine-tuning API only supports `.jsonl` files.\n\nPlease [contact us](https://help.openai.com/) if you need to increase these storage limits.",
+        "operationId": "create_file_files_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_create_file_files_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpenAIFile"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/files/{file_id}": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Retrieve File",
+        "description": "Returns information about a specific file.",
+        "operationId": "retrieve_file_files__file_id__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "File Id"
+            },
+            "name": "file_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpenAIFile"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Delete File",
+        "description": "Delete a file.",
+        "operationId": "delete_file_files__file_id__delete",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "File Id"
+            },
+            "name": "file_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteFileResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/files/{file_id}/content": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Download File",
+        "description": "Returns the contents of the specified file.",
+        "operationId": "download_file_files__file_id__content_get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "File Id"
+            },
+            "name": "file_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "title": "Response Download File Files  File Id  Content Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assistants/{assistant_id}/files": {
+      "get": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "List Assistant Files",
+        "description": "Returns a list of assistant files.",
+        "operationId": "list_assistant_files_assistants__assistant_id__files_get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Assistant Id"
+            },
+            "name": "assistant_id",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "title": "Limit",
+              "default": 20
+            },
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Order9"
+                }
+              ],
+              "default": "asce"
+            },
+            "name": "order",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "After"
+            },
+            "name": "after",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Before"
+            },
+            "name": "before",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListAssistantFilesResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "Create Assistant File",
+        "description": "Create an assistant file by attaching a [File](/docs/api-reference/files) to an [assistant](/docs/api-reference/assistants).",
+        "operationId": "create_assistant_file_assistants__assistant_id__files_post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Assistant Id"
+            },
+            "name": "assistant_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAssistantFileRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssistantFileObject"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assistants/{assistant_id}/files/{file_id}": {
+      "get": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "Get Assistant File",
+        "description": "Retrieves an AssistantFile.",
+        "operationId": "get_assistant_file_assistants__assistant_id__files__file_id__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Assistant Id"
+            },
+            "name": "assistant_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "File Id"
+            },
+            "name": "file_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssistantFileObject"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "Delete Assistant File",
+        "description": "Delete an assistant file.",
+        "operationId": "delete_assistant_file_assistants__assistant_id__files__file_id__delete",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Assistant Id"
+            },
+            "name": "assistant_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "File Id"
+            },
+            "name": "file_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteAssistantFileResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/threads/{thread_id}/runs/{run_id}/steps": {
+      "get": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "List Run Steps",
+        "description": "Returns a list of run steps belonging to a run.",
+        "operationId": "list_run_steps_threads__thread_id__runs__run_id__steps_get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Thread Id"
+            },
+            "name": "thread_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            },
+            "name": "run_id",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "title": "Limit",
+              "default": 20
+            },
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Order7"
+                }
+              ],
+              "default": "desc"
+            },
+            "name": "order",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "After"
+            },
+            "name": "after",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Before"
+            },
+            "name": "before",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListRunStepsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/threads/{thread_id}/runs/{run_id}/steps/{step_id}": {
+      "get": {
+        "tags": [
+          "Assistants"
+        ],
+        "summary": "Get Run Step",
+        "description": "Retrieves a run step.",
+        "operationId": "get_run_step_threads__thread_id__runs__run_id__steps__step_id__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Thread Id"
+            },
+            "name": "thread_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            },
+            "name": "run_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Step Id"
+            },
+            "name": "step_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunStepObject"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AssistantFileObject": {
+        "properties": {
+          "_id": {
+            "type": "string",
+            "title": " Id",
+            "description": "MongoDB document ObjectID",
+            "example": "5eb7cf5a86d9755df3a6c593"
+          },
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The identifier, which can be referenced in API endpoints."
+          },
+          "object": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Object28"
+              }
+            ],
+            "description": "The object type, which is always `assistant.file`."
+          },
+          "created_at": {
+            "type": "integer",
+            "title": "Created At",
+            "description": "The Unix timestamp (in seconds) for when the assistant file was created."
+          },
+          "assistant_id": {
+            "type": "string",
+            "title": "Assistant Id",
+            "description": "The assistant ID that the file is attached to."
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "object",
+          "created_at",
+          "assistant_id"
+        ],
+        "title": "AssistantFileObject",
+        "description": "Document Mapping class.\n\nFields:\n\n- `id` - MongoDB document ObjectID \"_id\" field.\nMapped to the PydanticObjectId class"
+      },
+      "AssistantObject": {
+        "properties": {
+          "_id": {
+            "type": "string",
+            "title": " Id",
+            "description": "MongoDB document ObjectID",
+            "example": "5eb7cf5a86d9755df3a6c593"
+          },
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The identifier, which can be referenced in API endpoints."
+          },
+          "object": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Object20"
+              }
+            ],
+            "description": "The object type, which is always `assistant`."
+          },
+          "created_at": {
+            "type": "integer",
+            "title": "Created At",
+            "description": "The Unix timestamp (in seconds) for when the assistant was created."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256,
+            "title": "Name",
+            "description": "The name of the assistant. The maximum length is 256 characters.\n"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 512,
+            "title": "Description",
+            "description": "The description of the assistant. The maximum length is 512 characters.\n"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model",
+            "description": "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.\n"
+          },
+          "instructions": {
+            "type": "string",
+            "maxLength": 32768,
+            "title": "Instructions",
+            "description": "The system instructions that the assistant uses. The maximum length is 32768 characters.\n"
+          },
+          "tools": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/AssistantToolsCode"
+                },
+                {
+                  "$ref": "#/components/schemas/AssistantToolsRetrieval"
+                },
+                {
+                  "$ref": "#/components/schemas/AssistantToolsFunction"
+                },
+                {
+                  "$ref": "#/components/schemas/AssistantToolsBrowser"
+                }
+              ]
+            },
+            "type": "array",
+            "maxItems": 128,
+            "title": "Tools",
+            "description": "A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.\n"
+          },
+          "file_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "File Ids",
+            "description": "A list of [file](/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.\n"
+          },
+          "metadata": {
+            "type": "object",
+            "title": "Metadata",
+            "description": "Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.\n"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "object",
+          "created_at",
+          "name",
+          "description",
+          "model",
+          "instructions",
+          "tools",
+          "file_ids",
+          "metadata"
+        ],
+        "title": "AssistantObject",
+        "description": "Document Mapping class.\n\nFields:\n\n- `id` - MongoDB document ObjectID \"_id\" field.\nMapped to the PydanticObjectId class"
+      },
+      "AssistantToolsBrowser": {
+        "properties": {
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Type824"
+              }
+            ],
+            "description": "The type of tool being defined: `browser`"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "title": "AssistantToolsBrowser"
+      },
+      "AssistantToolsCode": {
+        "properties": {
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Type7"
+              }
+            ],
+            "description": "The type of tool being defined: `code_interpreter`"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "title": "AssistantToolsCode"
+      },
+      "AssistantToolsFunction": {
+        "properties": {
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Type9"
+              }
+            ],
+            "description": "The type of tool being defined: `function`"
+          },
+          "function": {
+            "$ref": "#/components/schemas/FunctionObject"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "function"
+        ],
+        "title": "AssistantToolsFunction"
+      },
+      "AssistantToolsRetrieval": {
+        "properties": {
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Type8"
+              }
+            ],
+            "description": "The type of tool being defined: `retrieval`"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "title": "AssistantToolsRetrieval"
+      },
+      "Body_create_file_files_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "binary",
+            "title": "File"
+          },
+          "purpose": {
+            "type": "string",
+            "title": "Purpose"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file",
+          "purpose"
+        ],
+        "title": "Body_create_file_files_post"
+      },
+      "Code": {
+        "enum": [
+          "server_error",
+          "rate_limit_exceeded"
+        ],
+        "title": "Code",
+        "description": "An enumeration."
+      },
+      "Code1": {
+        "enum": [
+          "server_error",
+          "rate_limit_exceeded"
+        ],
+        "title": "Code1",
+        "description": "An enumeration."
+      },
+      "CodeInterpreter": {
+        "properties": {
+          "input": {
+            "type": "string",
+            "title": "Input",
+            "description": "The input to the Code Interpreter tool call."
+          },
+          "outputs": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/RunStepDetailsToolCallsCodeOutputLogsObject"
+                },
+                {
+                  "$ref": "#/components/schemas/RunStepDetailsToolCallsCodeOutputImageObject"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Outputs",
+            "description": "The outputs from the Code Interpreter tool call. Code Interpreter can output one or more items, including text (`logs`) or images (`image`). Each of these are represented by a different object type."
+          }
+        },
+        "type": "object",
+        "required": [
+          "input",
+          "outputs"
+        ],
+        "title": "CodeInterpreter"
+      },
+      "CreateAssistantFileRequest": {
+        "properties": {
+          "file_id": {
+            "type": "string",
+            "title": "File Id",
+            "description": "A [File](/docs/api-reference/files) ID (with `purpose=\"assistants\"`) that the assistant should use. Useful for tools like `retrieval` and `code_interpreter` that can access files."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "file_id"
+        ],
+        "title": "CreateAssistantFileRequest"
+      },
+      "CreateAssistantRequest": {
+        "properties": {
+          "model": {
+            "type": "string",
+            "title": "Model",
+            "description": "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.\n"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256,
+            "title": "Name",
+            "description": "The name of the assistant. The maximum length is 256 characters.\n"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 512,
+            "title": "Description",
+            "description": "The description of the assistant. The maximum length is 512 characters.\n"
+          },
+          "instructions": {
+            "type": "string",
+            "maxLength": 32768,
+            "title": "Instructions",
+            "description": "The system instructions that the assistant uses. The maximum length is 32768 characters.\n"
+          },
+          "tools": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/AssistantToolsCode"
+                },
+                {
+                  "$ref": "#/components/schemas/AssistantToolsRetrieval"
+                },
+                {
+                  "$ref": "#/components/schemas/AssistantToolsFunction"
+                },
+                {
+                  "$ref": "#/components/schemas/AssistantToolsBrowser"
+                }
+              ]
+            },
+            "type": "array",
+            "maxItems": 128,
+            "title": "Tools",
+            "description": "A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.\n",
+            "default": []
+          },
+          "file_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "File Ids",
+            "description": "A list of [file](/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order.\n",
+            "default": []
+          },
+          "metadata": {
+            "type": "object",
+            "title": "Metadata",
+            "description": "Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.\n"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "model"
+        ],
+        "title": "CreateAssistantRequest"
+      },
+      "CreateMessageRequest": {
+        "properties": {
+          "role": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Role8"
+              }
+            ],
+            "description": "The role of the entity that is creating the message. Currently only `user` is supported."
+          },
+          "content": {
+            "type": "string",
+            "maxLength": 32768,
+            "minLength": 1,
+            "title": "Content",
+            "description": "The content of the message."
+          },
+          "file_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 10,
+            "minItems": 1,
+            "title": "File Ids",
+            "description": "A list of [File](/docs/api-reference/files) IDs that the message should use. There can be a maximum of 10 files attached to a message. Useful for tools like `retrieval` and `code_interpreter` that can access and use files.",
+            "default": []
+          },
+          "metadata": {
+            "type": "object",
+            "title": "Metadata",
+            "description": "Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.\n"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "role",
+          "content"
+        ],
+        "title": "CreateMessageRequest"
+      },
+      "CreateRunRequest": {
+        "properties": {
+          "assistant_id": {
+            "type": "string",
+            "title": "Assistant Id",
+            "description": "The ID of the [assistant](/docs/api-reference/assistants) to use to execute this run."
+          },
+          "model": {
+            "type": "string",
+            "title": "Model",
+            "description": "The ID of the [Model](/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used."
+          },
+          "instructions": {
+            "type": "string",
+            "title": "Instructions",
+            "description": "Override the default system message of the assistant. This is useful for modifying the behavior on a per-run basis."
+          },
+          "tools": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/AssistantToolsCode"
+                },
+                {
+                  "$ref": "#/components/schemas/AssistantToolsRetrieval"
+                },
+                {
+                  "$ref": "#/components/schemas/AssistantToolsFunction"
+                },
+                {
+                  "$ref": "#/components/schemas/AssistantToolsBrowser"
+                }
+              ]
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "Tools",
+            "description": "Override the tools the assistant can use for this run. This is useful for modifying the behavior on a per-run basis."
+          },
+          "metadata": {
+            "type": "object",
+            "title": "Metadata",
+            "description": "Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.\n"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "assistant_id"
+        ],
+        "title": "CreateRunRequest"
+      },
+      "CreateThreadRequest": {
+        "properties": {
+          "messages": {
+            "items": {
+              "$ref": "#/components/schemas/CreateMessageRequest"
+            },
+            "type": "array",
+            "title": "Messages",
+            "description": "A list of [messages](/docs/api-reference/messages) to start the thread with."
+          },
+          "metadata": {
+            "type": "object",
+            "title": "Metadata",
+            "description": "Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.\n"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "CreateThreadRequest"
+      },
+      "DeleteAssistantFileResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "deleted": {
+            "type": "boolean",
+            "title": "Deleted"
+          },
+          "object": {
+            "$ref": "#/components/schemas/Object29"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "deleted",
+          "object"
+        ],
+        "title": "DeleteAssistantFileResponse"
+      },
+      "DeleteAssistantResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "deleted": {
+            "type": "boolean",
+            "title": "Deleted"
+          },
+          "object": {
+            "$ref": "#/components/schemas/Object21"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "deleted",
+          "object"
+        ],
+        "title": "DeleteAssistantResponse"
+      },
+      "DeleteFileResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "object": {
+            "$ref": "#/components/schemas/Object8"
+          },
+          "deleted": {
+            "type": "boolean",
+            "title": "Deleted"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "object",
+          "deleted"
+        ],
+        "title": "DeleteFileResponse"
+      },
+      "DeleteThreadResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "deleted": {
+            "type": "boolean",
+            "title": "Deleted"
+          },
+          "object": {
+            "$ref": "#/components/schemas/Object24"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "deleted",
+          "object"
+        ],
+        "title": "DeleteThreadResponse"
+      },
+      "FileCitation": {
+        "properties": {
+          "file_id": {
+            "type": "string",
+            "title": "File Id",
+            "description": "The ID of the specific File the citation is from."
+          },
+          "quote": {
+            "type": "string",
+            "title": "Quote",
+            "description": "The specific quote in the file."
+          }
+        },
+        "type": "object",
+        "required": [
+          "file_id",
+          "quote"
+        ],
+        "title": "FileCitation"
+      },
+      "FilePath": {
+        "properties": {
+          "file_id": {
+            "type": "string",
+            "title": "File Id",
+            "description": "The ID of the file that was generated."
+          }
+        },
+        "type": "object",
+        "required": [
+          "file_id"
+        ],
+        "title": "FilePath"
+      },
+      "Function3": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "The name of the function."
+          },
+          "arguments": {
+            "type": "string",
+            "title": "Arguments",
+            "description": "The arguments that the model expects you to pass to the function."
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "arguments"
+        ],
+        "title": "Function3"
+      },
+      "Function4": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "The name of the function."
+          },
+          "arguments": {
+            "type": "string",
+            "title": "Arguments",
+            "description": "The arguments passed to the function."
+          },
+          "output": {
+            "type": "string",
+            "title": "Output",
+            "description": "The output of the function. This will be `null` if the outputs have not been [submitted](/docs/api-reference/runs/submitToolOutputs) yet."
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "arguments",
+          "output"
+        ],
+        "title": "Function4"
+      },
+      "FunctionObject": {
+        "properties": {
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "description": "A description of what the function does, used by the model to choose when and how to call the function."
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64."
+          },
+          "parameters": {
+            "$ref": "#/components/schemas/FunctionParameters"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "parameters"
+        ],
+        "title": "FunctionObject"
+      },
+      "FunctionParameters": {
+        "properties": {},
+        "type": "object",
+        "title": "FunctionParameters"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Image1": {
+        "properties": {
+          "file_id": {
+            "type": "string",
+            "title": "File Id",
+            "description": "The [file](/docs/api-reference/files) ID of the image."
+          }
+        },
+        "type": "object",
+        "required": [
+          "file_id"
+        ],
+        "title": "Image1"
+      },
+      "ImageFile": {
+        "properties": {
+          "file_id": {
+            "type": "string",
+            "title": "File Id",
+            "description": "The [File](/docs/api-reference/files) ID of the image in the message content."
+          }
+        },
+        "type": "object",
+        "required": [
+          "file_id"
+        ],
+        "title": "ImageFile"
+      },
+      "LastError": {
+        "properties": {
+          "code": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Code"
+              }
+            ],
+            "description": "One of `server_error` or `rate_limit_exceeded`."
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "A human-readable description of the error."
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "LastError"
+      },
+      "LastError1": {
+        "properties": {
+          "code": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Code1"
+              }
+            ],
+            "description": "One of `server_error` or `rate_limit_exceeded`."
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "A human-readable description of the error."
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "LastError1"
+      },
+      "ListAssistantFilesResponse": {
+        "properties": {
+          "object": {
+            "type": "string",
+            "title": "Object",
+            "example": "list"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/AssistantFileObject"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "first_id": {
+            "type": "string",
+            "title": "First Id",
+            "example": "file-hLBK7PXBv5Lr2NQT7KLY0ag1"
+          },
+          "last_id": {
+            "type": "string",
+            "title": "Last Id",
+            "example": "file-QLoItBbqwyAJEzlTy4y9kOMM"
+          },
+          "has_more": {
+            "type": "boolean",
+            "title": "Has More",
+            "example": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "object",
+          "data",
+          "first_id",
+          "last_id",
+          "has_more"
+        ],
+        "title": "ListAssistantFilesResponse"
+      },
+      "ListAssistantsResponse": {
+        "properties": {
+          "object": {
+            "type": "string",
+            "title": "Object",
+            "example": "list"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/AssistantObject"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "first_id": {
+            "type": "string",
+            "title": "First Id",
+            "example": "asst_hLBK7PXBv5Lr2NQT7KLY0ag1"
+          },
+          "last_id": {
+            "type": "string",
+            "title": "Last Id",
+            "example": "asst_QLoItBbqwyAJEzlTy4y9kOMM"
+          },
+          "has_more": {
+            "type": "boolean",
+            "title": "Has More",
+            "example": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "object",
+          "data",
+          "first_id",
+          "last_id",
+          "has_more"
+        ],
+        "title": "ListAssistantsResponse"
+      },
+      "ListFilesResponse": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/OpenAIFile"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "object": {
+            "$ref": "#/components/schemas/Object7"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "object"
+        ],
+        "title": "ListFilesResponse"
+      },
+      "ListMessagesResponse": {
+        "properties": {
+          "object": {
+            "type": "string",
+            "title": "Object",
+            "example": "list"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/MessageObject"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "first_id": {
+            "type": "string",
+            "title": "First Id",
+            "example": "msg_hLBK7PXBv5Lr2NQT7KLY0ag1"
+          },
+          "last_id": {
+            "type": "string",
+            "title": "Last Id",
+            "example": "msg_QLoItBbqwyAJEzlTy4y9kOMM"
+          },
+          "has_more": {
+            "type": "boolean",
+            "title": "Has More",
+            "example": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "object",
+          "data",
+          "first_id",
+          "last_id",
+          "has_more"
+        ],
+        "title": "ListMessagesResponse"
+      },
+      "ListModelsResponse": {
+        "properties": {
+          "object": {
+            "$ref": "#/components/schemas/Object"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/Model"
+            },
+            "type": "array",
+            "title": "Data"
+          }
+        },
+        "type": "object",
+        "required": [
+          "object",
+          "data"
+        ],
+        "title": "ListModelsResponse"
+      },
+      "ListRunStepsResponse": {
+        "properties": {
+          "object": {
+            "type": "string",
+            "title": "Object",
+            "example": "list"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/RunStepObject"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "first_id": {
+            "type": "string",
+            "title": "First Id",
+            "example": "step_hLBK7PXBv5Lr2NQT7KLY0ag1"
+          },
+          "last_id": {
+            "type": "string",
+            "title": "Last Id",
+            "example": "step_QLoItBbqwyAJEzlTy4y9kOMM"
+          },
+          "has_more": {
+            "type": "boolean",
+            "title": "Has More",
+            "example": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "object",
+          "data",
+          "first_id",
+          "last_id",
+          "has_more"
+        ],
+        "title": "ListRunStepsResponse"
+      },
+      "MessageContentImageFileObject": {
+        "properties": {
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Type12"
+              }
+            ],
+            "description": "Always `image_file`."
+          },
+          "image_file": {
+            "$ref": "#/components/schemas/ImageFile"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "image_file"
+        ],
+        "title": "MessageContentImageFileObject"
+      },
+      "MessageContentTextAnnotationsFileCitationObject": {
+        "properties": {
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Type14"
+              }
+            ],
+            "description": "Always `file_citation`."
+          },
+          "text": {
+            "type": "string",
+            "title": "Text",
+            "description": "The text in the message content that needs to be replaced."
+          },
+          "file_citation": {
+            "$ref": "#/components/schemas/FileCitation"
+          },
+          "start_index": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Start Index"
+          },
+          "end_index": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "End Index"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "text",
+          "file_citation",
+          "start_index",
+          "end_index"
+        ],
+        "title": "MessageContentTextAnnotationsFileCitationObject"
+      },
+      "MessageContentTextAnnotationsFilePathObject": {
+        "properties": {
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Type15"
+              }
+            ],
+            "description": "Always `file_path`."
+          },
+          "text": {
+            "type": "string",
+            "title": "Text",
+            "description": "The text in the message content that needs to be replaced."
+          },
+          "file_path": {
+            "$ref": "#/components/schemas/FilePath"
+          },
+          "start_index": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Start Index"
+          },
+          "end_index": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "End Index"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "text",
+          "file_path",
+          "start_index",
+          "end_index"
+        ],
+        "title": "MessageContentTextAnnotationsFilePathObject"
+      },
+      "MessageContentTextObject": {
+        "properties": {
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Type13"
+              }
+            ],
+            "description": "Always `text`."
+          },
+          "text": {
+            "$ref": "#/components/schemas/Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "text"
+        ],
+        "title": "MessageContentTextObject"
+      },
+      "MessageCreation": {
+        "properties": {
+          "message_id": {
+            "type": "string",
+            "title": "Message Id",
+            "description": "The ID of the message that was created by this run step."
+          }
+        },
+        "type": "object",
+        "required": [
+          "message_id"
+        ],
+        "title": "MessageCreation"
+      },
+      "MessageObject": {
+        "properties": {
+          "_id": {
+            "type": "string",
+            "title": " Id",
+            "description": "MongoDB document ObjectID",
+            "example": "5eb7cf5a86d9755df3a6c593"
+          },
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The identifier, which can be referenced in API endpoints."
+          },
+          "object": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Object25"
+              }
+            ],
+            "description": "The object type, which is always `thread.message`."
+          },
+          "created_at": {
+            "type": "integer",
+            "title": "Created At",
+            "description": "The Unix timestamp (in seconds) for when the message was created."
+          },
+          "thread_id": {
+            "type": "string",
+            "title": "Thread Id",
+            "description": "The [thread](/docs/api-reference/threads) ID that this message belongs to."
+          },
+          "role": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Role7"
+              }
+            ],
+            "description": "The entity that produced the message. One of `user` or `assistant`."
+          },
+          "content": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/MessageContentImageFileObject"
+                },
+                {
+                  "$ref": "#/components/schemas/MessageContentTextObject"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Content",
+            "description": "The content of the message in array of text and/or images."
+          },
+          "assistant_id": {
+            "type": "string",
+            "title": "Assistant Id",
+            "description": "If applicable, the ID of the [assistant](/docs/api-reference/assistants) that authored this message."
+          },
+          "run_id": {
+            "type": "string",
+            "title": "Run Id",
+            "description": "If applicable, the ID of the [run](/docs/api-reference/runs) associated with the authoring of this message."
+          },
+          "file_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 10,
+            "title": "File Ids",
+            "description": "A list of [file](/docs/api-reference/files) IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can access files. A maximum of 10 files can be attached to a message."
+          },
+          "metadata": {
+            "type": "object",
+            "title": "Metadata",
+            "description": "Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.\n"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "object",
+          "created_at",
+          "thread_id",
+          "role",
+          "content",
+          "assistant_id",
+          "run_id",
+          "file_ids",
+          "metadata"
+        ],
+        "title": "MessageObject",
+        "description": "Document Mapping class.\n\nFields:\n\n- `id` - MongoDB document ObjectID \"_id\" field.\nMapped to the PydanticObjectId class"
+      },
+      "Model": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The model identifier, which can be referenced in the API endpoints."
+          },
+          "created": {
+            "type": "integer",
+            "title": "Created",
+            "description": "The Unix timestamp (in seconds) when the model was created."
+          },
+          "object": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Object13"
+              }
+            ],
+            "description": "The object type, which is always \"model\"."
+          },
+          "owned_by": {
+            "type": "string",
+            "title": "Owned By",
+            "description": "The organization that owns the model."
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "created",
+          "object",
+          "owned_by"
+        ],
+        "title": "Model"
+      },
+      "ModifyAssistantRequest": {
+        "properties": {
+          "model": {
+            "type": "string",
+            "title": "Model",
+            "description": "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.\n"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256,
+            "title": "Name",
+            "description": "The name of the assistant. The maximum length is 256 characters.\n"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 512,
+            "title": "Description",
+            "description": "The description of the assistant. The maximum length is 512 characters.\n"
+          },
+          "instructions": {
+            "type": "string",
+            "maxLength": 32768,
+            "title": "Instructions",
+            "description": "The system instructions that the assistant uses. The maximum length is 32768 characters.\n"
+          },
+          "tools": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/AssistantToolsCode"
+                },
+                {
+                  "$ref": "#/components/schemas/AssistantToolsRetrieval"
+                },
+                {
+                  "$ref": "#/components/schemas/AssistantToolsFunction"
+                },
+                {
+                  "$ref": "#/components/schemas/AssistantToolsBrowser"
+                }
+              ]
+            },
+            "type": "array",
+            "maxItems": 128,
+            "title": "Tools",
+            "description": "A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.\n",
+            "default": []
+          },
+          "file_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "File Ids",
+            "description": "A list of [File](/docs/api-reference/files) IDs attached to this assistant. There can be a maximum of 20 files attached to the assistant. Files are ordered by their creation date in ascending order. If a file was previosuly attached to the list but does not show up in the list, it will be deleted from the assistant.\n",
+            "default": []
+          },
+          "metadata": {
+            "type": "object",
+            "title": "Metadata",
+            "description": "Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.\n"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ModifyAssistantRequest"
+      },
+      "ModifyMessageRequest": {
+        "properties": {
+          "metadata": {
+            "type": "object",
+            "title": "Metadata",
+            "description": "Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.\n"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ModifyMessageRequest"
+      },
+      "ModifyRunRequest": {
+        "properties": {
+          "metadata": {
+            "type": "object",
+            "title": "Metadata",
+            "description": "Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.\n"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ModifyRunRequest"
+      },
+      "ModifyThreadRequest": {
+        "properties": {
+          "metadata": {
+            "type": "object",
+            "title": "Metadata",
+            "description": "Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.\n"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ModifyThreadRequest"
+      },
+      "Object": {
+        "enum": [
+          "list"
+        ],
+        "title": "Object",
+        "description": "An enumeration."
+      },
+      "Object13": {
+        "enum": [
+          "model"
+        ],
+        "title": "Object13",
+        "description": "An enumeration."
+      },
+      "Object14": {
+        "enum": [
+          "file"
+        ],
+        "title": "Object14",
+        "description": "An enumeration."
+      },
+      "Object20": {
+        "enum": [
+          "assistant"
+        ],
+        "title": "Object20",
+        "description": "An enumeration."
+      },
+      "Object21": {
+        "enum": [
+          "assistant.deleted"
+        ],
+        "title": "Object21",
+        "description": "An enumeration."
+      },
+      "Object22": {
+        "enum": [
+          "thread.run"
+        ],
+        "title": "Object22",
+        "description": "An enumeration."
+      },
+      "Object23": {
+        "enum": [
+          "thread"
+        ],
+        "title": "Object23",
+        "description": "An enumeration."
+      },
+      "Object24": {
+        "enum": [
+          "thread.deleted"
+        ],
+        "title": "Object24",
+        "description": "An enumeration."
+      },
+      "Object25": {
+        "enum": [
+          "thread.message"
+        ],
+        "title": "Object25",
+        "description": "An enumeration."
+      },
+      "Object27": {
+        "enum": [
+          "thread.run.step"
+        ],
+        "title": "Object27",
+        "description": "An enumeration."
+      },
+      "Object28": {
+        "enum": [
+          "assistant.file"
+        ],
+        "title": "Object28",
+        "description": "An enumeration."
+      },
+      "Object29": {
+        "enum": [
+          "assistant.file.deleted"
+        ],
+        "title": "Object29",
+        "description": "An enumeration."
+      },
+      "Object7": {
+        "enum": [
+          "list"
+        ],
+        "title": "Object7",
+        "description": "An enumeration."
+      },
+      "Object8": {
+        "enum": [
+          "file"
+        ],
+        "title": "Object8",
+        "description": "An enumeration."
+      },
+      "OpenAIFile": {
+        "properties": {
+          "_id": {
+            "type": "string",
+            "title": " Id",
+            "description": "MongoDB document ObjectID",
+            "example": "5eb7cf5a86d9755df3a6c593"
+          },
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The file identifier, which can be referenced in the API endpoints."
+          },
+          "bytes": {
+            "type": "integer",
+            "title": "Bytes",
+            "description": "The size of the file, in bytes."
+          },
+          "created_at": {
+            "type": "integer",
+            "title": "Created At",
+            "description": "The Unix timestamp (in seconds) for when the file was created."
+          },
+          "filename": {
+            "type": "string",
+            "title": "Filename",
+            "description": "The name of the file."
+          },
+          "object": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Object14"
+              }
+            ],
+            "description": "The object type, which is always `file`."
+          },
+          "purpose": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Purpose1"
+              }
+            ],
+            "description": "The intended purpose of the file. Supported values are `fine-tune`, `fine-tune-results`, `assistants`, and `assistants_output`."
+          },
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Status"
+              }
+            ],
+            "description": "Deprecated. The current status of the file, which can be either `uploaded`, `processed`, or `error`."
+          },
+          "status_details": {
+            "type": "string",
+            "title": "Status Details",
+            "description": "Deprecated. For details on why a fine-tuning training file failed validation, see the `error` field on `fine_tuning.job`."
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "bytes",
+          "created_at",
+          "filename",
+          "object",
+          "purpose",
+          "status"
+        ],
+        "title": "OpenAIFile",
+        "description": "Document Mapping class.\n\nFields:\n\n- `id` - MongoDB document ObjectID \"_id\" field.\nMapped to the PydanticObjectId class"
+      },
+      "Order1": {
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "title": "Order1",
+        "description": "An enumeration."
+      },
+      "Order3": {
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "title": "Order3",
+        "description": "An enumeration."
+      },
+      "Order7": {
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "title": "Order7",
+        "description": "An enumeration."
+      },
+      "Order9": {
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "title": "Order9",
+        "description": "An enumeration."
+      },
+      "Purpose1": {
+        "enum": [
+          "fine_tune",
+          "fine_tune_results",
+          "assistants",
+          "assistants_output"
+        ],
+        "title": "Purpose1",
+        "description": "An enumeration."
+      },
+      "RequiredAction": {
+        "properties": {
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Type10"
+              }
+            ],
+            "description": "For now, this is always `submit_tool_outputs`."
+          },
+          "submit_tool_outputs": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SubmitToolOutputs"
+              }
+            ],
+            "title": "Submit Tool Outputs",
+            "description": "Details on the tool outputs needed for this run to continue."
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "submit_tool_outputs"
+        ],
+        "title": "RequiredAction"
+      },
+      "Role7": {
+        "enum": [
+          "user",
+          "assistant",
+          "tool_call",
+          "tool_output"
+        ],
+        "title": "Role7",
+        "description": "An enumeration."
+      },
+      "Role8": {
+        "enum": [
+          "user"
+        ],
+        "title": "Role8",
+        "description": "An enumeration."
+      },
+      "RunObject": {
+        "properties": {
+          "_id": {
+            "type": "string",
+            "title": " Id",
+            "description": "MongoDB document ObjectID",
+            "example": "5eb7cf5a86d9755df3a6c593"
+          },
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The identifier, which can be referenced in API endpoints."
+          },
+          "object": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Object22"
+              }
+            ],
+            "description": "The object type, which is always `thread.run`."
+          },
+          "created_at": {
+            "type": "integer",
+            "title": "Created At",
+            "description": "The Unix timestamp (in seconds) for when the run was created."
+          },
+          "thread_id": {
+            "type": "string",
+            "title": "Thread Id",
+            "description": "The ID of the [thread](/docs/api-reference/threads) that was executed on as a part of this run."
+          },
+          "assistant_id": {
+            "type": "string",
+            "title": "Assistant Id",
+            "description": "The ID of the [assistant](/docs/api-reference/assistants) used for execution of this run."
+          },
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Status2"
+              }
+            ],
+            "description": "The status of the run, which can be either `queued`, `in_progress`, `requires_action`, `cancelling`, `cancelled`, `failed`, `completed`, or `expired`."
+          },
+          "required_action": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RequiredAction"
+              }
+            ],
+            "title": "Required Action",
+            "description": "Details on the action required to continue the run. Will be `null` if no action is required."
+          },
+          "last_error": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LastError"
+              }
+            ],
+            "title": "Last Error",
+            "description": "The last error associated with this run. Will be `null` if there are no errors."
+          },
+          "expires_at": {
+            "type": "integer",
+            "title": "Expires At",
+            "description": "The Unix timestamp (in seconds) for when the run will expire."
+          },
+          "started_at": {
+            "type": "integer",
+            "title": "Started At",
+            "description": "The Unix timestamp (in seconds) for when the run was started."
+          },
+          "cancelled_at": {
+            "type": "integer",
+            "title": "Cancelled At",
+            "description": "The Unix timestamp (in seconds) for when the run was cancelled."
+          },
+          "failed_at": {
+            "type": "integer",
+            "title": "Failed At",
+            "description": "The Unix timestamp (in seconds) for when the run failed."
+          },
+          "completed_at": {
+            "type": "integer",
+            "title": "Completed At",
+            "description": "The Unix timestamp (in seconds) for when the run was completed."
+          },
+          "model": {
+            "type": "string",
+            "title": "Model",
+            "description": "The model that the [assistant](/docs/api-reference/assistants) used for this run."
+          },
+          "instructions": {
+            "type": "string",
+            "title": "Instructions",
+            "description": "The instructions that the [assistant](/docs/api-reference/assistants) used for this run."
+          },
+          "tools": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/AssistantToolsCode"
+                },
+                {
+                  "$ref": "#/components/schemas/AssistantToolsRetrieval"
+                },
+                {
+                  "$ref": "#/components/schemas/AssistantToolsFunction"
+                },
+                {
+                  "$ref": "#/components/schemas/AssistantToolsBrowser"
+                }
+              ]
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "Tools",
+            "description": "The list of tools that the [assistant](/docs/api-reference/assistants) used for this run."
+          },
+          "file_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "File Ids",
+            "description": "The list of [File](/docs/api-reference/files) IDs the [assistant](/docs/api-reference/assistants) used for this run."
+          },
+          "metadata": {
+            "type": "object",
+            "title": "Metadata",
+            "description": "Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.\n"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "object",
+          "created_at",
+          "thread_id",
+          "assistant_id",
+          "status",
+          "model",
+          "instructions",
+          "tools",
+          "file_ids",
+          "metadata"
+        ],
+        "title": "RunObject",
+        "description": "Document Mapping class.\n\nFields:\n\n- `id` - MongoDB document ObjectID \"_id\" field.\nMapped to the PydanticObjectId class"
+      },
+      "RunStepDetailsMessageCreationObject": {
+        "properties": {
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Type17"
+              }
+            ],
+            "description": "Always `message_creation``."
+          },
+          "message_creation": {
+            "$ref": "#/components/schemas/MessageCreation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "message_creation"
+        ],
+        "title": "RunStepDetailsMessageCreationObject"
+      },
+      "RunStepDetailsToolCallsCodeObject": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The ID of the tool call."
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Type19"
+              }
+            ],
+            "description": "The type of tool call. This is always going to be `code_interpreter` for this type of tool call."
+          },
+          "code_interpreter": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CodeInterpreter"
+              }
+            ],
+            "title": "Code Interpreter",
+            "description": "The Code Interpreter tool call definition."
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "code_interpreter"
+        ],
+        "title": "RunStepDetailsToolCallsCodeObject"
+      },
+      "RunStepDetailsToolCallsCodeOutputImageObject": {
+        "properties": {
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Type21"
+              }
+            ],
+            "description": "Always `image`."
+          },
+          "image": {
+            "$ref": "#/components/schemas/Image1"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "image"
+        ],
+        "title": "RunStepDetailsToolCallsCodeOutputImageObject"
+      },
+      "RunStepDetailsToolCallsCodeOutputLogsObject": {
+        "properties": {
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Type20"
+              }
+            ],
+            "description": "Always `logs`."
+          },
+          "logs": {
+            "type": "string",
+            "title": "Logs",
+            "description": "The text output from the Code Interpreter tool call."
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "logs"
+        ],
+        "title": "RunStepDetailsToolCallsCodeOutputLogsObject"
+      },
+      "RunStepDetailsToolCallsFunctionObject": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The ID of the tool call object."
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Type23"
+              }
+            ],
+            "description": "The type of tool call. This is always going to be `function` for this type of tool call."
+          },
+          "function": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Function4"
+              }
+            ],
+            "title": "Function",
+            "description": "The definition of the function that was called."
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "function"
+        ],
+        "title": "RunStepDetailsToolCallsFunctionObject"
+      },
+      "RunStepDetailsToolCallsObject": {
+        "properties": {
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Type18"
+              }
+            ],
+            "description": "Always `tool_calls`."
+          },
+          "tool_calls": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/RunStepDetailsToolCallsCodeObject"
+                },
+                {
+                  "$ref": "#/components/schemas/RunStepDetailsToolCallsRetrievalObject"
+                },
+                {
+                  "$ref": "#/components/schemas/RunStepDetailsToolCallsFunctionObject"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Tool Calls",
+            "description": "An array of tool calls the run step was involved in. These can be associated with one of three types of tools: `code_interpreter`, `retrieval`, or `function`.\n"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "tool_calls"
+        ],
+        "title": "RunStepDetailsToolCallsObject"
+      },
+      "RunStepDetailsToolCallsRetrievalObject": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The ID of the tool call object."
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Type22"
+              }
+            ],
+            "description": "The type of tool call. This is always going to be `retrieval` for this type of tool call."
+          },
+          "retrieval": {
+            "type": "object",
+            "title": "Retrieval",
+            "description": "For now, this is always going to be an empty object."
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "retrieval"
+        ],
+        "title": "RunStepDetailsToolCallsRetrievalObject"
+      },
+      "RunStepObject": {
+        "properties": {
+          "_id": {
+            "type": "string",
+            "title": " Id",
+            "description": "MongoDB document ObjectID",
+            "example": "5eb7cf5a86d9755df3a6c593"
+          },
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The identifier of the run step, which can be referenced in API endpoints."
+          },
+          "object": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Object27"
+              }
+            ],
+            "description": "The object type, which is always `thread.run.step``."
+          },
+          "created_at": {
+            "type": "integer",
+            "title": "Created At",
+            "description": "The Unix timestamp (in seconds) for when the run step was created."
+          },
+          "assistant_id": {
+            "type": "string",
+            "title": "Assistant Id",
+            "description": "The ID of the [assistant](/docs/api-reference/assistants) associated with the run step."
+          },
+          "thread_id": {
+            "type": "string",
+            "title": "Thread Id",
+            "description": "The ID of the [thread](/docs/api-reference/threads) that was run."
+          },
+          "run_id": {
+            "type": "string",
+            "title": "Run Id",
+            "description": "The ID of the [run](/docs/api-reference/runs) that this run step is a part of."
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Type16"
+              }
+            ],
+            "description": "The type of run step, which can be either `message_creation` or `tool_calls`."
+          },
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Status3"
+              }
+            ],
+            "description": "The status of the run step, which can be either `in_progress`, `cancelled`, `failed`, `completed`, or `expired`."
+          },
+          "step_details": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RunStepDetailsMessageCreationObject"
+              },
+              {
+                "$ref": "#/components/schemas/RunStepDetailsToolCallsObject"
+              }
+            ],
+            "title": "Step Details",
+            "description": "The details of the run step."
+          },
+          "last_error": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LastError1"
+              }
+            ],
+            "title": "Last Error",
+            "description": "The last error associated with this run step. Will be `null` if there are no errors."
+          },
+          "expired_at": {
+            "type": "integer",
+            "title": "Expired At",
+            "description": "The Unix timestamp (in seconds) for when the run step expired. A step is considered expired if the parent run is expired."
+          },
+          "cancelled_at": {
+            "type": "integer",
+            "title": "Cancelled At",
+            "description": "The Unix timestamp (in seconds) for when the run step was cancelled."
+          },
+          "failed_at": {
+            "type": "integer",
+            "title": "Failed At",
+            "description": "The Unix timestamp (in seconds) for when the run step failed."
+          },
+          "completed_at": {
+            "type": "integer",
+            "title": "Completed At",
+            "description": "The Unix timestamp (in seconds) for when the run step completed."
+          },
+          "metadata": {
+            "type": "object",
+            "title": "Metadata",
+            "description": "Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.\n"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "object",
+          "created_at",
+          "assistant_id",
+          "thread_id",
+          "run_id",
+          "type",
+          "status",
+          "step_details",
+          "last_error",
+          "expired_at",
+          "cancelled_at",
+          "failed_at",
+          "completed_at",
+          "metadata"
+        ],
+        "title": "RunStepObject",
+        "description": "Document Mapping class.\n\nFields:\n\n- `id` - MongoDB document ObjectID \"_id\" field.\nMapped to the PydanticObjectId class"
+      },
+      "RunToolCallObject": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](/docs/api-reference/runs/submitToolOutputs) endpoint."
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Type11"
+              }
+            ],
+            "description": "The type of tool call the output is required for. For now, this is always `function`."
+          },
+          "function": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Function3"
+              }
+            ],
+            "title": "Function",
+            "description": "The function definition."
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "function"
+        ],
+        "title": "RunToolCallObject"
+      },
+      "Status": {
+        "enum": [
+          "uploaded",
+          "processed",
+          "error"
+        ],
+        "title": "Status",
+        "description": "An enumeration."
+      },
+      "Status2": {
+        "enum": [
+          "queued",
+          "in_progress",
+          "requires_action",
+          "cancelling",
+          "cancelled",
+          "failed",
+          "completed",
+          "expired"
+        ],
+        "title": "Status2",
+        "description": "An enumeration."
+      },
+      "Status3": {
+        "enum": [
+          "in_progress",
+          "cancelled",
+          "failed",
+          "completed",
+          "expired"
+        ],
+        "title": "Status3",
+        "description": "An enumeration."
+      },
+      "SubmitToolOutputs": {
+        "properties": {
+          "tool_calls": {
+            "items": {
+              "$ref": "#/components/schemas/RunToolCallObject"
+            },
+            "type": "array",
+            "title": "Tool Calls",
+            "description": "A list of the relevant tool calls."
+          }
+        },
+        "type": "object",
+        "required": [
+          "tool_calls"
+        ],
+        "title": "SubmitToolOutputs"
+      },
+      "Text": {
+        "properties": {
+          "value": {
+            "type": "string",
+            "title": "Value",
+            "description": "The data that makes up the text."
+          },
+          "annotations": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/MessageContentTextAnnotationsFileCitationObject"
+                },
+                {
+                  "$ref": "#/components/schemas/MessageContentTextAnnotationsFilePathObject"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Annotations"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value",
+          "annotations"
+        ],
+        "title": "Text"
+      },
+      "ThreadObject": {
+        "properties": {
+          "_id": {
+            "type": "string",
+            "title": " Id",
+            "description": "MongoDB document ObjectID",
+            "example": "5eb7cf5a86d9755df3a6c593"
+          },
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The identifier, which can be referenced in API endpoints."
+          },
+          "object": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Object23"
+              }
+            ],
+            "description": "The object type, which is always `thread`."
+          },
+          "created_at": {
+            "type": "integer",
+            "title": "Created At",
+            "description": "The Unix timestamp (in seconds) for when the thread was created."
+          },
+          "metadata": {
+            "type": "object",
+            "title": "Metadata",
+            "description": "Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maximum of 512 characters long."
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "object",
+          "created_at",
+          "metadata"
+        ],
+        "title": "ThreadObject",
+        "description": "Document Mapping class.\n\nFields:\n\n- `id` - MongoDB document ObjectID \"_id\" field.\nMapped to the PydanticObjectId class"
+      },
+      "Type10": {
+        "enum": [
+          "submit_tool_outputs"
+        ],
+        "title": "Type10",
+        "description": "An enumeration."
+      },
+      "Type11": {
+        "enum": [
+          "function"
+        ],
+        "title": "Type11",
+        "description": "An enumeration."
+      },
+      "Type12": {
+        "enum": [
+          "image_file"
+        ],
+        "title": "Type12",
+        "description": "An enumeration."
+      },
+      "Type13": {
+        "enum": [
+          "text"
+        ],
+        "title": "Type13",
+        "description": "An enumeration."
+      },
+      "Type14": {
+        "enum": [
+          "file_citation"
+        ],
+        "title": "Type14",
+        "description": "An enumeration."
+      },
+      "Type15": {
+        "enum": [
+          "file_path"
+        ],
+        "title": "Type15",
+        "description": "An enumeration."
+      },
+      "Type16": {
+        "enum": [
+          "message_creation",
+          "tool_calls"
+        ],
+        "title": "Type16",
+        "description": "An enumeration."
+      },
+      "Type17": {
+        "enum": [
+          "message_creation"
+        ],
+        "title": "Type17",
+        "description": "An enumeration."
+      },
+      "Type18": {
+        "enum": [
+          "tool_calls"
+        ],
+        "title": "Type18",
+        "description": "An enumeration."
+      },
+      "Type19": {
+        "enum": [
+          "code_interpreter"
+        ],
+        "title": "Type19",
+        "description": "An enumeration."
+      },
+      "Type20": {
+        "enum": [
+          "logs"
+        ],
+        "title": "Type20",
+        "description": "An enumeration."
+      },
+      "Type21": {
+        "enum": [
+          "image"
+        ],
+        "title": "Type21",
+        "description": "An enumeration."
+      },
+      "Type22": {
+        "enum": [
+          "retrieval"
+        ],
+        "title": "Type22",
+        "description": "An enumeration."
+      },
+      "Type23": {
+        "enum": [
+          "function"
+        ],
+        "title": "Type23",
+        "description": "An enumeration."
+      },
+      "Type7": {
+        "enum": [
+          "code_interpreter"
+        ],
+        "title": "Type7",
+        "description": "An enumeration."
+      },
+      "Type8": {
+        "enum": [
+          "retrieval"
+        ],
+        "title": "Type8",
+        "description": "An enumeration."
+      },
+      "Type824": {
+        "enum": [
+          "browser"
+        ],
+        "title": "Type824",
+        "description": "An enumeration."
+      },
+      "Type9": {
+        "enum": [
+          "function"
+        ],
+        "title": "Type9",
+        "description": "An enumeration."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
