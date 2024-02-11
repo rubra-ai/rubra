@@ -1,0 +1,24 @@
+[theme]
+# Primary color is a muted deep red, reflecting the 'Rubra' identity, but less stark for the user interface.
+primaryColor = "#E53935"              # A muted, earthy red.
+
+# Background color is a light cream, offering a warm canvas reminiscent of parchment or paper.
+backgroundColor = "#FBF2E9"           # A warm cream that is soothing and harkens to nature.
+
+# Secondary background color is a warm grey, providing subtle contrast and warmth.
+secondaryBackgroundColor = "#EAE7E2"  # A warm shade of grey that feels organic and soft.
+
+# Text color is a deep brown, akin to the color of tree bark, for natural contrast and legibility.
+textColor = "#50372F"                 # A deep brown that is easier on the eyes than pure black.
+
+# Font is set to a serif font, which conveys sophistication and a nod to the classical, aligning with the mature and strong imagery of an acorn.
+font = "sans serif"
+
+[browser]
+gatherUsageStats = false
+
+[client]
+toolbarMode = "developer"
+
+[server]
+enableWebsocketCompression = true
