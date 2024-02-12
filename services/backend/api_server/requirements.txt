@@ -13,3 +13,7 @@ websockets==12.0
 requests==2.31.0
 googlesearch-python==1.2.3
 langchain==0.0.351
+spacy==3.7.2
+markdownify==0.11.6
+playwright==1.39.0
+tiktoken==0.5.2

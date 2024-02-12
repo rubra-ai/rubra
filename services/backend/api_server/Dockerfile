@@ -1,4 +1,4 @@
-FROM python:3.10-slim-buster
+FROM python:3.10.7-slim
 
 # Set the working directory in the container to /app
 WORKDIR /app
@@ -8,6 +8,9 @@ ADD . /app
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
+RUN spacy download en_core_web_sm
+RUN playwright install
+RUN playwright install-deps
 
 # Make port 80 available to the world outside this container
 EXPOSE 8000
