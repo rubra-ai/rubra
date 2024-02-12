@@ -1,7 +1,7 @@
 aioredis==2.0.1
 beanie==1.23.6
 celery==5.3.6
-fastapi==0.105.0
+fastapi==0.109.2
 motor==3.3.2
 openai==1.6.1
 pymilvus==2.3.4

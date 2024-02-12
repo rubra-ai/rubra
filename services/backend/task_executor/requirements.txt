@@ -1,7 +1,7 @@
 aioredis==2.0.1
 beanie==1.23.6
 celery==5.3.6
-fastapi==0.105.0
+fastapi==0.109.2
 googlesearch-python==1.2.3
 langchain==0.0.351
 motor==3.3.2
