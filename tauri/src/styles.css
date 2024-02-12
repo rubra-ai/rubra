@@ -1,0 +1,122 @@
+:root {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #0f0f0f;
+  background-color: #f6f6f6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  padding-top: 10vh;
+  padding-bottom: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1,
+.status-text {
+  text-align: center;
+}
+
+button {
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: #396cd8;
+  border: none;
+  margin: 10px;
+  transition: background-color 0.3s, border-color 0.25s, box-shadow 0.2s;
+}
+
+button:hover {
+  background-color: #2f5db7;
+  border-color: #396cd8;
+}
+
+button:active {
+  background-color: #e8e8e8;
+}
+
+button.disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+#progress-container,
+#component-statuses {
+  width: 66%;
+  margin: 20px auto;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#progress-bar {
+  height: 20px;
+  background-color: #4CAF50;
+  transition: width 0.5s ease;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #999;
+  text-align: center;
+  padding: 10px 0;
+  height: 50px;
+}
+
+.status-dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 5px;
+}
+
+.healthy {
+  background-color: #4CAF50;
+}
+
+.unhealthy {
+  background-color: #f44336;
+}
+
+.grey-out {
+  background-color: #9e9e9e;
+}
+
+.status-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #f6f6f6;
+    background-color: #2f2f2f;
+  }
+
+  button {
+    background-color: #0f0f0f98;
+  }
+
+  button:active {
+    background-color: #0f0f0f69;
+  }
+}

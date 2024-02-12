@@ -1,0 +1,60 @@
+{
+  "build": {
+    "beforeDevCommand": "./scripts/bundle-prep.sh",
+    "beforeBuildCommand": "./scripts/bundle-prep.sh",
+    "devPath": "../src",
+    "distDir": "../src",
+    "withGlobalTauri": true
+  },
+  "package": {
+    "productName": "Rubra",
+    "version": "0.0.0"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": true,
+      "window": {
+        "all": true
+      },
+      "shell": {
+        "all": true,
+        "open": true,
+        "execute": true
+      },
+      "fs": {
+        "scope": [
+          "$RESOURCE/assets/docker-compose.yml"
+        ]
+      }
+    },
+    "bundle": {
+      "active": true,
+      "targets": "all",
+      "identifier": "io.acorn.rubra",
+      "icon": [
+        "icons/rubra-32x32.png",
+        "icons/icon.icns"
+      ],
+      "resources": [
+        "assets/docker-compose.yml"
+      ]
+    },
+    "security": {
+      "csp": null
+    },
+    "windows": [
+      {
+        "fullscreen": false,
+        "resizable": true,
+        "title": "Rubra",
+        "width": 800,
+        "height": 600
+      }
+    ],
+    "systemTray": {
+      "iconPath": "icons/icon.ico",
+      "iconAsTemplate": true,
+      "menuOnLeftClick": true
+    }
+  }
+}
