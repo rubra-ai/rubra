@@ -1,6 +1,6 @@
 # Rubra
 
-Rubra is an open-source ChatGPT. It's designed for users who want to:
+Rubra is an open-source ChatGPT. It's designed for users who want:
 
 - **Multi-Model Support:** Rubra integrates with a variety of LLMs, including a local model optimized for Rubra, as well as models from OpenAI and Anthropic. More providers will be added in the future.
 - **Assistant Tools:** Create powerful assistants using tools for web search, knowledge retrieval, and more, all designed to augment your LLMs with the information they need to be truly helpful.
@@ -22,7 +22,7 @@ Rubra is an open-source ChatGPT. It's designed for users who want to:
 Rubra offers a simple one-command installation:
 
 ```bash
-curl -sfL https://raw.githubusercontent.com/acorn-io/rubra/main/quickstart.sh | sh -s -- start
+curl -sfL https://get.rubra.ai | sh -s -- start
 ```
 
 After installation, access the Rubra UI at `http://localhost:8501` and start exploring the capabilities of your new ChatGPT-like assistant.
