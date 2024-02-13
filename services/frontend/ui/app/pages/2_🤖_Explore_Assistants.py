@@ -23,9 +23,10 @@ def create_assistant(name, description, instructions, model, file_ids, tools):
     )
     if assistant:
         st.session_state.entity_options = get_entity_options()
-        st.success(
-            f"Assistant '{name}' with model {model} created successfully!", icon="✅"
-        )
+        success_message = f"Assistant '{name}' with model {model} created successfully!"
+        if file_ids:
+            success_message += " Knowledge Retrieval might take a few minutes to index file data."
+        st.success(success_message, icon="✅")
     else:
         st.error("Failed to create assistant.")
 
@@ -143,7 +144,7 @@ def main():
             uploaded_files = st.file_uploader(
                 "Knowledge",
                 accept_multiple_files=True,
-                help="If you upload files under Knowledge, conversations with your Assistant may include file contents. Files can be downloaded when Code Interpreter is enabled",
+                help="If you upload files for knowledge retrieval, conversations with your Assistant may include file contents. Upon Assistant creation, the file contents will be indexed for retrieval - this may take a moment.",
             )
 
             submit_button = st.form_submit_button(label="Create Assistant")
