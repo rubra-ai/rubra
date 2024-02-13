@@ -4,23 +4,8 @@
 import streamlit as st
 import streamlit_antd_components as sac
 import streamlit_shadcn_ui as ui
-from rubra_ui_config import get_entity_options, rubra_client
+from rubra_ui_config import get_entity_options, rubra_client, get_all_assistants
 from rubra_ui_utils import remove_streamlit_elements
-
-
-def get_all_assistants():
-    all_assistants = []
-    after = None
-    while True:
-        response = rubra_client.beta.assistants.list(limit=100, after=after)
-        assistants = response.data
-        all_assistants.extend(assistants)
-        if len(assistants) < 100:
-            break
-        else:
-            after = assistants[-1]["id"]
-
-    return all_assistants
 
 
 
