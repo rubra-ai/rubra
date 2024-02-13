@@ -10,12 +10,11 @@ from rubra_ui_utils import remove_streamlit_elements
 
 def get_all_assistants():
     all_assistants = []
+    after = None
     while True:
         response = rubra_client.beta.assistants.list(limit=100, after=after)
         assistants = response.data
-
         all_assistants.extend(assistants)
-
         if len(assistants) < 100:
             break
         else:
