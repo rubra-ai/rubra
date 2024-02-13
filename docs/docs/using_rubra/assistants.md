@@ -27,7 +27,14 @@ To create a new assistant, click on the "Create New Assistant" button. This will
 You can also enable additional tools for your assistant:
 
 - **Browser**: Enable this to allow your assistant search and open links.
-- **Knowledge**: You can upload files here. If you do, conversations with your assistant may include file contents. Files can be downloaded when Code Interpreter is enabled. This feature uses automated Retrieval-Augmented Generation (RAG) to enhance the assistant's responses with information from the uploaded files.
+- **Knowledge**: You can upload files here. If you do, conversations with your assistant may include file contents. This feature uses automated Retrieval-Augmented Generation (RAG) to enhance the assistant's responses with information from the uploaded files. Limited to the following file types:
+  - `.pdf`  
+  - `.json`
+  - `.txt`
+  - `.md`
+  - `.html`
+  - `.log`
+  - `.rtf`
 
 Once you have filled in all the details, click on "Create Assistant" to create your assistant. You will be able to chat with this assistant in Rubra chat.
 
