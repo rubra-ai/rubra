@@ -8,9 +8,21 @@ from rubra_ui_config import get_entity_options, rubra_client
 from rubra_ui_utils import remove_streamlit_elements
 
 
-def get_assistants():
-    # Function to get the list of assistants from your API
-    return rubra_client.beta.assistants.list().data
+def get_all_assistants():
+    all_assistants = []
+    while True:
+        response = rubra_client.beta.assistants.list(limit=100, after=after)
+        assistants = response.data
+
+        all_assistants.extend(assistants)
+
+        if len(assistants) < 100:
+            break
+        else:
+            after = assistants[-1]["id"]
+
+    return all_assistants
+
 
 
 def create_assistant(name, description, instructions, model, file_ids, tools):
@@ -187,7 +199,7 @@ def main():
         del st.session_state["delete_message"]
 
     # Display each assistant with delete and modify options
-    for assistant in get_assistants():
+    for assistant in get_all_assistants():
         with st.container():
             st.markdown(f"### {assistant.name}")
 
@@ -241,7 +253,7 @@ def main():
     if "modify_id" in st.session_state and st.session_state["modify_id"]:
         modify_assistant_id = st.session_state["modify_id"]
         # Find the assistant details
-        for assistant in get_assistants():
+        for assistant in get_all_assistants():
             if assistant.id == modify_assistant_id:
                 with modify_form_placeholder.container():
                     with st.form(f"modify_{assistant.id}_form"):
