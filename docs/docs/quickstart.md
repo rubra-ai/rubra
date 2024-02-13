@@ -8,6 +8,7 @@ This guide will help you quickly launch Rubra with default options. The [install
 ## Prerequisites
 
 * M-series Mac or Linux with GPU
+  * On MacOS you need to have Xcode Command Line Tools installed: `xcode-select --install`
 * 16 GB Ram
 * 10 GB Disk Space
 * [Docker](https://docs.docker.com/get-docker/) and `docker compose`
@@ -17,7 +18,7 @@ This guide will help you quickly launch Rubra with default options. The [install
 Rubra provides a 1-command installation script. Run the following:
 
 ```bash
-curl -sfL https://raw.githubusercontent.com/acorn-io/rubra/main/quickstart.sh | sh -s -- start
+curl -sfL https://get.rubra.ai | sh -s -- start
 ```
 
 Once the installation script is complete, the Rubra UI will be accessible at <a href="http://localhost:8501">http://localhost:8501</a>.

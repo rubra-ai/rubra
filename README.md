@@ -1,12 +1,10 @@
 # Rubra
 
-Welcome! Rubra is built for those who want to engage with multiple LLMs (especially the local one we ship), develop and utilize custom assistants, and maintain data privacy through self-hosting.
-
-## Features
+Rubra is an open-source ChatGPT. It's designed for users who want to:
 
 - **Multi-Model Support:** Rubra integrates with a variety of LLMs, including a local model optimized for Rubra, as well as models from OpenAI and Anthropic. More providers will be added in the future.
-- **Development Tools:** Create powerful assistants using tools for web search, knowledge retrieval, and more, all designed to augment your LLMs with the information they need to be truly helpful.
-- **OpenAI API Compatibility:** Use OpenAI's Python and JavaScript libraries with Rubra's API for a seamless development experience.
+- **Assistant Tools:** Create powerful assistants using tools for web search, knowledge retrieval, and more, all designed to augment your LLMs with the information they need to be truly helpful.
+- **OpenAI API Compatibility:** Use Rubra's OpenAI-compatible Assistants API, allowing you to use OpenAI's Python and JavaScript libraries to create and manage Assistants.
 - **Self-Hosting:** Keep your data private and secure by running Rubra on your own hardware.
 
 ## Getting Started
@@ -14,6 +12,7 @@ Welcome! Rubra is built for those who want to engage with multiple LLMs (especia
 ### Prerequisites
 
 - M-series Mac or Linux with GPU
+  - On MacOS you need to have Xcode Command Line Tools installed: `xcode-select --install`
 - At least 16 GB RAM
 - At least 10 GB of available disk space
 - Docker and Docker Compose installed
