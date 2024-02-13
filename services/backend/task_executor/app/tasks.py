@@ -460,6 +460,7 @@ def execute_asst_file_create(file_id: str, assistant_id: str):
 
     # Third Party
     from langchain.text_splitter import RecursiveCharacterTextSplitter
+    from chardet import detect
 
     # Local
     from app.vector_db.milvus.main import add_texts
@@ -489,10 +490,15 @@ def execute_asst_file_create(file_id: str, assistant_id: str):
             parsed_text = res
         else:  ## try to read plain text
             try:
-                parsed_text = file_object["content"].decode()
-
-            except Exception as e:
-                print(f"Load Error: {e}")
+                parsed_text = file_object["content"].decode('utf-8')
+            except UnicodeDecodeError:
+                try:
+                    # Attempt to detect encoding and decode
+                    encoding = detect(file_object["content"])['encoding']
+                    parsed_text = file_object["content"].decode(encoding)
+                except Exception as e:
+                    logging.error(f"Decoding error with detected encoding: {e}")
+                    parsed_text = ""
 
         if parsed_text != "":
             # Split docs and add to milvus vector DB
