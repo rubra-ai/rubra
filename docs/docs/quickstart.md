@@ -23,4 +23,4 @@ curl -sfL https://get.rubra.ai | sh -s -- start
 
 Once the installation script is complete, the Rubra UI will be accessible at <a href="http://localhost:8501">http://localhost:8501</a>.
 
-Enjoy! Start chatting with the Welcome Assistant and ask it a question that requires a web browser. Learn more about how you can [use Rubra here] (/category/using-rubra).
+Enjoy! Start chatting with the Welcome Assistant and ask it a question that requires a web browser. Learn more about how you can [use Rubra here](/category/using-rubra).
