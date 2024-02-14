@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rubra</title>
+  <script type="module" src="/main.js" defer></script>
+  <style>
+    .logo.vanilla:hover {
+      filter: drop-shadow(0 0 2em #ffe21c);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Rubra</h1>
+
+    <p id="docker-status" class="status-text">Checking Docker status...</p>
+    <p id="compose-status" class="status-text">Checking Docker Compose status...</p>
+    <p id="status-error" style="display: none;"></p>
+    <button id="download-docker" style="display: none;">Download Docker Desktop</button>
+
+
+    <p id="llama-status">Checking for model file...</p>
+    <div id="progress-container">
+      <div id="progress-bar" style="width: 0%; height: 20px; background-color: #4CAF50;"></div>
+    </div>
+
+    <div id="component-statuses">
+      <div class="status-container">
+        <span class="status-dot grey-out"></span>
+        <p id="model-status-text" class="status-text">Checking Model...</p>
+      </div>
+      <div class="status-container" id="container-statuses">
+        <span class="status-dot grey-out"></span>
+        <p>Container Status:</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div id="action-buttons">
+      <button id="rubra-action" data-action="start" class="disabled">Start Rubra</button>
+      <button id="ui-btn" style="display: none;">Launch UI</button>
+    </div>"
+  </div>
+  </div>
+</body>
+
+</html>
