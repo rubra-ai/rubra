@@ -1,4 +1,5 @@
 TAG := $(or $(TAG),main)
+GITHUB_WORKFLOW := $(or $(GITHUB_WORKFLOW),local)
 REGISTRY := $(or $(REGISTRY),index.docker.io)
 PLATFORMS := linux/amd64,linux/arm64
 BUILDX_FLAGS := --platform $(PLATFORMS) --push
@@ -32,7 +33,12 @@ build_and_push_images:
 			SERVICE=$$(basename $$dir); \
 			FULL_TAG=$(call get_full_tag,$$SERVICE); \
 			echo "Pushing Docker image $$FULL_TAG"; \
-			docker buildx build $(BUILDX_FLAGS) -t $$FULL_TAG $$dir; \
+			if [ "$(GITHUB_WORKFLOW)" != "local" ]; then \
+				BUILDX_CACHE_FLAGS="--cache-from type=gha,scope=$$SERVICE --cache-to type=gha,mode=max,scope=$$SERVICE"; \
+			else \
+				BUILDX_CACHE_FLAGS=""; \
+			fi; \
+			docker buildx build $(BUILDX_FLAGS) $$BUILDX_FLAGS_EXTRA -t $$FULL_TAG $$dir; \
 		fi \
 	done
 
