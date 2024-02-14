@@ -144,7 +144,7 @@ def main():
             uploaded_files = st.file_uploader(
                 "Knowledge",
                 accept_multiple_files=True,
-                type=[".pdf", ".txt", ".json", ".md", ".html", ".log", ".rtf"],
+                type=[".pdf", ".txt", ".md", ".log", ".rtf"],
                 help="If you upload files for knowledge retrieval, conversations with your Assistant may include file contents. Upon Assistant creation, the file contents will be indexed for retrieval - this may take a moment.",
             )
 

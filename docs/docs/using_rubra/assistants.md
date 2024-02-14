@@ -28,11 +28,9 @@ You can also enable additional tools for your assistant:
 
 - **Browser**: Enable this to allow your assistant search and open links.
 - **Knowledge**: You can upload files here. If you do, conversations with your assistant may include file contents. This feature uses automated Retrieval-Augmented Generation (RAG) to enhance the assistant's responses with information from the uploaded files. Limited to the following file types:
-  - `.pdf`  
-  - `.json`
+  - `.pdf`
   - `.txt`
   - `.md`
-  - `.html`
   - `.log`
   - `.rtf`
 
