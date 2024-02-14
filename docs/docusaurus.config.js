@@ -52,7 +52,6 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        
         style: 'dark',
         logo: {
           alt: 'Acorn Logo',
@@ -106,6 +105,11 @@ const config = {
         darkTheme: darkCodeTheme,
         additionalLanguages: ['cue', 'docker'],
       },
+      algolia: {
+        appId: 'H0MZLFQYNN',
+        apiKey: '05ebe9667b7fbc5770fb052ad945646e',
+        indexName: 'rubra',
+      }
     }),
 };
 
