@@ -37,6 +37,13 @@ if "messages" not in st.session_state:
 default_index = 0
 welcome_assistant_label = "Assistant: Welcome Assistant"
 
+def escape_colons_for_display(text):
+    """
+    Escapes colons in the text to prevent Streamlit's markdown renderer
+    from interpreting them as emoji shortcodes.
+    """
+    return text.replace(":", "\\:")
+
 # Search for the "Welcome Assistant" in the entity options and set it as the default if found
 for i, (label, _) in enumerate(st.session_state.entity_options):
     if label == welcome_assistant_label:
@@ -64,7 +71,6 @@ else:
 
 # Set the session state only if a selection is made
 if selected_entity:
-    print("selected entity", selected_entity)
     st.session_state.selected_entity = selected_entity[1]
 
 
@@ -105,6 +111,7 @@ def run_websocket(channel, message_placeholder, thread_id, run_id):
                             function_call += content
                     else:  # check content
                         if content:
+                            escape_colons_for_display(content)
                             conversation += content
                             message_placeholder.markdown(conversation + "▌")
 
@@ -133,7 +140,6 @@ def run_websocket(channel, message_placeholder, thread_id, run_id):
 
     asyncio.new_event_loop().run_until_complete(connect())
 
-
 # Handle new chat input
 prompt = st.chat_input("Message Rubra...")
 
@@ -151,28 +157,29 @@ if st.button("Clear Chat"):
 # Display chat messages
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+        escaped_content = escape_colons_for_display(message["content"])
+        st.markdown(escaped_content)
 
 # Update the chat_started state as soon as there is a prompt
 if prompt:
     st.session_state.chat_started = True
+    escaped_prompt = escape_colons_for_display(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.chat_message("user"):
-        st.markdown(prompt)
+        st.markdown(escaped_prompt)
 
     # Determine the type of the selected entity and process accordingly
     if st.session_state.selected_entity.startswith("model_"):
         # Process chat with model
         model_id = st.session_state.selected_entity.split("model_")[1]
-        print(st.session_state.selected_entity)
         with st.chat_message("assistant"):
             message_placeholder = st.empty()
             full_response = ""
             logging.info(
                 "Start Time: %s", time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())
             )
-            print("running with model id", model_id)
+            logging.info("running with model id " + model_id)
             for response in rubra_client.chat.completions.create(
                 model=model_id,
                 messages=[
@@ -182,8 +189,8 @@ if prompt:
                 stream=True,
             ):
                 full_response += response.choices[0].delta.content or ""
-                message_placeholder.markdown(full_response + "▌")
-            message_placeholder.markdown(full_response)
+                message_placeholder.markdown(escape_colons_for_display(full_response) + "▌")
+            message_placeholder.markdown(escape_colons_for_display(full_response))
             logging.info(
                 "End Time: %s", time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())
             )
