@@ -68,7 +68,7 @@ services:
       context: ./services/backend/text_embedding_api
       dockerfile: Dockerfile
     container_name: text-embedding-api
-    image: ghcr.io/acorn-io/rubra/text_embedding_api:${RUBRA_TAG:-main}
+    image: ghcr.io/rubra-ai/rubra/text_embedding_api:${RUBRA_TAG:-main}
     ports:
       - '8020:8020'
     environment:
@@ -81,7 +81,7 @@ services:
       context: ./services/backend/vector_db_api
       dockerfile: Dockerfile
     container_name: vector-db-api
-    image: ghcr.io/acorn-io/rubra/vector_db_api:${RUBRA_TAG:-main}
+    image: ghcr.io/rubra-ai/rubra/vector_db_api:${RUBRA_TAG:-main}
     ports:
       - '8010:8010'
     environment:
@@ -95,7 +95,7 @@ services:
     build: 
       context: ./services/backend/task_executor
       dockerfile: Dockerfile_task_executor
-    image: ghcr.io/acorn-io/rubra/task_executor:${RUBRA_TAG:-main}
+    image: ghcr.io/rubra-ai/rubra/task_executor:${RUBRA_TAG:-main}
     container_name: task-executor
     environment:
       - REDIS_HOST=redis
@@ -115,7 +115,7 @@ services:
     build: 
       context: ./services/backend/api_server
       dockerfile: Dockerfile_backend
-    image: ghcr.io/acorn-io/rubra/api_server:${RUBRA_TAG:-main}
+    image: ghcr.io/rubra-ai/rubra/api_server:${RUBRA_TAG:-main}
     container_name: api-server
     environment:
       - REDIS_HOST=redis
@@ -133,7 +133,7 @@ services:
     build: 
       context: ./services/frontend/ui
       dockerfile: Dockerfile
-    image: ghcr.io/acorn-io/rubra/ui:${RUBRA_TAG:-main}
+    image: ghcr.io/rubra-ai/rubra/ui:${RUBRA_TAG:-main}
     container_name: ui 
     environment:
       - RUBRA_BACKEND_HOST=api-server
