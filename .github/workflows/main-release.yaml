@@ -40,3 +40,34 @@ jobs:
           ORG: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
           GITHUB_WORKFLOW: ${{ github.workflow }}
+
+  build-tauri:
+    runs-on: [macos-latest]
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Rust setup
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Rust Cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+
+      - name: Set up Nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
+      - name: Install frontend dependencies
+        run: cd tauri && npm install
+
+      - name: Tauri build
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          projectPath: "./tauri"
