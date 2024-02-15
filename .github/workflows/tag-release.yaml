@@ -59,8 +59,7 @@ jobs:
           node-version: "lts/*"
 
       - name: Install Frontend deps
-        run: |
-          npm install
+        run: cd tauri && npm install
 
       - name: Populate key
         run: |
