@@ -1,3 +1,5 @@
+.PHONY: create-tag
+
 TAG := $(or $(TAG),main)
 GITHUB_WORKFLOW := $(or $(GITHUB_WORKFLOW),local)
 REGISTRY := $(or $(REGISTRY),index.docker.io)
@@ -41,6 +43,18 @@ build_and_push_images:
 			docker buildx build $(BUILDX_FLAGS) $$BUILDX_FLAGS_EXTRA -t $$FULL_TAG $$dir; \
 		fi \
 	done
+
+create-tag:
+	@if [ -z "$(VERSION)" ]; then \
+		echo "VERSION is not set. Usage: make create-tag VERSION=x.y.z"; \
+		exit 1; \
+	fi
+	$(eval TAURI_VERSION := $(patsubst v%,%,$(VERSION)))
+	@jq '.package.version = "$(TAURI_VERSION)"' ./tauri/src-tauri/tauri.conf.json > temp.json && mv temp.json ./tauri/src-tauri/tauri.conf.json
+	@git add ./tauri/src-tauri/tauri.conf.json
+	@git commit -m "Update version to $(VERSION)"
+	@git tag -a "$(VERSION)" -m "Release $(VERSION)"
+	@echo "Tagged version $(VERSION)"
 
 init-docs:
 	docker run --rm --workdir=/docs -v $${PWD}/docs:/docs node:18-buster yarn install
