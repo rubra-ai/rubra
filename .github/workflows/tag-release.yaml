@@ -67,7 +67,7 @@ jobs:
 
       - name: get release version
         id: get_release_version
-        run: echo "TAG=${GITHUB_REF#refs/tags/}"" >>  $GITHUB_ENV
+        run: echo "TAG=${GITHUB_REF#refs/tags/}" >>  $GITHUB_ENV
 
       - name: Build the app
         uses: tauri-apps/tauri-action@v0
