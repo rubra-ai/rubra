@@ -93,5 +93,5 @@ jobs:
             github.rest.repos.updateRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              release_id: process.env.TAG,
+              release_id: tag/process.env.TAG,
             })
