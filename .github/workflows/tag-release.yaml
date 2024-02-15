@@ -67,7 +67,9 @@ jobs:
 
       - name: get release version
         id: get_release_version
-        run: echo "TAG=${GITHUB_REF#refs/tags/}" >>  $GITHUB_ENV
+        run: |
+          echo "TAG=${GITHUB_REF#refs/tags/}" >>  $GITHUB_ENV
+          echo "RELEASE=tag/${GITHUB_REF#refs/tags/}" >>  $GITHUB_ENV
 
       - name: Build the app
         uses: tauri-apps/tauri-action@v0
@@ -88,12 +90,10 @@ jobs:
       - name: publish release
         id: publish-release
         uses: actions/github-script@v7
-        env:
-          release_id: "tag/${TAG}"
         with:
           script: |
             github.rest.repos.updateRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              release_id: process.env.release_id,
+              release_id: process.env.RELEASE,
             })
