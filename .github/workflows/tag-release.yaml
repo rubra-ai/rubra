@@ -88,10 +88,12 @@ jobs:
       - name: publish release
         id: publish-release
         uses: actions/github-script@v7
+        env:
+          release_id: "tag/${TAG}"
         with:
           script: |
             github.rest.repos.updateRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              release_id: tag/process.env.TAG,
+              release_id: process.env.release_id,
             })
