@@ -22,6 +22,7 @@ struct RubraState {
     rubra_dir: PathBuf,
     llm_file: PathBuf,
     llm_process: Option<std::process::Child>,
+    app_version: String,
 }
 
 #[cfg(target_os = "windows")]
@@ -342,8 +343,9 @@ async fn rubra_event(
     event: &str,
     state: tauri::State<'_, Arc<Mutex<RubraState>>>,
 ) -> Result<Vec<(String, String)>, String> {
+    let version = state.lock().unwrap().app_version.clone();
     if event == "start" {
-        let _ = start_docker_containers();
+        let _ = start_docker_containers(&version);
         let _ = execute_rubra_llamafile(state);
     } else if event == "stop" {
         let _ = stop_docker_containers();
@@ -378,6 +380,7 @@ fn main() {
         rubra_dir: dirs::home_dir().unwrap().join(".rubra"),
         llm_file: dirs::home_dir().unwrap().join(".rubra").join(llamfile_name),
         llm_process: None,
+        app_version: "".to_string(),
     }));
 
     tauri::Builder::default()
@@ -416,6 +419,8 @@ fn main() {
                 }
                 Err(e) => eprintln!("Error: {}", e),
             }
+            let app_version = format!("v{}", app.package_info().version.to_string());
+            state.lock().unwrap().app_version = app_version.clone();
             state.lock().unwrap().rubra_dir = home_dir.join(".rubra");
             Ok(())
         })
