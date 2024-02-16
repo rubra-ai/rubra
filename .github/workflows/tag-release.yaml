@@ -47,6 +47,8 @@ jobs:
 
       - name: Rust setup
         uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
 
       - name: Rust Cache
         uses: swatinem/rust-cache@v2
@@ -74,12 +76,13 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
+            const tag = process.env.TAG;
             const release = await github.rest.repos.getReleaseByTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              tag: process.env.TAG
+              tag: tag
             });
-            echo "RELEASE_ID=${release.data.id}" >> $GITHUB_ENV
+            core.setOutput('release_id', release.data.id);
 
       - name: Build the app
         uses: tauri-apps/tauri-action@v0
@@ -95,6 +98,6 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
         with:
-          releaseId: ${process.env.RELEASE_ID}
-          args: --target universal-apple-darwin
+          releaseId: ${{ steps.get_release_id.outputs.release_id }}
+          args: "--target universal-apple-darwin"
           projectPath: ./tauri
