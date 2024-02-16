@@ -51,7 +51,7 @@ jobs:
       - name: Rust Cache
         uses: swatinem/rust-cache@v2
         with:
-          workspaces: "./tauri/src-tauri -> target"
+          workspaces: "./tauri/src-tauri"
 
       - name: Set up Nodejs
         uses: actions/setup-node@v4
@@ -69,6 +69,18 @@ jobs:
         id: get_release_version
         run: echo "TAG=${GITHUB_REF#refs/tags/}" >>  $GITHUB_ENV
 
+      - name: get release id
+        id: get_release_id
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const release = await github.rest.repos.getReleaseByTag({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag: process.env.TAG
+            });
+            echo "RELEASE_ID=${release.data.id}" >> $GITHUB_ENV
+
       - name: Build the app
         uses: tauri-apps/tauri-action@v0
         env:
@@ -83,15 +95,6 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
         with:
-          releaseId: ${process.env.TAG}
-
-      - name: publish release
-        id: publish-release
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.repos.updateRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              release_id: process.env.TAG,
-            })
+          releaseId: ${process.env.RELEASE_ID}
+          args: --target universal-apple-darwin
+          projectPath: ./tauri

@@ -7,10 +7,12 @@ pub fn start_docker_containers() -> Result<(), String> {
     let home_dir = dirs::home_dir().ok_or("Could not find the home directory.")?;
     let rubra_dir = home_dir.join(".rubra");
 
-    let mut version = env!("CARGO_PKG_VERSION");
-    if version == "0.0.0" {
-        version = "main"
-    }
+    let cargo_version = env!("CARGO_PKG_VERSION");
+    let version = if cargo_version == "0.0.0" {
+        "main".to_string()
+    } else {
+        format!("v{}", cargo_version)
+    };
 
     let status = Command::new("docker-compose")
         .args(["pull"])

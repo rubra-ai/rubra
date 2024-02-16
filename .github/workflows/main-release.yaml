@@ -55,7 +55,7 @@ jobs:
       - name: Rust Cache
         uses: swatinem/rust-cache@v2
         with:
-          workspaces: "./tauri/src-tauri -> target"
+          workspaces: "./tauri/src-tauri"
 
       - name: Set up Nodejs
         uses: actions/setup-node@v4
