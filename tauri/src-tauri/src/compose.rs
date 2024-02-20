@@ -2,6 +2,7 @@ use std::fs::{self, File};
 use std::io::Write;
 use std::path::PathBuf;
 use std::process::Command;
+use std::str;
 
 pub fn start_docker_containers(version: &String) -> Result<(), String> {
     let home_dir = dirs::home_dir().ok_or("Could not find the home directory.")?;
@@ -62,27 +63,26 @@ pub fn check_containers_status(network: &str) -> Result<Vec<(String, String)>, S
         .expect("Failed to inspect Docker network");
 
     if !output.status.success() {
-        return Err("Failed to get container IDs".to_string());
-    }
+        let stderr = str::from_utf8(&output.stderr).unwrap_or("").trim();
 
-    let container_ids = String::from_utf8(output.stdout).unwrap();
-    let mut container_statuses = Vec::new();
-
-    for container_id in container_ids.split_whitespace() {
-        let output = Command::new("docker")
-            .args(["inspect", "--format", "{{.State.Status}}", container_id])
-            .output()
-            .expect("Failed to inspect container");
-
-        if output.status.success() {
-            let status = String::from_utf8(output.stdout).unwrap();
-            container_statuses.push((container_id.to_string(), status));
-        } else {
-            container_statuses.push((container_id.to_string(), "unknown".to_string()));
+        // Check if the stderr contains specific error text
+        if stderr.contains("Cannot connect to the Docker daemon") {
+            return Err("Docker stopped".to_string());
         }
+
+        // For other errors, you can return or handle them as needed
+        return Err("No Rubra containers are running".to_string());
     }
 
-    Ok(container_statuses)
+    let stdout = str::from_utf8(&output.stdout).unwrap_or("").trim();
+    // Split the stdout by whitespace and create a vector of tuples
+    // Assuming each container name is followed by a status or similar property, adjust accordingly
+    let containers = stdout
+        .split_whitespace()
+        .map(|name| (name.to_string(), "Unknown Status".to_string())) // Placeholder for actual status
+        .collect::<Vec<(String, String)>>();
+
+    Ok(containers)
 }
 
 pub fn write_compose_yaml(rubra_dir: &PathBuf, compose_resource: &PathBuf) -> Result<(), String> {

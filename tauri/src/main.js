@@ -70,6 +70,7 @@ function startRubra() {
     })
     .catch((error) => {
       console.error('Error:', error);
+      updateRubraStatus();
     });
 }
 
@@ -80,26 +81,42 @@ function stopRubra() {
     })
     .catch((error) => {
       console.error('Error:', error);
+      updateRubraStatus();
     });
 }
 
 function updateRubraStatus() {
-  const rubraLlamafileReadyPromise = window.__TAURI__.invoke('check_rubra_llamafile_ready');
-  const rubraContainerStatusPromise = window.__TAURI__.invoke('check_rubra_container_status');
+  const rubraLlamafileReadyPromise = window.__TAURI__.invoke('check_rubra_llamafile_ready')
+    .catch((error) => ({ error, 'type': 'llamafile' }));
+  const rubraContainerStatusPromise = window.__TAURI__.invoke('check_rubra_container_status')
+    .catch((error) => ({ error, 'type': 'container' }));
 
   Promise.all([rubraLlamafileReadyPromise, rubraContainerStatusPromise])
     .then(([llamafileReadyResult, rubraStatusResult]) => {
-      updateModelStatus(true);
+      const buttonStatuses = { "start": false, "ui": false };
 
-      let status = checkContainerHealthy(rubraStatusResult);
-      updateContainerStatus(status);
-      updateFooterButtons(status);
+      if (llamafileReadyResult.error) {
+        updateModelStatus(false, `${llamafileReadyResult.error}`);
+      } else {
+        buttonStatuses.start = true;
+        updateModelStatus(true);
+      }
+
+      if (rubraStatusResult.error) {
+        updateContainerStatus(false, `${rubraStatusResult.error}`);
+      } else {
+        buttonStatuses.start = true;
+        updateContainerStatus(true);
+      }
+
+      if (llamafileReadyResult.error || rubraStatusResult.error) {
+        return updateFooterButtons(buttonStatuses);
+      }
+      buttonStatuses.ui = true;
+      updateFooterButtons(buttonStatuses);
     })
     .catch((error) => {
       console.warn('warn:', error)
-      updateContainerStatus(false);
-      updateFooterButtons(false);
-      updateModelStatus(false);
     });
 }
 
@@ -115,22 +132,23 @@ function checkContainerHealthy(containers) {
   return true;
 }
 
-function updateFooterButtons(status) {
+function updateFooterButtons(statuses) {
   const rubraAction = document.getElementById('rubra-action');
   const uiBtn = document.getElementById('ui-btn');
 
-  if (status) {
+  if (statuses.start) {
     rubraAction.textContent = 'Stop Rubra';
     rubraAction.setAttribute('data-action', 'stop');
     rubraAction.style.display = 'inline';
     rubraAction.disabled = false;
     rubraAction.classList.remove('disabled');
-
-    uiBtn.style.display = 'inline';
   } else {
     rubraAction.textContent = 'Start Rubra';
     rubraAction.setAttribute('data-action', 'start');
-
+  }
+  if (statuses.ui) {
+    uiBtn.style.display = 'inline';
+  } else {
     uiBtn.style.display = 'none';
   }
 }
@@ -144,16 +162,16 @@ function getStatusColor(status) {
   }
 }
 
-function updateModelStatus(isHealthy) {
+function updateModelStatus(isHealthy, unhealthyMessage = 'unhealthy') {
   const modelStatusText = document.getElementById('model-status-text');
   const modelStatusDot = modelStatusText.previousElementSibling;
   modelStatusDot.className = `status-dot ${isHealthy ? 'healthy' : 'unhealthy'}`; // Update class to reflect current status
-  modelStatusText.textContent = `Model Status: ${isHealthy ? 'Healthy' : 'Unhealthy'}`;
+  modelStatusText.textContent = `Model Status: ${isHealthy ? 'Healthy' : unhealthyMessage}`;
 }
 
-function updateContainerStatus(isHealthy) {
+function updateContainerStatus(isHealthy, unhealthyMessage = 'unhealthy') {
   const containerStatusText = document.querySelector('#container-statuses p');
   const containerStatusDot = containerStatusText.previousElementSibling; // Assuming the dot is the next sibling
   containerStatusDot.className = `status-dot ${isHealthy ? 'healthy' : 'unhealthy'}`; // Update class to reflect current status
-  containerStatusText.textContent = `Container Status: ${isHealthy ? 'Healthy' : 'Unhealthy'}`;
+  containerStatusText.textContent = `Container Status: ${isHealthy ? 'Healthy' : unhealthyMessage}`;
 }
