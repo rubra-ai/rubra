@@ -4,12 +4,12 @@ FROM rancher/opni-python-base:3.8-torch
 WORKDIR /app
 
 # Copy the requirements and install them
-COPY requirements.txt .
+COPY ./services/backend/text_embedding_api/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the specific files
-COPY text_embedding_service.py .
-COPY api_server.py .
+COPY ./services/backend/text_embedding_api/text_embedding_service.py .
+COPY ./services/backend/text_embedding_api/api_server.py .
 
 # Expose the default port for FastAPI
 EXPOSE 8020

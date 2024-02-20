@@ -16,7 +16,7 @@ build_images:
 			SERVICE=$$(basename $$dir); \
 			FULL_TAG=$(call get_full_tag,$$SERVICE); \
 			echo "Building Docker image $$FULL_TAG"; \
-			docker build -t $$FULL_TAG $$dir; \
+			docker build -t $$FULL_TAG -f $$dir/Dockerfile .; \
 		else \
 			if [ -d "$$dir" ]; then \
 				echo "Skipping $$dir, no Dockerfile found."; \
@@ -24,7 +24,7 @@ build_images:
 		fi \
 	done
 
-build_and_push_images: 
+build_and_push_images:
 	@if [ -z "$(REGISTRY)" ] || [ -z "$(ORG)" ]; then \
 		echo "Error: REGISTRY and ORG must be set to push images."; \
 		exit 1; \

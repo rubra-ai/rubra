@@ -14,6 +14,7 @@ services:
       COMMON_STORAGETYPE: 'local'
     volumes:
       - milvus:/var/lib/milvus
+      - ./milvus.yaml:/milvus/configs/milvus.yaml
       - etcd:/etcd
       - ${DOCKER_VOLUME_DIRECTORY:-.}/embedEtcd.yaml:/milvus/configs/embedEtcd.yaml
     healthcheck:
@@ -64,9 +65,9 @@ services:
       - rubra
 
   text-embedding-api:
-    build: 
-      context: ./services/backend/text_embedding_api
-      dockerfile: Dockerfile
+    build:
+      context: ./
+      dockerfile: ./services/backend/text_embedding_api/Dockerfile
     container_name: text-embedding-api
     image: ghcr.io/rubra-ai/rubra/text_embedding_api:${RUBRA_TAG:-main}
     ports:
@@ -77,9 +78,9 @@ services:
       - rubra
 
   vector-db-api:
-    build: 
-      context: ./services/backend/vector_db_api
-      dockerfile: Dockerfile
+    build:
+      context: ./
+      dockerfile: ./services/backend/vector_db_api/Dockerfile
     container_name: vector-db-api
     image: ghcr.io/rubra-ai/rubra/vector_db_api:${RUBRA_TAG:-main}
     ports:
@@ -92,9 +93,9 @@ services:
 
 
   task-executor:
-    build: 
-      context: ./services/backend/task_executor
-      dockerfile: Dockerfile_task_executor
+    build:
+      context: ./
+      dockerfile: ./services/backend/task_executor/Dockerfile
     image: ghcr.io/rubra-ai/rubra/task_executor:${RUBRA_TAG:-main}
     container_name: task-executor
     environment:
@@ -112,9 +113,9 @@ services:
 
 
   api-server:
-    build: 
-      context: ./services/backend/api_server
-      dockerfile: Dockerfile_backend
+    build:
+      context: ./
+      dockerfile: ./services/backend/api_server/Dockerfile
     image: ghcr.io/rubra-ai/rubra/api_server:${RUBRA_TAG:-main}
     container_name: api-server
     environment:
@@ -130,11 +131,11 @@ services:
       - rubra
 
   ui:
-    build: 
-      context: ./services/frontend/ui
-      dockerfile: Dockerfile
+    build:
+      context: ./
+      dockerfile: ./services/frontend/ui/Dockerfile
     image: ghcr.io/rubra-ai/rubra/ui:${RUBRA_TAG:-main}
-    container_name: ui 
+    container_name: ui
     environment:
       - RUBRA_BACKEND_HOST=api-server
     ports:

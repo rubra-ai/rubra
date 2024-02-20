@@ -1,4 +1,8 @@
 # backend_models.py
+# Standard Library
+from typing import Any, Dict, List, Optional, Union
+
+# Third Party
 from beanie import Document
 from pydantic import (
     AnyUrl,
@@ -10,21 +14,25 @@ from pydantic import (
     conint,
     constr,
 )
-from typing import Any, Dict, List, Optional, Union
+
 from .models import (
     AssistantFileObject,
+    AssistantToolsBrowser,
+    AssistantToolsCode,
     AssistantToolsFunction,
+    AssistantToolsRetrieval,
     CreateAssistantRequest,
     FineTuningJob,
     ImagesResponse,
     LastError,
+    LastError1,
     ListAssistantFilesResponse,
     ListFilesResponse,
     ListFineTuneEventsResponse,
+    MessageContentImageFileObject,
+    MessageContentTextObject,
     Object7,
     Object14,
-    Purpose1,
-    Status,
     Object20,
     Object21,
     Object22,
@@ -33,26 +41,24 @@ from .models import (
     Object25,
     Object27,
     Object28,
+    Purpose1,
     RequiredAction,
     Role7,
     Role8,
-    Type16,
+    RunStepDetailsMessageCreationObject,
+    RunStepDetailsToolCallsObject,
+    Status,
     Status2,
     Status3,
-    LastError1,
-    MessageContentTextObject,
-    MessageContentImageFileObject,
-    RunStepDetailsMessageCreationObject, 
-    RunStepDetailsToolCallsObject,
-    AssistantToolsCode,
-    AssistantToolsRetrieval,
-    AssistantToolsFunction,
-    AssistantToolsBrowser
+    Type16,
 )
+
 
 class AssistantObject(Document):
     assistant_id: str = Field(
-        ..., description="The identifier, which can be referenced in API endpoints.", alias="id"
+        ...,
+        description="The identifier, which can be referenced in API endpoints.",
+        alias="id",
     )
     object: Object20 = Field(
         ..., description="The object type, which is always `assistant`."
@@ -78,7 +84,12 @@ class AssistantObject(Document):
         description="The system instructions that the assistant uses. The maximum length is 32768 characters.\n",
     )
     tools: List[
-        Union[AssistantToolsCode, AssistantToolsRetrieval, AssistantToolsFunction, AssistantToolsBrowser]
+        Union[
+            AssistantToolsCode,
+            AssistantToolsRetrieval,
+            AssistantToolsFunction,
+            AssistantToolsBrowser,
+        ]
     ] = Field(
         ...,
         description="A list of tool enabled on the assistant. There can be a maximum of 128 tools per assistant. Tools can be of types `code_interpreter`, `retrieval`, or `function`.\n",
@@ -97,6 +108,7 @@ class AssistantObject(Document):
     class Settings:
         name = "assistants"
 
+
 class ListAssistantsResponse(BaseModel):
     object: str = Field(..., example="list")
     data: List[AssistantObject]
@@ -104,9 +116,12 @@ class ListAssistantsResponse(BaseModel):
     last_id: str = Field(..., example="asst_QLoItBbqwyAJEzlTy4y9kOMM")
     has_more: bool = Field(..., example=False)
 
+
 class ThreadObject(Document):
     thread_id: str = Field(
-        ..., description="The identifier, which can be referenced in API endpoints.", alias="id"
+        ...,
+        description="The identifier, which can be referenced in API endpoints.",
+        alias="id",
     )
     object: Object23 = Field(
         ..., description="The object type, which is always `thread`."
@@ -117,15 +132,18 @@ class ThreadObject(Document):
     )
     metadata: Dict[str, Any] = Field(
         ...,
-        description="Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maximum of 512 characters long."
+        description="Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maximum of 512 characters long.",
     )
 
     class Settings:
         name = "threads"
 
+
 class MessageObject(Document):
     message_id: str = Field(
-        ..., description="The identifier, which can be referenced in API endpoints.", alias="id"
+        ...,
+        description="The identifier, which can be referenced in API endpoints.",
+        alias="id",
     )
     object: Object25 = Field(
         ..., description="The object type, which is always `thread.message`."
@@ -168,6 +186,7 @@ class MessageObject(Document):
     class Settings:
         name = "messages"
 
+
 class ListMessagesResponse(BaseModel):
     object: str = Field(..., example="list")
     data: List[MessageObject]
@@ -175,9 +194,12 @@ class ListMessagesResponse(BaseModel):
     last_id: str = Field(..., example="msg_QLoItBbqwyAJEzlTy4y9kOMM")
     has_more: bool = Field(..., example=False)
 
+
 class RunObject(Document):
     run_id: str = Field(
-        ..., description="The identifier, which can be referenced in API endpoints.", alias="id"
+        ...,
+        description="The identifier, which can be referenced in API endpoints.",
+        alias="id",
     )
     object: Object22 = Field(
         ..., description="The object type, which is always `thread.run`."
@@ -206,10 +228,12 @@ class RunObject(Document):
         description="The last error associated with this run. Will be `null` if there are no errors.",
     )
     expires_at: int = Field(
-        None, description="The Unix timestamp (in seconds) for when the run will expire."
+        None,
+        description="The Unix timestamp (in seconds) for when the run will expire.",
     )
     started_at: int = Field(
-        None, description="The Unix timestamp (in seconds) for when the run was started."
+        None,
+        description="The Unix timestamp (in seconds) for when the run was started.",
     )
     cancelled_at: int = Field(
         None,
@@ -231,7 +255,12 @@ class RunObject(Document):
         description="The instructions that the [assistant](/docs/api-reference/assistants) used for this run.",
     )
     tools: List[
-        Union[AssistantToolsCode, AssistantToolsRetrieval, AssistantToolsFunction, AssistantToolsBrowser]
+        Union[
+            AssistantToolsCode,
+            AssistantToolsRetrieval,
+            AssistantToolsFunction,
+            AssistantToolsBrowser,
+        ]
     ] = Field(
         ...,
         description="The list of tools that the [assistant](/docs/api-reference/assistants) used for this run.",
@@ -250,11 +279,11 @@ class RunObject(Document):
         name = "runs"
 
 
-
 class OpenAIFile(Document):
     file_id: str = Field(
         ...,
-        description="The file identifier, which can be referenced in the API endpoints.", alias="id"
+        description="The file identifier, which can be referenced in the API endpoints.",
+        alias="id",
     )
     bytes: int = Field(..., description="The size of the file, in bytes.")
     created_at: int = Field(
@@ -277,29 +306,34 @@ class OpenAIFile(Document):
         None,
         description="Deprecated. For details on why a fine-tuning training file failed validation, see the `error` field on `fine_tuning.job`.",
     )
-    
+
     class Settings:
         name = "files"
+
 
 class ListFilesResponse(BaseModel):
     data: List[OpenAIFile]
     object: Object7
 
+
 class FilesStorageObject(Document):
     file_id: str = Field(
         ...,
-        description="The file identifier, which can be referenced in the API endpoints.", alias="id"
+        description="The file identifier, which can be referenced in the API endpoints.",
+        alias="id",
     )
     content: bytes = Field(..., description="The file content")
     content_type: str = Field(..., description="The file content type")
-    
+
     class Settings:
         name = "files_storage"
 
 
 class AssistantFileObject(Document):
     file_id: str = Field(
-        ..., description="The identifier, which can be referenced in API endpoints." , alias="id"
+        ...,
+        description="The identifier, which can be referenced in API endpoints.",
+        alias="id",
     )
     object: Object28 = Field(
         ..., description="The object type, which is always `assistant.file`."
@@ -311,7 +345,7 @@ class AssistantFileObject(Document):
     assistant_id: str = Field(
         ..., description="The assistant ID that the file is attached to."
     )
-    
+
     class Settings:
         name = "assistant_files"
 
@@ -322,12 +356,13 @@ class ListAssistantFilesResponse(BaseModel):
     first_id: str = Field(..., example="file-hLBK7PXBv5Lr2NQT7KLY0ag1")
     last_id: str = Field(..., example="file-QLoItBbqwyAJEzlTy4y9kOMM")
     has_more: bool = Field(..., example=False)
-    
+
 
 class RunStepObject(Document):
     run_step_id: str = Field(
         ...,
-        description="The identifier of the run step, which can be referenced in API endpoints.", alias="id"
+        description="The identifier of the run step, which can be referenced in API endpoints.",
+        alias="id",
     )
     object: Object27 = Field(
         ..., description="The object type, which is always `thread.run.step``."
@@ -382,6 +417,7 @@ class RunStepObject(Document):
         ...,
         description="Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maxium of 512 characters long.\n",
     )
+
     class Settings:
         name = "run_steps"
 
@@ -392,18 +428,19 @@ class ListRunStepsResponse(BaseModel):
     first_id: str = Field(..., example="step_hLBK7PXBv5Lr2NQT7KLY0ag1")
     last_id: str = Field(..., example="step_QLoItBbqwyAJEzlTy4y9kOMM")
     has_more: bool = Field(..., example=False)
-    
-    
+
+
 class ListRunsResponse(BaseModel):
     object: str = Field(..., example="list")
     data: List[RunObject]
     first_id: str = Field(..., example="run_hLBK7PXBv5Lr2NQT7KLY0ag1")
     last_id: str = Field(..., example="run_QLoItBbqwyAJEzlTy4y9kOMM")
     has_more: bool = Field(..., example=False)
-    
+
 
 class FileUpload(BaseModel):
     purpose: str
+
 
 class ApiKeysUpdateModel(BaseModel):
     OPENAI_API_KEY: Optional[bool] = None

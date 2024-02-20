@@ -4,7 +4,7 @@ FROM python:3.10.7-slim
 WORKDIR /app
 
 # First, add only the requirements file (to leverage Docker cache)
-ADD requirements.txt /app/
+ADD ./services/backend/task_executor/requirements.txt /app/
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
@@ -15,10 +15,12 @@ RUN playwright install-deps
 
 # Add the current directory contents into the container at /app
 # This is done after installing dependencies to leverage Docker's cache
-ADD . /app
+COPY ./services/backend/task_executor /app
+COPY ./core/ /app/core
+WORKDIR /app
 
 # Set environment variables
 ENV OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 # Run app.py when the container launches
-CMD ["celery", "-A", "app.tasks", "worker", "--loglevel=info"]
+CMD ["celery", "-A", "core.tasks.tasks", "worker", "--loglevel=info"]

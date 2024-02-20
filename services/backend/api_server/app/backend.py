@@ -12,17 +12,7 @@ import aioredis
 import requests
 from beanie import init_beanie
 from celery import Celery
-from fastapi import FastAPI, Form, HTTPException, UploadFile, WebSocket
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
-from fastapi.websockets import WebSocketState
-from motor.motor_asyncio import AsyncIOMotorClient
-from openai import OpenAI
-from pydantic import BaseModel
-from pymongo import ASCENDING, DESCENDING
-from starlette.websockets import WebSocketDisconnect
-
-from .backend_models import (
+from core.data_models.backend_models import (
     ApiKeysUpdateModel,
     AssistantFileObject,
     AssistantObject,
@@ -40,14 +30,7 @@ from .backend_models import (
     RunStepObject,
     ThreadObject,
 )
-
-from .helpers import (
-    generate_assistant_id,
-    generate_message_id,
-    generate_run_id,
-    generate_thread_id,
-)
-from .models import (
+from core.data_models.models import (
     AssistantToolsBrowser,
     AssistantToolsRetrieval,
     CreateAssistantFileRequest,
@@ -99,6 +82,26 @@ from .models import (
     Type8,
     Type13,
     Type824,
+)
+from core.tools.knowledge.vector_db.milvus.operations import (
+    delete_docs,
+    drop_collection,
+)
+from fastapi import FastAPI, Form, HTTPException, UploadFile, WebSocket
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
+from fastapi.websockets import WebSocketState
+from motor.motor_asyncio import AsyncIOMotorClient
+from openai import OpenAI
+from pydantic import BaseModel
+from pymongo import ASCENDING, DESCENDING
+from starlette.websockets import WebSocketDisconnect
+
+from .helpers import (
+    generate_assistant_id,
+    generate_message_id,
+    generate_run_id,
+    generate_thread_id,
 )
 
 litellm_host = os.getenv("LITELLM_HOST", "localhost")
@@ -355,15 +358,23 @@ async def modify_assistant(
 
     # Update the assistant object with new data from the request
     existing_assistant.model = body.model if body.model else existing_assistant.model
-    existing_assistant.instructions = body.instructions if body.instructions else existing_assistant.instructions
-    existing_assistant.description = body.description if body.description else existing_assistant.description
-    
-    existing_assistant.metadata = body.metadata if body.metadata else existing_assistant.metadata
+    existing_assistant.instructions = (
+        body.instructions if body.instructions else existing_assistant.instructions
+    )
+    existing_assistant.description = (
+        body.description if body.description else existing_assistant.description
+    )
+
+    existing_assistant.metadata = (
+        body.metadata if body.metadata else existing_assistant.metadata
+    )
     existing_assistant.name = body.name if body.name else existing_assistant.name
     existing_assistant.tools = body.tools if body.tools else existing_assistant.tools
 
     # TODO: take care of assistant file creation and deletion.
-    existing_assistant.file_ids = body.file_ids if body.file_ids else existing_assistant.file_ids
+    existing_assistant.file_ids = (
+        body.file_ids if body.file_ids else existing_assistant.file_ids
+    )
 
     # Save the updated assistant to MongoDB
     await existing_assistant.save()
@@ -391,9 +402,6 @@ async def delete_assistant(assistant_id: str) -> DeleteAssistantResponse:
 
     # Delete assistant files
     if existing_assistant.file_ids:
-        # Local
-        from app.vector_db.milvus.main import drop_collection
-        
         for file_id in existing_assistant.file_ids:
             try:
                 existing_assistant_file = await AssistantFileObject.find_one(
@@ -401,18 +409,22 @@ async def delete_assistant(assistant_id: str) -> DeleteAssistantResponse:
                 )
                 if existing_assistant_file:
                     await existing_assistant_file.delete()
-                    logging.info(f"assistant file {file_id} for assistant {assistant_id} deleted")
+                    logging.info(
+                        f"assistant file {file_id} for assistant {assistant_id} deleted"
+                    )
                 else:
                     logging.warning(
                         f"assistant file {file_id} for assistant {assistant_id} not found"
                     )
             except Exception as e:
                 logging.error(f"Error in deleting assistant file {file_id}: {e}")
-        
+
         try:
             drop_collection(assistant_id)
         except Exception as e:
-            logging.error(f"Error in dropping asst {assistant_id}'s file vector db collection: {e}")
+            logging.error(
+                f"Error in dropping asst {assistant_id}'s file vector db collection: {e}"
+            )
 
     # Delete the assistant from MongoDB
     await existing_assistant.delete()
@@ -874,7 +886,7 @@ async def create_run(thread_id: str, body: CreateRunRequest) -> RunObject:
     # Dispatch the task and set initial run status to 'queued'
     redis_channel = f"{thread_id}"
     celery_app.send_task(
-        "app.tasks.execute_chat_completion",
+        "core.tasks.tasks.execute_chat_completion",
         args=[body.assistant_id, thread_id, redis_channel, run_id],
     )
 
@@ -1274,8 +1286,8 @@ async def create_assistant_file(
 async def _create_assistant_file(
     assistant_id: str, file_id: str
 ) -> AssistantFileObject:
-    # Local
-    from app.tasks import execute_asst_file_create
+    # Third Party
+    from core.tasks.tasks import execute_asst_file_create
 
     # Check if the assistant exists
     existing_assistant = await AssistantObject.find_one({"id": assistant_id})
@@ -1376,9 +1388,6 @@ async def delete_assistant_file(
 async def _delete_assistant_file(
     assistant_id: str, file_id: str
 ) -> DeleteAssistantFileResponse:
-    # Local
-    from app.vector_db.milvus.main import delete_docs
-
     existing_assistant = await AssistantObject.find_one({"id": assistant_id})
     if not existing_assistant:
         raise HTTPException(
