@@ -40,6 +40,7 @@ from .backend_models import (
     RunStepObject,
     ThreadObject,
 )
+
 from .helpers import (
     generate_assistant_id,
     generate_message_id,
@@ -353,11 +354,16 @@ async def modify_assistant(
         )
 
     # Update the assistant object with new data from the request
-    updated_fields = body.dict(exclude_unset=True)
-    for key, value in updated_fields.items():
-        setattr(existing_assistant, key, value)
+    existing_assistant.model = body.model if body.model else existing_assistant.model
+    existing_assistant.instructions = body.instructions if body.instructions else existing_assistant.instructions
+    existing_assistant.description = body.description if body.description else existing_assistant.description
+    
+    existing_assistant.metadata = body.metadata if body.metadata else existing_assistant.metadata
+    existing_assistant.name = body.name if body.name else existing_assistant.name
+    existing_assistant.tools = body.tools if body.tools else existing_assistant.tools
 
     # TODO: take care of assistant file creation and deletion.
+    existing_assistant.file_ids = body.file_ids if body.file_ids else existing_assistant.file_ids
 
     # Save the updated assistant to MongoDB
     await existing_assistant.save()
@@ -387,18 +393,26 @@ async def delete_assistant(assistant_id: str) -> DeleteAssistantResponse:
     if existing_assistant.file_ids:
         # Local
         from app.vector_db.milvus.main import drop_collection
-
+        
         for file_id in existing_assistant.file_ids:
-            existing_assistant_file = await AssistantFileObject.find_one(
-                {"id": file_id, "assistant_id": assistant_id}
-            )
-            if existing_assistant_file:
-                await existing_assistant_file.delete()
-            else:
-                logging.warning(
-                    f"assistant file {file_id} for assistant {assistant_id} not found"
+            try:
+                existing_assistant_file = await AssistantFileObject.find_one(
+                    {"id": file_id, "assistant_id": assistant_id}
                 )
-        drop_collection(assistant_id)
+                if existing_assistant_file:
+                    await existing_assistant_file.delete()
+                    logging.info(f"assistant file {file_id} for assistant {assistant_id} deleted")
+                else:
+                    logging.warning(
+                        f"assistant file {file_id} for assistant {assistant_id} not found"
+                    )
+            except Exception as e:
+                logging.error(f"Error in deleting assistant file {file_id}: {e}")
+        
+        try:
+            drop_collection(assistant_id)
+        except Exception as e:
+            logging.error(f"Error in dropping asst {assistant_id}'s file vector db collection: {e}")
 
     # Delete the assistant from MongoDB
     await existing_assistant.delete()
