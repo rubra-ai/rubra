@@ -39,10 +39,8 @@ Our RAG pipeline uses an embedding model. If you're running in quickstart mode, 
 
 #### How do I force remove data?
 
-If you need to remove all Rubra data, you can use the following commands:
+If you need to [remove all Rubra data](/installation/uninstall), you can use the following command:
 
 ```bash
-docker volume rm rubra_etcd
-docker volume rm rubra_milvus
-docker volume rm rubra_mongodb
+curl -sfL https://get.rubra.ai | sh -s -- delete
 ```
