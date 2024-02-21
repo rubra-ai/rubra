@@ -28,7 +28,7 @@ Rubra ships with an optimized LLM and includes built-in tools to get you started
 Rubra runs on your machine. Additionally, your chat history and the files you use for knowledge retrieval (RAG) never leave your machine.
 
 #### Does Rubra support other models?
-Yes, Rubra supports OpenAI and Anthropic models in addition to the Rubra local model or one that [you configure yourself](https://github.com/acorn-io/rubra/tree/main/deploy_local_llm). We are working on introducing larger, more capable local models in the near future.
+Yes, Rubra supports OpenAI and Anthropic models in addition to the Rubra local model or one that [you configure yourself](https://github.com/rubra-ai/rubra/tree/main/deploy_local_llm). We are working on introducing larger, more capable local models in the near future.
 
 #### Why isn't knowledge retrieval working?
 Our RAG pipeline uses an embedding model. If you're running in quickstart mode, the model is running on CPU and could be very slow, depending on machine. If you just created the assistant, it may take a few minutes to index the knowledge base. If you're still having issues, please check the logs for any errors.

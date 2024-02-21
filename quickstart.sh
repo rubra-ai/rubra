@@ -174,14 +174,14 @@ check_rubra_llamafile_ready() {
 
 # --- download docker-compose.yml ---
 download_docker_compose_yml() {
-    DOCKER_COMPOSE_URL="https://raw.githubusercontent.com/acorn-io/rubra/main/docker-compose.yml"
+    DOCKER_COMPOSE_URL="https://raw.githubusercontent.com/rubra-ai/rubra/main/docker-compose.yml"
     info "Downloading docker-compose.yml from $DOCKER_COMPOSE_URL"
     curl -sSL "$DOCKER_COMPOSE_URL" -o docker-compose.yml || fatal "Failed to download docker-compose.yml"
 }
 
 # --- download llm-config.yaml ---
 download_llm_config_yaml() {
-    LLM_CONFIG_URL="https://raw.githubusercontent.com/acorn-io/rubra/main/llm-config.yaml"
+    LLM_CONFIG_URL="https://raw.githubusercontent.com/rubra-ai/rubra/main/llm-config.yaml"
     info "Downloading llm-config.yaml from $LLM_CONFIG_URL"
     curl -sSL "$LLM_CONFIG_URL" -o llm-config.yaml || fatal "Failed to download llm-config.yaml"
 }

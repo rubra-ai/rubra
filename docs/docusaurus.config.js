@@ -34,7 +34,7 @@ const config = {
           sidebarPath: require.resolve("./sidebars.js"),
           routeBasePath: "/",
           editUrl:
-            'https://github.com/acorn-io/rubra/tree/main/docs',
+            'https://github.com/rubra-ai/rubra/tree/main/docs',
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
@@ -72,7 +72,7 @@ const config = {
             target: '_self',
           },
           {
-            to: 'https://github.com/acorn-io/rubra',
+            to: 'https://github.com/rubra-ai/rubra',
             label: 'GitHub',
             position: 'right',
           }
