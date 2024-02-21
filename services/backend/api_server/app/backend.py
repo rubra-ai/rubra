@@ -371,13 +371,39 @@ async def modify_assistant(
     existing_assistant.name = body.name if body.name else existing_assistant.name
     existing_assistant.tools = body.tools if body.tools else existing_assistant.tools
 
-    # TODO: take care of assistant file creation and deletion.
+    existing_file_ids = set(existing_assistant.file_ids)
+    body_file_ids = set(body.file_ids)
+    file_ids_to_add = body_file_ids - existing_file_ids
+    file_ids_to_remove = existing_file_ids - body_file_ids
+
     existing_assistant.file_ids = (
         body.file_ids if body.file_ids else existing_assistant.file_ids
     )
 
     # Save the updated assistant to MongoDB
     await existing_assistant.save()
+
+    # take care of adding/deleting file_ids
+    for file_id in file_ids_to_add:
+        try:
+            logging.info(
+                f"Modify Assistant: Adding file {file_id} to assistant {assistant_id}"
+            )
+            await _create_assistant_file(assistant_id=assistant_id, file_id=file_id)
+        except Exception as e:
+            logging.error(
+                f"Modify Assistant: Error in adding file {file_id} to assistant {assistant_id}: {e}"
+            )
+    for file_id in file_ids_to_remove:
+        try:
+            logging.info(
+                f"Modify Assistant: Removing file {file_id} from assistant {assistant_id}"
+            )
+            await _delete_assistant_file(assistant_id=assistant_id, file_id=file_id)
+        except Exception as e:
+            logging.error(
+                f"Modify Assistant: Error in removing file {file_id} from assistant {assistant_id}: {e}"
+            )
 
     return existing_assistant
 
@@ -1405,16 +1431,23 @@ async def _delete_assistant_file(
 
     await existing_assistant_file.delete()
 
-    existing_assistant.file_ids = [
-        x for x in existing_assistant.file_ids if x != file_id
-    ]
-    if len(existing_assistant.file_ids) == 0:
+    if file_id in existing_assistant.file_ids:
+        existing_assistant.file_ids = [
+            x for x in existing_assistant.file_ids if x != file_id
+        ]
+
+    has_retrieval_tool = any(
+        tool.type.value == Type8.retrieval.value for tool in existing_assistant.tools
+    )
+    if len(existing_assistant.file_ids) == 0 and has_retrieval_tool:
         existing_assistant.tools = [
-            x for x in existing_assistant.tools if x.type.value != Type8.retrieval.value
+            tool
+            for tool in existing_assistant.tools
+            if tool.type.value != Type8.retrieval.value
         ]
     await existing_assistant.save()
-    # await existing_assistant.update({"$set": {"file_ids": cleaned_file_ids}})
 
+    # delete docs in vector db
     expr = f"file_id == '{file_id}'"
     delete_docs(collection_name=assistant_id, expr=expr)
 
