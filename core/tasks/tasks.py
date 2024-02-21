@@ -20,18 +20,16 @@ from datetime import datetime
 # Third Party
 import redis
 from celery import Celery, shared_task, signals
-from openai import OpenAI
-from pymongo import MongoClient
-
-# Local
-from app.backend_models import (
+from core.data_models.backend_models import (
     AssistantObject,
     FilesStorageObject,
     MessageObject,
     RunStepObject,
 )
-from app.local_model import RubraLocalAgent
-from app.models import Role7, Status2, Type8, Type824
+from core.data_models.models import Role7, Status2, Type8, Type824
+from core.local_model import RubraLocalAgent
+from openai import OpenAI
+from pymongo import MongoClient
 
 litellm_host = os.getenv("LITELLM_HOST", "localhost")
 redis_host = os.getenv("REDIS_HOST", "localhost")
@@ -39,8 +37,8 @@ mongodb_host = os.getenv("MONGODB_HOST", "localhost")
 
 redis_client = redis.Redis(host=redis_host, port=6379, db=0)
 app = Celery("tasks", broker=f"redis://{redis_host}:6379/0")
-app.config_from_object("app.celery_config")
-app.autodiscover_tasks(["app"])  # Explicitly discover tasks in 'app' package
+app.config_from_object("core.tasks.celery_config")
+app.autodiscover_tasks(["core.tasks"])  # Explicitly discover tasks in 'app' package
 
 # MongoDB Configuration
 MONGODB_URL = f"mongodb://{mongodb_host}:27017"
@@ -177,9 +175,9 @@ def rubra_local_agent_chat_completion(
 
 
 def form_openai_tools(tools, assistant_id: str):
-    # Local
-    from app.tools.file_knowledge_tool import FileKnowledgeTool
-    from app.tools.web_browse_tool.web_browse_tool import WebBrowseTool
+    # Third Party
+    from core.tools.knowledge.file_knowledge_tool import FileKnowledgeTool
+    from core.tools.web_browse.web_browse_tool import WebBrowseTool
 
     retrieval = FileKnowledgeTool()
     googlesearch = WebBrowseTool()
@@ -459,11 +457,8 @@ def execute_asst_file_create(file_id: str, assistant_id: str):
     import json
 
     # Third Party
+    from core.tools.knowledge.vector_db.milvus.operations import add_texts
     from langchain.text_splitter import RecursiveCharacterTextSplitter
-    from chardet import detect
-
-    # Local
-    from app.vector_db.milvus.main import add_texts
 
     try:
         db = mongo_client[DATABASE_NAME]
@@ -490,15 +485,10 @@ def execute_asst_file_create(file_id: str, assistant_id: str):
             parsed_text = res
         else:  ## try to read plain text
             try:
-                parsed_text = file_object["content"].decode('utf-8')
-            except UnicodeDecodeError:
-                try:
-                    # Attempt to detect encoding and decode
-                    encoding = detect(file_object["content"])['encoding']
-                    parsed_text = file_object["content"].decode(encoding)
-                except Exception as e:
-                    logging.error(f"Decoding error with detected encoding: {e}")
-                    parsed_text = ""
+                parsed_text = file_object["content"].decode()
+
+            except Exception as e:
+                print(f"Load Error: {e}")
 
         if parsed_text != "":
             # Split docs and add to milvus vector DB

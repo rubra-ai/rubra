@@ -14,6 +14,7 @@ services:
       COMMON_STORAGETYPE: 'local'
     volumes:
       - milvus:/var/lib/milvus
+      - ./milvus.yaml:/milvus/configs/milvus.yaml
       - etcd:/etcd
       - ${DOCKER_VOLUME_DIRECTORY:-.}/embedEtcd.yaml:/milvus/configs/embedEtcd.yaml
     healthcheck:
@@ -64,7 +65,7 @@ services:
       - rubra
 
   text-embedding-api:
-    build: 
+    build:
       context: ./services/backend/text_embedding_api
       dockerfile: Dockerfile
     container_name: text-embedding-api
@@ -77,8 +78,10 @@ services:
       - rubra
 
   vector-db-api:
-    build: 
+    build:
       context: ./services/backend/vector_db_api
+      additional_contexts:
+        - core=./core
       dockerfile: Dockerfile
     container_name: vector-db-api
     image: ghcr.io/rubra-ai/rubra/vector_db_api:${RUBRA_TAG:-main}
@@ -92,9 +95,11 @@ services:
 
 
   task-executor:
-    build: 
+    build:
       context: ./services/backend/task_executor
-      dockerfile: Dockerfile_task_executor
+      additional_contexts:
+        - core=./core
+      dockerfile: Dockerfile
     image: ghcr.io/rubra-ai/rubra/task_executor:${RUBRA_TAG:-main}
     container_name: task-executor
     environment:
@@ -112,9 +117,11 @@ services:
 
 
   api-server:
-    build: 
+    build:
       context: ./services/backend/api_server
-      dockerfile: Dockerfile_backend
+      additional_contexts:
+        - core=./core
+      dockerfile: Dockerfile
     image: ghcr.io/rubra-ai/rubra/api_server:${RUBRA_TAG:-main}
     container_name: api-server
     environment:
@@ -130,11 +137,11 @@ services:
       - rubra
 
   ui:
-    build: 
+    build:
       context: ./services/frontend/ui
       dockerfile: Dockerfile
     image: ghcr.io/rubra-ai/rubra/ui:${RUBRA_TAG:-main}
-    container_name: ui 
+    container_name: ui
     environment:
       - RUBRA_BACKEND_HOST=api-server
     ports:

@@ -13,7 +13,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 WORKDIR /app
 
 # Copy the FastAPI app script into the container
-COPY milvus ./milvus
+COPY ./main.py ./main.py
+COPY --from=core ./ /app/core
 
 
 # Expose the default port for FastAPI
@@ -22,4 +23,4 @@ EXPOSE 8010
 ENV HOST=host.docker.internal
 
 # Run the FastAPI app using uvicorn
-CMD ["uvicorn", "milvus.main:app", "--host", "0.0.0.0", "--port", "8010"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8010"]

@@ -24,7 +24,7 @@ COPY ./app/*Chat.py /app/
 COPY ./app/pages /app/pages
 COPY ./app/rubra_ui_utils.py /app/
 COPY ./app/rubra_ui_config.py /app/
-COPY ./.streamlit/config.toml /root/.streamlit/config.toml
+COPY .streamlit/config.toml /root/.streamlit/config.toml
 
 # Make port 8501 available to the world outside this container
 EXPOSE 8501

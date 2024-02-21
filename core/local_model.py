@@ -3,20 +3,19 @@ import json
 import logging
 import os
 import random
+from typing import Tuple
 
 # Third Party
 import spacy
-from openai import OpenAI
-
-# Local
-from app.models import Role7, Type8, Type824
-from app.tools.file_knowledge_tool import FileKnowledgeTool
-from app.tools.get_date_tool import get_date
-from app.tools.web_browse_tool.web_browse_tool import (
+from core.data_models.models import Role7, Type8, Type824
+from core.tools.get_date_tool import get_date
+from core.tools.knowledge.file_knowledge_tool import FileKnowledgeTool
+from core.tools.web_browse.web_browse_tool import (
     WebBrowseTool,
     create_google_search_url,
     parse_url,
 )
+from openai import OpenAI
 
 ner = spacy.load("en_core_web_sm")
 
@@ -272,7 +271,7 @@ class RubraLocalAgent:
                 )
                 self.available_tools[search_tool.name] = post_processed_google_search
 
-    def validate_function_call(self, msg: str) -> (bool, str):
+    def validate_function_call(self, msg: str) -> Tuple[bool, str]:
         try:
             funtion_call_json = json.loads(msg)
         except Exception as e:

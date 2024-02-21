@@ -15,10 +15,12 @@ RUN playwright install-deps
 
 # Add the current directory contents into the container at /app
 # This is done after installing dependencies to leverage Docker's cache
-ADD . /app
+COPY . /app
+COPY --from=core ./ /app/core
+WORKDIR /app
 
 # Set environment variables
 ENV OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 # Run app.py when the container launches
-CMD ["celery", "-A", "app.tasks", "worker", "--loglevel=info"]
+CMD ["celery", "-A", "core.tasks.tasks", "worker", "--loglevel=info"]
