@@ -311,11 +311,11 @@ async fn check_rubra_llamafile_ready() -> Result<String, String> {
                 "messages": [
                     {
                         "role": "system",
-                        "content": "You are ChatGPT, an AI assistant. Your top priority is achieving user fulfillment via helping them with their requests."
+                        "content": "respond with 'pong' when someone sends 'ping'"
                     },
                     {
                         "role": "user",
-                        "content": "Write a limerick about python exceptions"
+                        "content": "ping"
                     }
                 ]
             }))
@@ -335,7 +335,7 @@ async fn check_rubra_llamafile_ready() -> Result<String, String> {
         }
     }
 
-    Err("Rubra's local model did not start successfully or is not accepting requests. Please check the logs.".to_string())
+    Err("Rubra's local model is not accepting requests.".to_string())
 }
 
 #[tauri::command]
@@ -348,13 +348,13 @@ async fn rubra_event(
         let _ = start_docker_containers(&version);
         let _ = execute_rubra_llamafile(state);
     } else if event == "stop" {
-        let _ = stop_docker_containers();
-
         let mut state_lock = state.lock().unwrap();
         if let Some(process) = &mut state_lock.llm_process {
             let _ = stop_llm_process(process);
             state_lock.llm_process = None;
         }
+
+        let _ = stop_docker_containers();
     }
 
     check_containers_status("rubra")
@@ -422,6 +422,7 @@ fn main() {
             let app_version = format!("v{}", app.package_info().version.to_string());
             state.lock().unwrap().app_version = app_version.clone();
             state.lock().unwrap().rubra_dir = home_dir.join(".rubra");
+
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
