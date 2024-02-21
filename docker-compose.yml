@@ -61,6 +61,12 @@ services:
     volumes:
       - ./llm-config.yaml:/app/config.yaml
     command: ["--config", "/app/config.yaml", "--port", "8002", "--num_workers", "8"]
+    healthcheck:
+      test: ["CMD-SHELL", "litellm --health --port 8002"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     networks:
       - rubra
 
@@ -131,8 +137,10 @@ services:
     ports:
       - '8000:8000'
     depends_on:
-      - litellm
-      - task-executor
+      litellm:
+        condition: service_healthy
+      task-executor:
+        condition: service_started
     networks:
       - rubra
 
