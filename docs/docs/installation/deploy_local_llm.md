@@ -7,7 +7,7 @@ sidebar_position: 2
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-To create assistants that run entirely on your machine, you must run a model locally. We recommend the [OpenHermes-NeuralChat merged model](https://huggingface.co/Weyaxi/OpenHermes-2.5-neural-chat-v3-3-Slerp) that is 7 billion parameters and ~6GB. We have tested Rubra with this model, but you can use any model you want at your own risk. Let us know if you'd like support for other models by [opening up a Github issue](https://github.com/acorn-io/rubra/issues/new)!
+To create assistants that run entirely on your machine, you must run a model locally. We recommend the [OpenHermes-NeuralChat merged model](https://huggingface.co/Weyaxi/OpenHermes-2.5-neural-chat-v3-3-Slerp) that is 7 billion parameters and ~6GB. We have tested Rubra with this model, but you can use any model you want at your own risk. Let us know if you'd like support for other models by [opening up a Github issue](https://github.com/rubra-ai/rubra/issues/new)!
 
 We leverage [llamafile](https://github.com/Mozilla-Ocho/llamafile) to distribute and run local LLMs.
 
