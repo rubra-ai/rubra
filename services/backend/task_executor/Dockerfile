@@ -4,7 +4,7 @@ FROM python:3.10.7-slim
 WORKDIR /app
 
 # First, add only the requirements file (to leverage Docker cache)
-ADD ./services/backend/task_executor/requirements.txt /app/
+ADD requirements.txt /app/
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
@@ -15,8 +15,8 @@ RUN playwright install-deps
 
 # Add the current directory contents into the container at /app
 # This is done after installing dependencies to leverage Docker's cache
-COPY ./services/backend/task_executor /app
-COPY ./core/ /app/core
+COPY . /app
+COPY --from=core ./ /app/core
 WORKDIR /app
 
 # Set environment variables

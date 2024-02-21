@@ -16,7 +16,7 @@ build_images:
 			SERVICE=$$(basename $$dir); \
 			FULL_TAG=$(call get_full_tag,$$SERVICE); \
 			echo "Building Docker image $$FULL_TAG"; \
-			docker build -t $$FULL_TAG -f $$dir/Dockerfile .; \
+			docker build -t $$FULL_TAG --build-context core=./core $$dir; \
 		else \
 			if [ -d "$$dir" ]; then \
 				echo "Skipping $$dir, no Dockerfile found."; \

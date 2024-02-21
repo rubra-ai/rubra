@@ -4,8 +4,8 @@ FROM python:3.10.7-slim
 WORKDIR /app
 
 # Add the current directory contents into the container at /app
-COPY ./services/backend/api_server /app
-COPY ./core/ /app/core
+COPY . /app
+COPY --from=core ./ /app/core
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt

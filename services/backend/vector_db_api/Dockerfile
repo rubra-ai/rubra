@@ -4,7 +4,7 @@ FROM python:3.8-slim-buster
 WORKDIR /app/requirements
 
 # Copy requirements.txt into the container
-COPY services/backend/vector_db_api/requirements.txt .
+COPY requirements.txt .
 
 # Install the required packages
 RUN pip install --no-cache-dir -r requirements.txt
@@ -13,8 +13,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 WORKDIR /app
 
 # Copy the FastAPI app script into the container
-COPY ./services/backend/vector_db_api/main.py ./main.py
-COPY ./core /app/core
+COPY ./main.py ./main.py
+COPY --from=core ./ /app/core
 
 
 # Expose the default port for FastAPI

@@ -66,8 +66,8 @@ services:
 
   text-embedding-api:
     build:
-      context: ./
-      dockerfile: ./services/backend/text_embedding_api/Dockerfile
+      context: ./services/backend/text_embedding_api
+      dockerfile: Dockerfile
     container_name: text-embedding-api
     image: ghcr.io/rubra-ai/rubra/text_embedding_api:${RUBRA_TAG:-main}
     ports:
@@ -79,8 +79,10 @@ services:
 
   vector-db-api:
     build:
-      context: ./
-      dockerfile: ./services/backend/vector_db_api/Dockerfile
+      context: ./services/backend/vector_db_api
+      additional_contexts:
+        - core=./core
+      dockerfile: Dockerfile
     container_name: vector-db-api
     image: ghcr.io/rubra-ai/rubra/vector_db_api:${RUBRA_TAG:-main}
     ports:
@@ -94,8 +96,10 @@ services:
 
   task-executor:
     build:
-      context: ./
-      dockerfile: ./services/backend/task_executor/Dockerfile
+      context: ./services/backend/task_executor
+      additional_contexts:
+        - core=./core
+      dockerfile: Dockerfile
     image: ghcr.io/rubra-ai/rubra/task_executor:${RUBRA_TAG:-main}
     container_name: task-executor
     environment:
@@ -114,8 +118,10 @@ services:
 
   api-server:
     build:
-      context: ./
-      dockerfile: ./services/backend/api_server/Dockerfile
+      context: ./services/backend/api_server
+      additional_contexts:
+        - core=./core
+      dockerfile: Dockerfile
     image: ghcr.io/rubra-ai/rubra/api_server:${RUBRA_TAG:-main}
     container_name: api-server
     environment:
@@ -132,8 +138,8 @@ services:
 
   ui:
     build:
-      context: ./
-      dockerfile: ./services/frontend/ui/Dockerfile
+      context: ./services/frontend/ui
+      dockerfile: Dockerfile
     image: ghcr.io/rubra-ai/rubra/ui:${RUBRA_TAG:-main}
     container_name: ui
     environment:

@@ -5,7 +5,7 @@ FROM python:3.10-slim as builder
 WORKDIR /usr/src/app
 
 # Copy the requirements file into the container
-COPY ./services/frontend/ui/requirements.txt ./
+COPY requirements.txt ./
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
@@ -20,11 +20,11 @@ WORKDIR /app
 COPY --from=builder /usr/local /usr/local
 
 # Copy the necessary application files and .streamlit configuration
-COPY ./services/frontend/ui/app/*Chat.py /app/
-COPY ./services/frontend/ui/app/pages /app/pages
-COPY ./services/frontend/ui/app/rubra_ui_utils.py /app/
-COPY ./services/frontend/ui/app/rubra_ui_config.py /app/
-COPY ./services/frontend/ui/.streamlit/config.toml /root/.streamlit/config.toml
+COPY ./app/*Chat.py /app/
+COPY ./app/pages /app/pages
+COPY ./app/rubra_ui_utils.py /app/
+COPY ./app/rubra_ui_config.py /app/
+COPY .streamlit/config.toml /root/.streamlit/config.toml
 
 # Make port 8501 available to the world outside this container
 EXPOSE 8501
