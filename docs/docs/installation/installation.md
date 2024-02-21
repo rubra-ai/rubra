@@ -13,7 +13,7 @@ Follow these steps to install Rubra:
 
 1. Clone the Rubra GitHub repository by executing the following command in your terminal:
     ```shell
-    git clone https://github.com/acorn-io/rubra.git
+    git clone https://github.com/rubra-ai/rubra.git
     ```
 
 2. Navigate into the `rubra` directory:
@@ -21,7 +21,7 @@ Follow these steps to install Rubra:
     cd rubra
     ```
 
-3. (Optional) Define the models you want Rubra to access by modifying [`llm-config.yaml`](https://github.com/acorn-io/rubra/blob/main/llm-config.yaml). Refer to [LLM Configuration instructions](/installation/llm-config) for more details. 
+3. (Optional) Define the models you want Rubra to access by modifying [`llm-config.yaml`](https://github.com/rubra-ai/rubra/blob/main/llm-config.yaml). Refer to [LLM Configuration instructions](/installation/llm-config) for more details. 
 Additionally, you can add or remove LLMs in the Rubra UI after installation.
 
 4. Pull the necessary images and start Rubra:

@@ -174,14 +174,14 @@ check_rubra_llamafile_ready() {
 
 # --- download docker-compose.yml ---
 download_docker_compose_yml() {
-    DOCKER_COMPOSE_URL="https://raw.githubusercontent.com/acorn-io/rubra/main/docker-compose.yml"
+    DOCKER_COMPOSE_URL="https://raw.githubusercontent.com/rubra-ai/rubra/main/docker-compose.yml"
     info "Downloading docker-compose.yml from $DOCKER_COMPOSE_URL"
     curl -sSL "$DOCKER_COMPOSE_URL" -o docker-compose.yml || fatal "Failed to download docker-compose.yml"
 }
 
 # --- download llm-config.yaml ---
 download_llm_config_yaml() {
-    LLM_CONFIG_URL="https://raw.githubusercontent.com/acorn-io/rubra/main/llm-config.yaml"
+    LLM_CONFIG_URL="https://raw.githubusercontent.com/rubra-ai/rubra/main/llm-config.yaml"
     info "Downloading llm-config.yaml from $LLM_CONFIG_URL"
     curl -sSL "$LLM_CONFIG_URL" -o llm-config.yaml || fatal "Failed to download llm-config.yaml"
 }
@@ -267,6 +267,83 @@ stop_rubra() {
     fi
 }
 
+# --- delete everything in .rubra except for rubra.llamafile and delete specific docker volumes ---
+delete_except_llamafile() {
+    info "Stopping Rubra before deletion..."
+    stop_rubra
+
+    RUBRA_DIR="$HOME/.rubra"
+    if [ ! -d "$RUBRA_DIR" ]; then
+        warn "Rubra directory at $RUBRA_DIR does not exist. Nothing to delete."
+    else
+        cd "$RUBRA_DIR" || fatal "Failed to navigate to Rubra directory at $RUBRA_DIR"
+        info "Deleting everything in $RUBRA_DIR except for rubra.llamafile"
+        find . -mindepth 1 ! -name 'rubra.llamafile' -exec rm -rf {} +
+    fi
+
+    info "Deleting Docker volumes: rubra_etcd, rubra_milvus, and rubra_mongodb"
+    # Check if Docker is running
+    if ! docker info >/dev/null 2>&1; then
+        warn "Docker is not running. Cannot delete Docker volumes."
+    else
+        # Attempt to delete each Docker volume
+        if docker volume ls | grep -q 'rubra_etcd'; then
+            docker volume rm rubra_etcd || warn "Failed to delete Docker volume rubra_etcd"
+        else
+            info "Docker volume rubra_etcd does not exist or already deleted."
+        fi
+        if docker volume ls | grep -q 'rubra_milvus'; then
+            docker volume rm rubra_milvus || warn "Failed to delete Docker volume rubra_milvus"
+        else
+            info "Docker volume rubra_milvus does not exist or already deleted."
+        fi
+        if docker volume ls | grep -q 'rubra_mongodb'; then
+            docker volume rm rubra_mongodb || warn "Failed to delete Docker volume rubra_mongodb"
+        else
+            info "Docker volume rubra_mongodb does not exist or already deleted."
+        fi
+    fi
+}
+
+# --- uninstall rubra by removing rubra.llamafile, cleaning .rubra directory, and deleting specified docker volumes ---
+uninstall_rubra() {
+    info "Stopping Rubra before uninstalling..."
+    stop_rubra
+    
+    RUBRA_DIR="$HOME/.rubra"
+    if [ ! -d "$RUBRA_DIR" ]; then
+        warn "Rubra directory at $RUBRA_DIR does not exist. Nothing to uninstall."
+    else
+        cd "$RUBRA_DIR" || fatal "Failed to navigate to Rubra directory at $RUBRA_DIR"
+        info "Uninstalling Rubra by cleaning up $RUBRA_DIR and deleting Docker volumes"
+        
+        # Delete everything in the directory, including rubra.llamafile
+        rm -rf ./*
+    fi
+
+    # Delete Docker volumes
+    info "Deleting Docker volumes: rubra_etcd, rubra_milvus, and rubra_mongodb"
+    if ! docker info >/dev/null 2>&1; then
+        warn "Docker is not running. Cannot delete Docker volumes."
+    else
+        if docker volume ls | grep -q 'rubra_etcd'; then
+            docker volume rm rubra_etcd || warn "Failed to delete Docker volume rubra_etcd"
+        else
+            info "Docker volume rubra_etcd does not exist or already deleted."
+        fi
+        if docker volume ls | grep -q 'rubra_milvus'; then
+            docker volume rm rubra_milvus || warn "Failed to delete Docker volume rubra_milvus"
+        else
+            info "Docker volume rubra_milvus does not exist or already deleted."
+        fi
+        if docker volume ls | grep -q 'rubra_mongodb'; then
+            docker volume rm rubra_mongodb || warn "Failed to delete Docker volume rubra_mongodb"
+        else
+            info "Docker volume rubra_mongodb does not exist or already deleted."
+        fi
+    fi
+}
+
 # --- helper function to open URL in default browser ---
 open_url_in_browser() {
     URL=$1
@@ -315,8 +392,16 @@ main() {
             stop_rubra
             info "Rubra stopped successfully"
             ;;
+        delete)
+            delete_except_llamafile
+            info "Rubra environment cleaned, except for rubra.llamafile."
+            ;;
+        uninstall)
+            uninstall_rubra
+            info "Rubra uninstalled successfully."
+            ;;
         *)
-            echo "Usage: $0 {start|stop}"
+            echo "Usage: $0 {start|stop|delete|uninstall}"
             exit 1
             ;;
     esac

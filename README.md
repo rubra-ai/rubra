@@ -53,7 +53,7 @@ We welcome contributions from the developer community! Whether it's adding new f
 
 ## Support
 
-If you encounter any issues or have questions, please file an issue on GitHub. For more detailed guidance and discussions, join our community on [Discord](https://discord.gg/swvAH2DXZH) or [Slack](https://slack.acorn.io) or start a [Github discussion](https://github.com/acorn-io/rubra/discussions).
+If you encounter any issues or have questions, please file an issue on GitHub. For more detailed guidance and discussions, join our community on [Discord](https://discord.gg/swvAH2DXZH) or [Slack](https://slack.acorn.io) or start a [Github discussion](https://github.com/rubra-ai/rubra/discussions).
 
 ---
 

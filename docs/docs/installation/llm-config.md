@@ -5,7 +5,7 @@ sidebar_label: LLM Configuration File (Optional)
 sidebar_position: 3
 ---
 
-Before you start with Rubra, configure the models you want Rubra to access by editing the [`llm-config.yaml`](https://github.com/acorn-io/rubra/blob/main/llm-config.yaml) file.
+Before you start with Rubra, configure the models you want Rubra to access by editing the [`llm-config.yaml`](https://github.com/rubra-ai/rubra/blob/main/llm-config.yaml) file.
 
 The models currently supported:
 * OpenAI

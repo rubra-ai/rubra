@@ -40,7 +40,7 @@ build_and_push_images:
 			else \
 				BUILDX_CACHE_FLAGS=""; \
 			fi; \
-			docker buildx build $(BUILDX_FLAGS) $$BUILDX_FLAGS_EXTRA -t $$FULL_TAG $$dir; \
+			docker buildx build --build-context core=./core $(BUILDX_FLAGS) $$BUILDX_FLAGS_EXTRA -t $$FULL_TAG $$dir; \
 		fi \
 	done
 
