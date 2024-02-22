@@ -64,7 +64,7 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "litellm --health --port 8002"]
       interval: 30s
-      timeout: 10s
+      timeout: 30s
       retries: 3
       start_period: 40s
     networks:
