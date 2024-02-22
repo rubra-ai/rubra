@@ -21,7 +21,7 @@ report_system_info() {
     info "Kernel Version: $(uname -r)"
     info "Architecture: $(uname -m)"
     info "Hostname: $(uname -n)"
-    
+
     # For more detailed OS info, you can use /etc/os-release on Linux systems
     if [ -f /etc/os-release ]; then
         . /etc/os-release
@@ -186,6 +186,13 @@ download_llm_config_yaml() {
     curl -sSL "$LLM_CONFIG_URL" -o llm-config.yaml || fatal "Failed to download llm-config.yaml"
 }
 
+# --- download milvus.yaml ---
+download_milvus_yaml() {
+    MILVUS_CONFIG_URL="https://raw.githubusercontent.com/rubra-ai/rubra/main/milvus.yaml"
+    info "Downloading milvus.yaml from $MILVUS_CONFIG_URL"
+    curl -sSL "$MILVUS_CONFIG_URL" -o milvus.yaml || fatal "Failed to download milvus.yaml"
+}
+
 # --- create local etcd config ---
 setup_milvus_etcd() {
     info "Creating embedded etcd config"
@@ -309,14 +316,14 @@ delete_except_llamafile() {
 uninstall_rubra() {
     info "Stopping Rubra before uninstalling..."
     stop_rubra
-    
+
     RUBRA_DIR="$HOME/.rubra"
     if [ ! -d "$RUBRA_DIR" ]; then
         warn "Rubra directory at $RUBRA_DIR does not exist. Nothing to uninstall."
     else
         cd "$RUBRA_DIR" || fatal "Failed to navigate to Rubra directory at $RUBRA_DIR"
         info "Uninstalling Rubra by cleaning up $RUBRA_DIR and deleting Docker volumes"
-        
+
         # Delete everything in the directory, including rubra.llamafile
         rm -rf ./*
     fi
@@ -381,6 +388,7 @@ main() {
             check_rubra_llamafile_ready  # Add this line to perform the check
             download_docker_compose_yml
             download_llm_config_yaml
+            download_milvus_yaml
             setup_milvus_etcd
             start_docker_containers
             wait_for_containers_to_run
