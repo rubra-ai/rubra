@@ -15,7 +15,7 @@ Rubra is an open-source ChatGPT. It's designed for users who want:
   - On MacOS you need to have Xcode Command Line Tools installed: `xcode-select --install`
 - At least 16 GB RAM
 - At least 10 GB of available disk space
-- Docker and Docker Compose installed
+- Docker and Docker Compose (>= v2.17.0) installed
 
 ### Installation
 

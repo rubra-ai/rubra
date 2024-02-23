@@ -13,6 +13,8 @@ fatal() {
     exit 1
 }
 
+COMPOSE="docker-compose" # Docker Compose command to use - can be either the traditional docker-compose or the new docker compose (plugin)
+
 # --- report system information ---
 report_system_info() {
     info "Detecting system information..."
@@ -24,6 +26,7 @@ report_system_info() {
 
     # For more detailed OS info, you can use /etc/os-release on Linux systems
     if [ -f /etc/os-release ]; then
+        # shellcheck disable=SC1091
         . /etc/os-release
         info "OS Name: $NAME"
         info "OS Version: $VERSION"
@@ -98,9 +101,11 @@ check_docker() {
     fi
 }
 
-# --- check if docker-compose is installed ---
+# --- check if docker-compose or docker compose (plugin) is installed ---
 check_docker_compose() {
-    if ! command -v docker-compose >/dev/null 2>&1; then
+    if command -v docker compose >/dev/null 2>&1; then
+        COMPOSE="docker compose"
+    elif command -v docker-compose >/dev/null 2>&1; then
         fatal "Docker Compose is not installed. Please install Docker Compose before running this script."
     fi
 }
@@ -204,7 +209,8 @@ setup_milvus_etcd() {
 # --- pull images and start docker containers ---
 start_docker_containers() {
     info "Pulling images and starting Docker containers"
-    docker-compose pull && docker-compose up -d || fatal "Failed to start Docker containers"
+    # shellcheck disable=SC2015
+    ${COMPOSE} pull && ${COMPOSE} up -d || fatal "Failed to start Docker containers"
 }
 
 # --- helper function to check if all containers in the rubra network are running ---
@@ -230,11 +236,12 @@ check_containers_running() {
 
 # --- helper function to wait for all containers to be running ---
 wait_for_containers_to_run() {
-    local retries=5
-    local wait_seconds=5
-    local post_wait_seconds=15  # Additional wait time after containers are confirmed running
+    retries=5
+    wait_seconds=5
+    post_wait_seconds=15  # Additional wait time after containers are confirmed running
 
-    for ((i=0; i<retries; i++)); do
+    i=0
+    while [ "$i" -lt "$retries" ]; do
         if check_containers_running; then
             info "All containers are running. Waiting an additional $post_wait_seconds seconds before proceeding to allow for Rubra backend to load."
             sleep "$post_wait_seconds"
@@ -243,10 +250,12 @@ wait_for_containers_to_run() {
             warn "Not all containers are running. Waiting for $wait_seconds seconds before retrying..."
             sleep "$wait_seconds"
         fi
+        i=$((i + 1))
     done
 
     fatal "Not all containers are running after $retries retries."
 }
+
 
 # --- stop docker containers and rubra.llamafile ---
 stop_rubra() {
@@ -268,7 +277,7 @@ stop_rubra() {
 
     if [ -f docker-compose.yml ]; then
         info "Stopping Docker containers"
-        docker-compose down || warn "Failed to stop Docker containers."
+        ${COMPOSE} down || warn "Failed to stop Docker containers."
     else
         warn "docker-compose.yml not found. Cannot stop Docker containers."
     fi
