@@ -3,7 +3,7 @@ sidebar_position: 1
 title: Quick Start Guide
 ---
 
-This guide will help you quickly launch Rubra with default options. The [installation section](./getting-started/installation) covers in greater detail how Rubra can be set up.
+This guide will help you quickly launch Rubra with default options. The [installation section](./installation) covers in greater detail how Rubra can be set up.
 
 ## Prerequisites
 
