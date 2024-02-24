@@ -83,7 +83,7 @@ class PreTrainedPipeline:
         return sentence_embeddings.tolist()
 
 
-my_handler = PreTrainedPipeline(path=onnx_path)
+inference_handler = PreTrainedPipeline(path=onnx_path)
 
 
 def embed_multiple(texts: List[str], batch_size: int = 8) -> List[List[float]]:
@@ -95,7 +95,7 @@ def embed_multiple(texts: List[str], batch_size: int = 8) -> List[List[float]]:
     for i, batch in enumerate(batch_iterable(texts, batch_size), start=1):
         logging.info(f"Encoding batch {i}/{(len(texts) - 1) // batch_size + 1}")
         try:
-            batch_embeddings = my_handler({"inputs": batch})
+            batch_embeddings = inference_handler({"inputs": batch})
             all_embeddings.extend(batch_embeddings)
         except Exception as e:
             logging.error(f"Error encoding batch {i}: {e}")
