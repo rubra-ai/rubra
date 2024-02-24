@@ -103,7 +103,7 @@ services:
   task-executor:
     build:
       context: ./services/backend/task_executor
-      additional_contexts:
+      additional_contexts: # requires compose >=v2.17.0
         - core=./core
       dockerfile: Dockerfile
     image: ghcr.io/rubra-ai/rubra/task_executor:${RUBRA_TAG:-main}
