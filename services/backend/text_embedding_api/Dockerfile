@@ -1,4 +1,4 @@
-FROM rancher/opni-python-base:3.8-torch
+FROM python:3.10
 
 # Set the working directory in the container
 WORKDIR /app
@@ -7,10 +7,13 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+
 # Copy the specific files
 COPY text_embedding_service.py .
 COPY api_server.py .
 
+# create a separate path for the onnx model
+COPY ./ ./onnx
 # Expose the default port for FastAPI
 EXPOSE 8020
 

@@ -1,4 +1,5 @@
 # Standard Library
+import logging
 from typing import List, Optional
 
 # Third Party
@@ -46,7 +47,9 @@ async def delete_docs_api(collection_name: str, expr: str):
 
 @app.post("/similarity_match")
 def text_similarity_match(query: Query):
+    logging.info(f"=========Query: {query}=========")
     res = get_similar_match(query, biencoder_match_method="milvus", rerank=query.rerank)
+    logging.info(f"================\nSimilarity match response:\n {res}")
     return {"response": res}
 
 

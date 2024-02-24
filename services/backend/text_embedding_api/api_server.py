@@ -1,8 +1,8 @@
 # Standard Library
+import asyncio
 import logging
 import time
 from typing import List
-import asyncio
 
 # Third Party
 from fastapi import FastAPI
@@ -13,9 +13,11 @@ app = FastAPI()
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
 
+
 @app.get("/ping")
 def ping():
     return {"response": "Pong!"}
+
 
 @app.post("/embed_multiple")
 async def api_embed_multiple(texts: List[str]):
