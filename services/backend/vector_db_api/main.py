@@ -14,6 +14,10 @@ from core.tools.knowledge.vector_db.milvus.operations import (
 )
 from fastapi import FastAPI
 
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
 model = {}
 top_re_rank = 5
 top_k_match = 10
