@@ -313,7 +313,7 @@ def main():
                                         st.text(retrieved_file.filename)
                                     with col2:
                                         # Use a checkbox to mark the file for deletion
-                                        if st.checkbox(f"Delete {file_id}", key=f"delete_file_{file_id}"):
+                                        if st.checkbox(f"Delete", key=f"delete_file_{file_id}"):
                                             if file_id not in st.session_state['files_marked_for_deletion']:
                                                 st.session_state['files_marked_for_deletion'].append(file_id)
                                         else:
