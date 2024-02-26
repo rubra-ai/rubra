@@ -69,6 +69,8 @@ services:
       start_period: 40s
     networks:
       - rubra
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   text-embedding-api:
     build:
