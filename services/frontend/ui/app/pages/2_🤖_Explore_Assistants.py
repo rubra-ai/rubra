@@ -43,6 +43,13 @@ def delete_assistant(assistant_id):
         # Trigger a rerun
         st.rerun()
 
+def delete_file(file_id):
+    try:
+        rubra_client.files.delete(file_id)
+        # st.success(f"File {file_id} deleted successfully.", icon="✅")
+    except Exception as e:
+        st.error(f"Failed to delete file: {e}")
+
 
 def modify_assistant(
     assistant_id,
@@ -51,20 +58,39 @@ def modify_assistant(
     description,
     code_interpreter_status,
     browser_status,
+    file_ids=[],
+    new_uploaded_files=None,
+    files_to_delete=None,
 ):
     tools = []
     if code_interpreter_status:
         tools.append({"type": "code_interpreter"})
     if browser_status:
         tools.append({"type": "browser"})
+    if files_to_delete:
+        for file_id in files_to_delete:
+            if file_id in file_ids:
+                # delete_file(file_id)
+                file_ids.remove(file_id)
+    if new_uploaded_files:
+        new_file_ids = upload_files(new_uploaded_files)
+        # Append new file IDs to the existing ones
+        file_ids.extend(new_file_ids)
+
+    if not file_ids:
+        tools = [tool for tool in tools if tool["type"] != "retrieval"]
 
     try:
+        print("Updating assistant...")
+        print("file_ids:", file_ids)
+        print("tools:", tools)
         my_updated_assistant = rubra_client.beta.assistants.update(
             assistant_id,
             description=description,
             instructions=instructions,
             name=name,
             tools=tools,
+            file_ids=file_ids,
         )
         if my_updated_assistant:
             st.session_state[
@@ -169,6 +195,10 @@ def main():
                 else:
                     st.warning("Please fill in all fields before submitting.")
 
+
+    if 'files_marked_for_deletion' not in st.session_state:
+        st.session_state['files_marked_for_deletion'] = []
+
     # Placeholder for modification form
     modify_form_placeholder = st.empty()
 
@@ -255,22 +285,61 @@ def main():
                         st.text_input("Model", value=assistant.model, disabled=True)
 
                         # Add checkboxes for code interpreter and browser
-                        code_interpreter_status = any(
-                            tool.type == "code_interpreter" for tool in assistant.tools
-                        )
+                        # code_interpreter_status = any(
+                        #     tool.type == "code_interpreter" for tool in assistant.tools
+                        # )
                         browser_status = any(
                             tool.type == "browser" for tool in assistant.tools
                         )
-                        new_code_interpreter_status = st.checkbox(
-                            "Code Interpreter", value=code_interpreter_status
-                        )
+                        # new_code_interpreter_status = st.checkbox(
+                        #     "Code Interpreter", value=code_interpreter_status
+                        # )
+                        new_code_interpreter_status = False
                         new_browser_status = st.checkbox(
                             "Browser", value=browser_status
+                        )
+                        
+                        # Display current files
+                        if assistant.file_ids:
+                            has_retrieved_file = False
+                            for file_id in assistant.file_ids:
+                                try:
+                                    retrieved_file = rubra_client.files.retrieve(file_id)
+                                    if not has_retrieved_file:
+                                        st.caption("Existing Files in Knowledge Retrieval")
+                                        has_retrieved_file = True
+                                    col1, col2 = st.columns([4, 1])
+                                    with col1:
+                                        st.text(retrieved_file.filename)
+                                    with col2:
+                                        # Use a checkbox to mark the file for deletion
+                                        if st.checkbox(f"Delete {file_id}", key=f"delete_file_{file_id}"):
+                                            if file_id not in st.session_state['files_marked_for_deletion']:
+                                                st.session_state['files_marked_for_deletion'].append(file_id)
+                                        else:
+                                            if file_id in st.session_state['files_marked_for_deletion']:
+                                                st.session_state['files_marked_for_deletion'].remove(file_id)
+                                except Exception as e:
+                                    st.session_state['files_marked_for_deletion'].append(file_id)
+
+                        # File uploader to add new files
+                        st.caption("Upload New Files for Knowledge Retrieval")
+                        new_uploaded_files = st.file_uploader(
+                            "Upload New Files",
+                            accept_multiple_files=True,
+                            type=[".pdf", ".txt", ".md", ".log", ".rtf"],
+                            help="Upload new files to attach to the assistant.",
+                            key=f"new_files_{assistant.id}"
                         )
 
                         submit_modification = st.form_submit_button("Update Assistant")
 
                         if submit_modification:
+                            # Process files marked for deletion
+                            files_to_delete = st.session_state['files_marked_for_deletion']
+                            # Clear the deletion list after processing
+                            st.session_state['files_marked_for_deletion'] = []
+                            # Proceed with modifying the assistant as before
                             modify_assistant(
                                 assistant.id,
                                 new_name,
@@ -278,10 +347,11 @@ def main():
                                 new_description,
                                 new_code_interpreter_status,
                                 new_browser_status,
+                                assistant.file_ids,
+                                new_uploaded_files=new_uploaded_files,
+                                files_to_delete=files_to_delete,
                             )
-                            st.session_state[
-                                "modify_id"
-                            ] = None  # Reset modification state
+                            st.session_state["modify_id"] = None  # Reset modification state
 
 
 if __name__ == "__main__":

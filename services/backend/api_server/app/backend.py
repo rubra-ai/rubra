@@ -369,7 +369,7 @@ async def modify_assistant(
         body.metadata if body.metadata else existing_assistant.metadata
     )
     existing_assistant.name = body.name if body.name else existing_assistant.name
-    existing_assistant.tools = body.tools if body.tools else existing_assistant.tools
+    existing_assistant.tools = body.tools
 
     existing_file_ids = set(existing_assistant.file_ids)
     body_file_ids = set(body.file_ids)
