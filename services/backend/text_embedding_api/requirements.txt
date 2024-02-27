@@ -1,3 +1,6 @@
+torch==2.2.1
+optimum[onnxruntime]==1.17.1
 sentence_transformers==2.2.2
 InstructorEmbedding==1.0.1
 uvicorn==0.24.0
+fastapi==0.95.1
