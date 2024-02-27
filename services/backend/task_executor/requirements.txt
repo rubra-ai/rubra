@@ -7,7 +7,7 @@ langchain==0.0.351
 motor==3.3.2
 openai==1.6.1
 pydantic==1.10.9
-python-multipart==0.0.6
+python-multipart==0.0.9
 redis==5.0.1
 requests==2.31.0
 uvicorn==0.25.0
