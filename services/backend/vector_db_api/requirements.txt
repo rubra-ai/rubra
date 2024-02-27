@@ -4,5 +4,5 @@ openai==0.27.7
 pymilvus==2.2.8
 python-dotenv==1.0.0
 tiktoken==0.4.0
-uvicorn==0.21.1
+uvicorn==0.27.1
 python-multipart
