@@ -26,6 +26,7 @@ Make sure you meeting the [prerequisites](./prerequisites) before you start.
         </TabItem>
         <TabItem value="win" label="Windows">
             Downloads 2 files: `llamafile.exe` and `openhermes-2.5-neural-chat-v3-3-slerp.Q6_K.gguf`
+            Make sure you are using **[the correct curl command](https://medium.com/@boutnaru/the-windows-process-journey-curl-exe-curl-executable-87cfe60184b9)**
             ```shell
             curl -L -o llamafile.exe https://huggingface.co/rubra-ai/rubra-llamafile/resolve/main/llamafile.exe
             curl -L -o openhermes-2.5-neural-chat-v3-3-slerp.Q6_K.gguf https://huggingface.co/rubra-ai/rubra-llamafile/resolve/main/openhermes-2.5-neural-chat-v3-3-slerp.Q6_K.gguf
