@@ -1,5 +1,5 @@
 aioredis==2.0.1
-beanie==1.23.6
+beanie==1.25.0
 celery==5.3.6
 fastapi==0.105.0
 googlesearch-python==1.2.3
