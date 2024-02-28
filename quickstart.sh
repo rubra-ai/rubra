@@ -256,12 +256,12 @@ wait_for_containers_to_run() {
     fatal "Not all containers are running after $retries retries."
 }
 
-
 # --- stop docker containers and rubra.llamafile ---
 stop_rubra() {
     RUBRA_DIR="$HOME/.rubra"
     cd "$RUBRA_DIR" || fatal "Failed to navigate to Rubra directory at $RUBRA_DIR"
 
+    # Check for rubra.llamafile PID and stop if running
     if [ -f rubra.pid ]; then
         RUBRA_PID=$(cat rubra.pid)
         if kill -0 "$RUBRA_PID" 2>/dev/null; then
@@ -275,13 +275,21 @@ stop_rubra() {
         warn "No PID file found for rubra.llamafile. It may not be running."
     fi
 
+    # Before stopping Docker containers, ensure docker-compose.yml is present
+    if [ ! -f docker-compose.yml ]; then
+        warn "docker-compose.yml not found. Downloading..."
+        download_docker_compose_yml
+    fi
+
+    # Now attempt to stop Docker containers
     if [ -f docker-compose.yml ]; then
         info "Stopping Docker containers"
         ${COMPOSE} down || warn "Failed to stop Docker containers."
     else
-        warn "docker-compose.yml not found. Cannot stop Docker containers."
+        warn "Unable to find or download docker-compose.yml. Cannot stop Docker containers."
     fi
 }
+
 
 # --- delete everything in .rubra except for rubra.llamafile and delete specific docker volumes ---
 delete_except_llamafile() {
@@ -425,3 +433,4 @@ main() {
 }
 
 main "$@"
+
