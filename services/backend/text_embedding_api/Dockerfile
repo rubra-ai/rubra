@@ -1,4 +1,4 @@
-FROM rancher/opni-python-base:3.8-torch
+FROM python:3.10.7-slim
 
 # Set the working directory in the container
 WORKDIR /app

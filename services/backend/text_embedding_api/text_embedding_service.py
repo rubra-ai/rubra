@@ -1,20 +1,21 @@
 # Standard Library
 import os
 import logging
+import requests
 from typing import List, Iterator
 
 # Third Party
-from sentence_transformers import SentenceTransformer
+# from sentence_transformers import SentenceTransformer
 
 # Initialize logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Configuration
-default_model = "sentence-transformers/all-MiniLM-L6-v2"
-model_name = os.getenv("MODEL_NAME", default_model)
+# default_model = "sentence-transformers/all-MiniLM-L6-v2"
+# model_name = os.getenv("MODEL_NAME", default_model)
 
-# Load model
-model = SentenceTransformer(model_name)
+# # Load model
+# model = SentenceTransformer(model_name)
 
 def batch_iterable(iterable: List[str], batch_size: int) -> Iterator[List[str]]:
     """
@@ -26,19 +27,32 @@ def batch_iterable(iterable: List[str], batch_size: int) -> Iterator[List[str]]:
 
 def embed_multiple(texts: List[str], batch_size: int = 8) -> List[List[float]]:
     """
-    Encodes texts into embeddings, processing in batches.
+    Encodes texts into embeddings by making HTTP POST requests, processing in batches.
     """
     all_embeddings = []
     for i, batch in enumerate(batch_iterable(texts, batch_size), start=1):
-        logging.info(f'Encoding batch {i}/{(len(texts) - 1) // batch_size + 1}')
+        print(f'Processing batch {i}/{(len(texts) - 1) // batch_size + 1}')
+        payload = {
+            "input": batch,
+            "model": "rubra",
+            "encoding_format": "float"
+        }
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer no-key"
+        }
         try:
-            batch_embeddings = model.encode(batch).tolist()
-            all_embeddings.extend(batch_embeddings)
+            response = requests.post("http://host.docker.internal:8020/v1/embeddings", json=payload, headers=headers)
+            if response.status_code == 200:
+                batch_embeddings = response.json()  # Assuming the response is JSON with the structure we need
+                all_embeddings.extend(batch_embeddings["data"])
+            else:
+                print(f'Error with batch {i}: HTTP {response.status_code} - {response.text}')
         except Exception as e:
-            logging.error(f'Error encoding batch {i}: {e}')
-            continue
+            print(f'Error with batch {i}: {e}')
+    print(all_embeddings)
     return all_embeddings
 
 # Example usage
-# texts = ["This is a sentence", "Here is another one", "..."]  # Add your texts here
-# embeddings = embed_multiple(texts, batch_size=64)  # Adjust batch_size based on your system's capability
+texts = ["This is a sentence", "Here is another one", "..."]  # Add your texts here
+embeddings = embed_multiple(texts, batch_size=64)  # Adjust batch_size based on your system's capability
