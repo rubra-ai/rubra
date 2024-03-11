@@ -104,17 +104,15 @@ from .helpers import (
     generate_thread_id,
 )
 
-litellm_host = os.getenv("LITELLM_HOST", "localhost")
-redis_host = os.getenv("REDIS_HOST", "localhost")
-mongodb_host = os.getenv("MONGODB_HOST", "localhost")
-
 app = FastAPI()
 
-origins = [
+default_origins = [
     "http://localhost:3000",  # Add the frontend host here
     "http://localhost",
     "https://docs.rubra.ai",
 ]
+
+origins = os.getenv("CORS_ALLOWED_ORIGINS", default_origins)
 
 app.add_middleware(
     CORSMiddleware,
@@ -124,17 +122,59 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
+
+def _get_mongo_url():
+    url = os.getenv("MONGODB_URL")
+    if url:
+        return url
+
+    host = os.getenv("MONGODB_HOST", "localhost")
+    user = os.getenv("MONGODB_USER")
+    password = os.getenv("MONGODB_PASSWORD")
+    port = os.getenv("MONGODB_PORT", 27017)
+    if (
+        not user or not password
+    ):  # if any of these not passed, just return unauthenticated url
+        return f"mongodb://{host}:{port}"
+
+    return f"mongodb://{user}:{password}@{host}:{port}"
+
+
+def _get_litellm_proxy_url():
+    host = os.getenv("LITELLM_HOST", "localhost")
+    port = os.getenv("LITELLM_PORT", 8002)
+    return f"http://{host}:{port}"
+
+
+def _get_redis_url():
+    url = os.getenv("REDIS_URL")
+    if url:
+        return url
+
+    host = os.getenv("REDIS_HOST", "localhost")
+    user = os.getenv("REDIS_USER")
+    password = os.getenv("REDIS_PASSWORD")
+    port = os.getenv("REDIS_PORT", 6379)
+
+    if not password:
+        return f"redis://{host}:{port}/0"
+
+    return f"redis://{user}:{password}@{host}:{port}/0"
+
+
 # MongoDB Configurationget
-MONGODB_URL = f"mongodb://{mongodb_host}:27017"
-DATABASE_NAME = "rubra_db"
-LITELLM_URL = f"http://{litellm_host}:8002"
+MONGODB_URL = _get_mongo_url()
+DATABASE_NAME = os.getenv("MONGODB_DATABASE", "rubra_db")
+LITELLM_URL = _get_litellm_proxy_url()
 HEADERS = {"accept": "application/json", "Content-Type": "application/json"}
 
 # Initialize MongoDB client
 mongo_client = AsyncIOMotorClient(MONGODB_URL)
 database = mongo_client[DATABASE_NAME]
 
-celery_app = Celery(broker=f"redis://{redis_host}:6379/0")
+redis_url = _get_redis_url()
+
+celery_app = Celery(broker=redis_url)
 
 logging.basicConfig(level=logging.INFO)
 
@@ -203,7 +243,7 @@ async def on_startup():
 async def get_api_key_status():
     try:
         redis = await aioredis.from_url(
-            f"redis://{redis_host}:6379/0", encoding="utf-8", decode_responses=True
+            redis_url, encoding="utf-8", decode_responses=True
         )
         openai_key = await redis.get("OPENAI_API_KEY")
         anthropic_key = await redis.get("ANTHROPIC_API_KEY")
@@ -226,7 +266,7 @@ async def get_api_key_status():
 async def set_api_key_status(api_keys: ApiKeysUpdateModel):
     try:
         redis = await aioredis.from_url(
-            f"redis://{redis_host}:6379/0", encoding="utf-8", decode_responses=True
+            redis_url, encoding="utf-8", decode_responses=True
         )
 
         logging.info("Setting API keys")
@@ -752,7 +792,7 @@ async def list_messages(
 async def redis_subscriber(channel, timeout=1):
     logging.info(f"Connecting to Redis and subscribing to channel: {channel}")
     redis = await aioredis.from_url(
-        f"redis://{redis_host}:6379/0", encoding="utf-8", decode_responses=True
+        redis_url, encoding="utf-8", decode_responses=True
     )
     pubsub = redis.pubsub()
     await pubsub.subscribe(channel)
@@ -782,7 +822,7 @@ async def listen_for_task_status(
     pubsub = None
     try:
         redis = await aioredis.from_url(
-            f"redis://{redis_host}:6379/0", encoding="utf-8", decode_responses=True
+            redis_url, encoding="utf-8", decode_responses=True
         )
         pubsub = redis.pubsub()
         await pubsub.subscribe(task_status_channel)
