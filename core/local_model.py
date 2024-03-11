@@ -28,12 +28,12 @@ TOOL_OUTPUT_ROLE = Role7.tool_output.value
 QUERY_FORMAT = '{"query": "refined question"}'
 
 litellm_host = os.getenv("LITELLM_HOST", "localhost")
-
+litellm_api_key = os.getenv("LITELLM_MASTER_KEY")
 
 oai_client = OpenAI(
     base_url=f"http://{litellm_host}:8002/v1/",
     # base_url="http://localhost:1234/v1/",
-    api_key="abc",
+    api_key=litellm_api_key,
 )
 model_name = "custom"
 
