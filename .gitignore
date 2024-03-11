@@ -255,3 +255,4 @@ dist-ssr
 *.sln
 *.sw?
 
+**/.vim/
