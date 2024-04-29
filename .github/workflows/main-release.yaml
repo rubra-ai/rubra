@@ -6,8 +6,6 @@ concurrency:
 
 on:
   push:
-    branches:
-      - chore/new-environment-variable-configuration
 
 jobs:
   build-and-push:
