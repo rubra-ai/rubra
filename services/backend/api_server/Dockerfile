@@ -8,6 +8,7 @@ COPY . /app
 COPY --from=core ./ /app/core
 
 # Install any needed packages specified in requirements.txt
+RUN apt-get update && apt-get install gcc g++ -y
 RUN pip install --no-cache-dir -r requirements.txt
 RUN spacy download en_core_web_sm
 RUN playwright install
