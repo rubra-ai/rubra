@@ -8,7 +8,7 @@ import requests
 from langchain.embeddings.base import Embeddings
 
 HOST = os.getenv("EMBEDDING_HOST", "localhost")
-EMBEDDING_URL = f"http://{HOST}:8020/embed_multiple"
+EMBEDDING_URL = os.getenv("EMBEDDING_URL", f"http://{HOST}:8020/embed_multiple")
 
 
 def embed_text(texts: List[str]) -> List[List[float]]:

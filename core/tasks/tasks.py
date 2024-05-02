@@ -31,17 +31,17 @@ from core.local_model import RubraLocalAgent
 from openai import OpenAI
 from pymongo import MongoClient
 
-litellm_host = os.getenv("LITELLM_HOST", "localhost")
-redis_host = os.getenv("REDIS_HOST", "localhost")
-mongodb_host = os.getenv("MONGODB_HOST", "localhost")
+from core.common import get_redis_url, get_litellm_proxy_url, get_mongo_url
 
-redis_client = redis.Redis(host=redis_host, port=6379, db=0)
-app = Celery("tasks", broker=f"redis://{redis_host}:6379/0")
+litellm_host = os.getenv("LITELLM_HOST", "localhost")
+
+redis_client = redis.Redis(get_redis_url())
+app = Celery("tasks", broker=get_redis_url())
 app.config_from_object("core.tasks.celery_config")
 app.autodiscover_tasks(["core.tasks"])  # Explicitly discover tasks in 'app' package
 
 # MongoDB Configuration
-MONGODB_URL = f"mongodb://{mongodb_host}:27017"
+MONGODB_URL = get_mongo_url()
 DATABASE_NAME = "rubra_db"
 
 # Global MongoDB client
@@ -51,7 +51,7 @@ mongo_client = None
 @signals.worker_process_init.connect
 def setup_mongo_connection(*args, **kwargs):
     global mongo_client
-    mongo_client = MongoClient(f"mongodb://{mongodb_host}:27017")
+    mongo_client = MongoClient(MONGODB_URL)
 
 
 def create_assistant_message(
@@ -216,7 +216,8 @@ def form_openai_tools(tools, assistant_id: str):
 def execute_chat_completion(assistant_id, thread_id, redis_channel, run_id):
     try:
         oai_client = OpenAI(
-            base_url=f"http://{litellm_host}:8002/v1/",
+            base_url=get_litellm_proxy_url(),
+            # FIXME: actual master key
             api_key="abc",  # point to litellm server
         )
         db = mongo_client[DATABASE_NAME]
