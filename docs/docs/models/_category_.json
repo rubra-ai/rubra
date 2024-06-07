@@ -1,0 +1,8 @@
+{
+  "label": "Models",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "Explore our collection of fine-tuned machine learning models. Each model is tailored for specific tasks, providing enhanced performance and precision. Click on a model to learn more about its features, applications, and how to implement it in your projects."
+  }
+}
