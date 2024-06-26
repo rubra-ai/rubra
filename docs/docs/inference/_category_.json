@@ -1,5 +1,5 @@
 {
-  "label": "Inference",
+  "label": "Serving / Inferencing",
   "position": 2,
   "link": {
     "type": "generated-index",
