@@ -1,0 +1,9 @@
+[submodule "tools.cpp"]
+	path = tools.cpp
+	url = https://github.com/rubra-ai/tools.cpp.git
+[submodule "vllm"]
+	path = vllm
+	url = https://github.com/rubra-ai/vllm.git
+[submodule "rubra-tools"]
+	path = rubra-tools
+	url = https://github.com/rubra-ai/rubra-tools.git
