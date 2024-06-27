@@ -40,6 +40,7 @@ We use 2 popular tools to compute our benchmarks - see below. These tools are co
 
 1. [Language Model Evaluation Harness](https://github.com/EleutherAI/lm-evaluation-harness)
 	- For MMLU, GPQA, GSM-8k, MATH
+	- vLLM was used and this occasionally differs in output from Huggingface - which may explain the difference in scores
 2. [FastChat LLM Judge](https://github.com/lm-sys/FastChat/tree/main/fastchat/llm_judge)
 	- For MT-bench
 

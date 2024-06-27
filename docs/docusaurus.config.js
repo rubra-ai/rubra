@@ -54,7 +54,7 @@ const config = {
       navbar: {
         style: 'dark',
         logo: {
-          alt: 'Acorn Logo',
+          alt: 'Rubra Logo',
           src: 'img/logo.svg',
         },
         items: [
@@ -64,9 +64,8 @@ const config = {
             position: 'left',
             label: 'Docs',
           },
-          { to: "/api", label: "API Reference", position: "left" },
           {
-            to: 'https://rubra.ai',
+            to: 'https://docs.rubra.ai',
             label: 'Rubra Home',
             position: 'right',
             target: '_self',
@@ -83,15 +82,11 @@ const config = {
         links: [
           {
             label: 'GitHub',
-            to: 'https://github.com/acorn-io/runtime',
-          },
-          {
-            label: 'Users Slack',
-            to: 'https://slack.acorn.io',
+            to: 'https://github.com/rubra-ai/rubra',
           },
           {
             label: 'Twitter',
-            to: 'https://twitter.com/acornlabs',
+            to: 'https://x.com/rubra_ai',
           },
           {
             label: 'Discord',
