@@ -1,0 +1,33 @@
+---
+sidebar_position: 4
+title: Benchmarks
+---
+
+import BenchmarkTable from '@site/src/components/BenchmarkTable';
+
+# Benchmarks
+
+When evaluating what LLM to use, it's important to consider the model's "smartness" - which you can get an idea of with the following benchmark results. With these, you can determine which size and quality your use case requires. 
+
+<BenchmarkTable />
+
+:::::note
+Some of the LLMs above require using custom libraries to post-process LLM generated tool calls. We followed those models' recommendations and guidelines in our evaluation.
+
+`mistralai/Mistral-7B-Instruct-v0.3` required [mistral-inference](https://github.com/mistralai/mistral-inference) library to extract function calls.
+
+`NousResearch/Hermes-2-Pro-Llama-3-8B` required [hermes-function-calling](https://github.com/NousResearch/Hermes-Function-Calling).
+
+`gorilla-llm/gorilla-openfunctions-v2` required special prompting detailed in their [Github repo](https://github.com/ShishirPatil/gorilla/tree/main/openfunctions).
+
+`Nexusflow/NexusRaven-V2-13B` required [nexusraven-pip](https://github.com/nexusflowai/nexusraven-pip).
+
+:::info
+[MT-bench](https://github.com/lm-sys/FastChat/blob/main/fastchat/llm_judge/README.md) for all models was run in June 2024 using GPT-4.
+
+MMLU, GPQA, GSM-8K & MATH were all calculated using the [Language Model Evaluation Harness](https://github.com/EleutherAI/lm-evaluation-harness).
+
+Our proprietary function calling benchmark will be open sourced in the coming months - half of it is composed of quickstart examples found in [gptscript](https://github.com/gptscript-ai/gptscript/tree/main/examples). 
+:::
+
+:::::
