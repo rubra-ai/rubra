@@ -8,7 +8,9 @@ You can directly run Rubra's LLMs using the `transformers` library with the supp
 
 
 ## Prerequisites
+:::info 
 Before you move forward, it's recommended to use a GPU, which can significantly speed up the inference processes.
+:::
 
 *pip install rubra-tools, torch, transformers:*
 ```
@@ -21,7 +23,7 @@ npm install jsonrepair
 ```
 
 ## Quickstart
-**1. load a rubra function calling model:**
+### 1. load a rubra function calling model:
 ```python
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
@@ -36,7 +38,7 @@ model = AutoModelForCausalLM.from_pretrained(
 )
 ```
 
-**2. define functions:**
+### 2. define functions:
 Here we use 4 functions for a simple math chaining question.
 ```python
 functions = [
@@ -127,7 +129,7 @@ functions = [
 ]
 ```
 
-**3. Start the conversation with a simple math chaining question:**
+### 3. Start the conversation with a simple math chaining question:
 ```python
 from rubra_tools import preprocess_input, postprocess_output
 
@@ -178,7 +180,7 @@ You should see this output, which is a function call made by the ai assistant:
 ```
 
 
-4. continue the conversation by provide the function call result:
+### continue the conversation by provide the function call result:
 ```python
 if function_call:
     # append the assistant tool call msg

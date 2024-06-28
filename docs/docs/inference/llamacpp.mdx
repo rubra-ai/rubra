@@ -76,6 +76,10 @@ curl localhost:1234/v1/chat/completions \
     ]
   }'
 ```
+You should see response like this:
+```
+{"choices":[{"finish_reason":"stop","index":0,"message":{"content":" Hello! How can I assist you today? If you have any questions or need information on a particular topic, feel free to ask.","role":"assistant"}}],"created":1719608774,"model":"rubra-model","object":"chat.completion","usage":{"completion_tokens":28,"prompt_tokens":13,"total_tokens":41},"id":"chatcmpl-2Pr8BAD6b5Gc7sQyLWv7i6l8Sh3QMeI3"}
+```
 
 ### 7. Try a Python Function Calling Example
 
