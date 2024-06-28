@@ -21,12 +21,13 @@ npm install jsonrepair
 ```
 
 ## Quickstart
-**1. load a rubra function calling model:**
+**1. Load a Rubra function calling model:**
 ```python
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
+from rubra_tools import preprocess_input, postprocess_output
 
-model_id = "sanjay920/Llama-3-8b-function-calling-alpha-v1"
+model_id = "rubra-ai/Meta-Llama-3-8B-Instruct"
 
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_pretrained(
@@ -36,7 +37,7 @@ model = AutoModelForCausalLM.from_pretrained(
 )
 ```
 
-**2. define functions:**
+**2. Define functions:**
 Here we use 4 functions for a simple math chaining question.
 ```python
 functions = [
@@ -129,8 +130,6 @@ functions = [
 
 **3. Start the conversation with a simple math chaining question:**
 ```python
-from rubra_tools import preprocess_input, postprocess_output
-
 messages = [
     {"role": "system", "content": "You are a helpful assistant."},
     {"role": "user", "content": "What is the result of four plus six? Take the result and add 2? Then multiply by 5 and then divide by two"},
@@ -178,7 +177,7 @@ You should see this output, which is a function call made by the ai assistant:
 ```
 
 
-4. continue the conversation by provide the function call result:
+4. Continue the conversation by provide the function call result:
 ```python
 if function_call:
     # append the assistant tool call msg

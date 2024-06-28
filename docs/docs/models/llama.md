@@ -111,27 +111,27 @@ We recommend this model for complex tool calling scenarios, but users should be 
       <td>90.67</td>
       <td>44.24</td>
       <td>8.88</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>58</td>
+      <td>28</td>
+      <td>74</td>
+      <td>0.3625</td>
+      <td>0.1750</td>
+      <td><strong>0.59375</strong></td>
     </tr>
     <tr>
-      <td>Rubra Enhanced Llama-3 8B Instruct</td>
+      <td>Rubra Enhanced Llama-3 70B Instruct</td>
       <td>97.85%</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>75.90</td>
+      <td>33.93</td>
+      <td>82.26</td>
+      <td>34.24</td>
+      <td>8.36</td>
+      <td>28</td>
+      <td>58</td>
+      <td>74</td>
+      <td>0.1750</td>
+      <td>0.3625</td>
+      <td>0.40625</td>
     </tr>
   </tbody>
 </table>
