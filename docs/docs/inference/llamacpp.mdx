@@ -3,44 +3,61 @@ sidebar_position: 0
 title: llama.cpp
 ---
 
-tools.cpp is Rubra's fork of llama.cpp, offers inference of Rubra's function calling models (and others) in pure C/C++.
-This guild will walk you through how to install and setup tools.cpp to serve Rubra's models for inference, along with a simply python function calling example.
+> *From [llama.cpp](https://github.com/ggerganov/llama.cpp?tab=readme-ov-file#description)*: The main goal of llama.cpp is to enable LLM inference with minimal setup and state-of-the-art performance on a wide variety of hardware - locally and in the cloud.
 
-### Quickstart
-**1. build from source:**
-```
-# git clone the repo
+## tools.cpp
+
+[tools.cpp](https://github.com/rubra-ai/tools.cpp) is Rubra's fork of llama.cpp, offering inference of Rubra's function calling models (and others) in pure C/C++. This guide will walk you through how to install and set up tools.cpp to serve Rubra's models for inference, along with a simple Python function calling example.
+
+## Quickstart
+
+### 1. Clone the Repository
+
+```bash
 git clone https://github.com/rubra-ai/tools.cpp.git
 cd tools.cpp
-```   
-
-- Mac user
-```
-make
 ```
 
-- Nvidia-Cuda user:
-```
-make LLAMA_CUDA=1
-```
+### 2. Build from Source
 
-**2. Install a helper package that fixes some rare edgecases:**
-```
+<div style={{ display: 'flex', gap: '20px' }}>
+  <div style={{ flex: 1 }}>
+    <h5>Mac Users:</h5>
+    <pre><code>make</code></pre>
+  </div>
+  <div style={{ flex: 1 }}>
+    <h5>Nvidia GPU (CUDA) Users:</h5>
+    <pre><code>make LLAMA_CUDA=1</code></pre>
+  </div>
+</div>
+
+
+### 3. Install a Helper Package to Fix Rare Edge Cases
+
+:::info 
+Assumes you have Node.js and npm installed
+:::
+
+```bash
 npm install jsonrepair
 ```
 
-**3. Download a compatible Rubra's gguf model:**
+### 4. Download a Compatible Rubra GGUF Model
+
 For example:
-```
+
+```bash
 wget https://huggingface.co/sanjay920/Llama-3-8b-function-calling-alpha-v1.gguf/resolve/main/Llama-3-8b-function-calling-alpha-v1.gguf
 ```
 
-**4. Start openai compatible server:**
-```
-./llama-server -ngl 37 -m Llama-3-8b-function-calling-alpha-v1.gguf   --port 1234 --host 0.0.0.0  -c 8000 --chat-template llama3
+### 5. Start the OpenAI Compatible Server
+
+```bash
+./llama-server -ngl 37 -m Llama-3-8b-function-calling-alpha-v1.gguf --port 1234 --host 0.0.0.0 -c 8000 --chat-template llama3
 ```
 
-**5. Test the server, make sure it is available:**
+### 6. Test the Server to Ensure Availability
+
 ```bash
 curl localhost:1234/v1/chat/completions \
   -H "Content-Type: application/json" \
@@ -60,11 +77,13 @@ curl localhost:1234/v1/chat/completions \
   }'
 ```
 
-**6. Try a python function calling example:**
+### 7. Try a Python Function Calling Example
+
 ```python
-# if openai not installed, do `pip install openai`
+# If openai is not installed, run `pip install openai`
 from openai import OpenAI
-client = OpenAI(api_key="123", base_url = "http://localhost:1234/v1/")
+
+client = OpenAI(api_key="xyz", base_url="http://localhost:1234/v1/")
 
 tools = [
   {
@@ -86,6 +105,7 @@ tools = [
     }
   }
 ]
+
 messages = [{"role": "user", "content": "What's the weather like in Boston today?"}]
 completion = client.chat.completions.create(
   model="rubra-model",
@@ -98,10 +118,13 @@ print(completion)
 ```
 
 The output should look like this:
-```
+
+```python
 ChatCompletion(id='chatcmpl-EmHd8kai4DVwBUOyim054GmfcyUbjiLf', choices=[Choice(finish_reason='tool_calls', index=0, logprobs=None, message=ChatCompletionMessage(content=None, role='assistant', function_call=None, tool_calls=[ChatCompletionMessageToolCall(id='e885974b', function=Function(arguments='{"location":"Boston"}', name='get_current_weather'), type='function')]))], created=1719528056, model='rubra-model', object='chat.completion', system_fingerprint=None, usage=CompletionUsage(completion_tokens=29, prompt_tokens=241, total_tokens=270))
 ```
 
-That's it! MAKE SURE you turn `stream` OFF when making api calls to the server, as the streaming feature is not supported yet. And we will support streaming too soon.
+That's it! For more function calling examples, you can check out the `test_llamacpp.ipynb` notebook.
 
-For more function calling examples, you can checkout `test_llamacpp.ipynb` notebook.
+:::info
+Make sure you turn `stream` off when making API calls to the server, as the streaming feature is not supported yet. We will support streaming soon.
+:::
