@@ -20,7 +20,100 @@ Rubra models are capable of complex, multi-step, function calls (chain of functi
 ---
 
 #### Mistral-7B-Instruct-v0.3 has tool calling capability, so why use Rubra enhanced Mistral-7B-Instruct-v0.3
-Rubra enhanced Mistral-7B-Instruct-v0.3 is capable of complex tool calling that original model falls short of. TODO INSERT EXAMPLE
+Rubra enhanced Mistral-7B-Instruct-v0.3 is capable of complex tool calling that original model falls short of. For instance, given query: *Find all .py pattern files in the current dir and count the lines of text in each file, add the result and print it*
+
+and a list of available functions: find, count and sum
+<details>
+<summary>function definitions</summary>
+```json
+[
+    {
+            "type": "function",
+            "function": {
+                "name": "find",
+                "description": "List all files in a directory, optionally with a certain pattern",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "directory": {
+                            "type": "string",
+                            "description": "the directory to list files from"
+                        },
+                        "pattern": {
+                            "type": "string",
+                            "description": "the pattern to search for files",
+                        }
+                    },
+                    "required": [
+                        "directory"
+                    ]
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "count",
+                "description": "count the number of text lines in a file",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "filename": {
+                            "type": "string",
+                            "description": "filename to count"
+                        }
+                    },
+                    "required": [
+                        "name"
+                    ]
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "sum",
+                "description": "sum a list of numbers, separate by comma",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "nums": {
+                            "type": "string",
+                            "description": "a list of numbers, separate by comma"
+                        }
+                    },
+                    "required": [
+                        "nums"
+                    ]
+                }
+            }
+        }
+]
+```
+</details>
+
+
+The original Mistral-7B-Instruct-v0.3 model responds with a list of hallucinated function calls.
+```
+[{"name": "find", "arguments": {"directory": "."}}, {"name": "filter", "arguments": {"function": "lambda x: x.endswith('.py')"}}, {"name": "map", "arguments": {"function": "lambda x: find(directory=x, pattern='.py')"}}, {"name": "flatMap", "arguments": {}}, {"name": "map", "arguments": {"function": "lambda x: count(filename=x)"}}, {"name": "reduce", "arguments": {"function": "sum"}}]
+```
+
+Rubra's enhanced Mistral model handles it step by step.
+```
+1. find all the .py files:
+[{'id': '13d12cbf', 'function': {'name': 'find', 'arguments': '{"directory": ".", "pattern": "*.py"}'}, 'type': 'function'}]
+assume the output of this function call is `[count.py, utils.py]`
+
+2. count each of the .py file:
+[{'id': 'j2k001nh', 'function': {'name': 'count', 'arguments': '{"filename": "count.py"}'}, 'type': 'function'}]
+[{'id': '05711d44', 'function': {'name': 'count', 'arguments': '{"filename": "utils.py"}'}, 'type': 'function'}]
+assume the output of each function here is `43` and `379`
+
+3. sum the numbers:
+[{'id': 'v34sdf0k', 'function': {'name': 'sum', 'arguments': '{"nums": "43, 379"}'}, 'type': 'function'}]
+thus the final result is `422`.
+```
+
 
 ---
 
