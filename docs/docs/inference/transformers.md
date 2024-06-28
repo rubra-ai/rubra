@@ -3,8 +3,8 @@ sidebar_position: 3
 title: HuggingFace Transformers
 ---
 
-Hugging Face's `transformers` is an open-source library designed to facilitate the use of natural language processing (NLP) models.
-You can directly run Rubra's LLMs using the `transformers` library with the support of Rubra's inferencing tool package, `rubra_tools`. This guide will walk you through the steps to seamlessly integrate and utilize Rubra's models with the `transformers` library.
+Hugging Face's [transformers](https://huggingface.co/docs/transformers/index) is an open-source library designed to facilitate the use of natural language processing (NLP) models.
+You can directly run Rubra's LLMs using the `transformers` library with the support of Rubra's inferencing tool package, [rubra_tools](https://github.com/rubra-ai/rubra-tools/tree/main). This guide will walk you through the steps to seamlessly integrate and utilize Rubra's models with the `transformers` library.
 
 
 ## Prerequisites
