@@ -3,14 +3,13 @@ sidebar_position: 0
 title: What is Rubra?
 ---
 
-
 # Rubra
 
-#### Rubra is a collection of open weight, tool calling LLMs.
+#### Rubra is a collection of open-weight, tool-calling LLMs.
 
-Rubra enhances the top open weight large language models with tool calling capability. The ability to call user-defined external tools in a deterministic manner while being able to reason and chat makes Rubra models ideal for agentic use cases.
+Rubra enhances the top open-weight large language models with tool-calling capability. The ability to call user-defined external tools in a deterministic manner while reasoning and chatting makes Rubra models ideal for agentic use cases.
 
-All models are enhanced from the top open source LLMs with further post-training and methods that are effective in teaching instruct-tuned models new skills while mitigating catastrophic forgetting. For easy use, we extend popular inferencing projects, allowing you to run Rubra models anywhere.
+All models are enhanced from the top open-source LLMs with further post-training and methods that effectively teach instruct-tuned models new skills while mitigating catastrophic forgetting. For easy use, we extend popular inferencing projects, allowing you to run Rubra models easily.
 
 ## Enhanced Models
 
@@ -22,7 +21,6 @@ All models are enhanced from the top open source LLMs with further post-training
 | [rubra-ai/Mistral-7B-Instruct-v0.3](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.3)   | 32,000         | 7B   | Mistral              |
 | [rubra-ai/Phi-3-vision-128k-instruct](https://huggingface.co/rubra-ai/Phi-3-vision-128k-instruct)| 128,000        | 3B   | Microsoft              |
 | [rubra-ai/Qwen2-7B-Instruct](https://huggingface.co/rubra-ai/Qwen2-7B-Instruct)                 | 131,072        | 7B   | Qwen                   |
-
 
 ## Demo
 
@@ -37,20 +35,19 @@ Try out the models immediately without downloading anything in [Huggingface Spac
 
 ## Run Rubra Models Locally
 
-We extend the following inferencing tools to run Rubra models in an OpenAI-compatible tool calling format for local use:
+We extend the following inferencing tools to run Rubra models in an OpenAI-compatible tool-calling format for local use:
 
 - [llama.cpp](https://github.com/ggerganov/llama.cpp)
 - [vllm](https://github.com/vllm-project/vllm)
 
-
 ## Contributing
 
-Contributions to Rubra are welcome! We'd love to improve tool calling capability in the models based on your feedback. Please submit issues to the GitHub repository.
+Contributions to Rubra are welcome! We'd love to improve tool-calling capability in the models based on your feedback. Please submit issues to the GitHub repository.
 
 ## License
 
-Rubra code is licensed under the Apache 2.0 License. Rubra enhanced models are published under the same license as the base model. 
+Rubra code is licensed under the Apache 2.0 License. Rubra enhanced models are published under the same license as the parent model.
 
 ---
 
-For more details and documentation, visit the [Rubra GitHub page](https://github.com/your-repo/rubra).
+For more details and documentation, visit the [Rubra GitHub page](https://github.com/rubra-ai/rubra).

@@ -67,7 +67,7 @@ const data = [
         model: 'Rubra Llama-3 70B Instruct',
         params: 70.6,
         functionCalling: '97.85%',
-        mmlu: '-',
+        mmlu: '75.90',
         gpqa: '-',
         gsm8k: '-',
         math: '-',
