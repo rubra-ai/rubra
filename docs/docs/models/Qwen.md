@@ -65,7 +65,7 @@ We recommend this model for any task exceeding the context limit found in Llama-
     </tr>
     <tr>
       <td>Rubra Enhanced Qwen2-7B-Instruct</td>
-      <td>83.57%</td>
+      <td>85.71%</td>
       <td>68.88</td>
       <td>30.36</td>
       <td>75.82</td>

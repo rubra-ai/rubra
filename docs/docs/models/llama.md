@@ -62,7 +62,7 @@ We recommend this model for complex tool calling scenarios, but users should be 
     </tr>
     <tr>
       <td>Rubra Enhanced Llama-3 8B Instruct</td>
-      <td>80.92%</td>
+      <td>89.28%</td>
       <td>64.39</td>
       <td>31.70</td>
       <td>68.99</td>
@@ -80,3 +80,58 @@ We recommend this model for complex tool calling scenarios, but users should be 
 
 
 ## Llama-3 70B Instruct
+
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2">Model</th>
+      <th rowspan="2">Function Calling</th>
+      <th rowspan="2">MMLU</th>
+      <th rowspan="2">GPQA</th>
+      <th rowspan="2">GSM-8K</th>
+      <th rowspan="2">MATH</th>
+      <th rowspan="2">MT-bench</th>
+      <th colspan="6">MT-bench Pairwise Comparison</th>
+    </tr>
+    <tr>
+      <th>Win</th>
+      <th>Loss</th>
+      <th>Tie</th>
+      <th>Win Rate</th>
+      <th>Loss Rate</th>
+      <th>Adjusted Win Rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Llama-3 70B Instruct</td>
+      <td>-</td>
+      <td>79.90</td>
+      <td>38.17</td>
+      <td>90.67</td>
+      <td>44.24</td>
+      <td>8.88</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Rubra Enhanced Llama-3 8B Instruct</td>
+      <td>97.85%</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>

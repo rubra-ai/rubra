@@ -26,6 +26,15 @@ function ModelTable({ columns, data }) {
         useSortBy
     );
 
+    // Function to conditionally render cell content
+    const renderCellContent = (cell) => {
+        // Check if the column is 'model' and if the content includes 'Rubra'
+        if (cell.column.id === 'model' && cell.value.includes('Rubra')) {
+            return <strong>{cell.value}</strong>;
+        }
+        return cell.render('Cell');
+    };
+
     return (
         <table {...getTableProps()} className="table">
             <thead>
@@ -54,7 +63,7 @@ function ModelTable({ columns, data }) {
                         <tr {...row.getRowProps()}>
                             {row.cells.map(cell => (
                                 <td {...cell.getCellProps()}>
-                                    {cell.render('Cell')}
+                                    {renderCellContent(cell)}
                                 </td>
                             ))}
                         </tr>

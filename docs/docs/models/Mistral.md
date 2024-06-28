@@ -55,7 +55,7 @@ Mistral is a series of open weight models that set the bar for efficiency, and a
     </tr>
     <tr>
       <td>Rubra Enhanced Mistral 7B Instruct v0.3</td>
-      <td>71.42%</td>
+      <td>73.57%</td>
       <td>59.12</td>
       <td>29.91</td>
       <td>43.29</td>
@@ -113,7 +113,7 @@ Mistral is a series of open weight models that set the bar for efficiency, and a
     </tr>
     <tr>
       <td>Rubra Enhanced Mistral 7B Instruct v0.2</td>
-      <td>TODO</td>
+      <td>69.28%</td>
       <td>58.90</td>
       <td>29.91</td>
       <td>34.12</td>

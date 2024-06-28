@@ -53,8 +53,8 @@ Phi-3 is a state of the art, lightweight model. It performs exceptionally well d
       <td><strong>0.51875</strong></td>
     </tr>
     <tr>
-      <td>Rubra enhanced Phi-3 Mini 128k Instruct</td>
-      <td>63.57%</td>
+      <td>Rubra Enhanced Phi-3 Mini 128k Instruct</td>
+      <td>65.71%</td>
       <td>66.66</td>
       <td>29.24</td>
       <td>74.09</td>

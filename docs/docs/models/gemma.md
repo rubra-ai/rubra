@@ -57,7 +57,7 @@ We observe in the benchmarks and in our own testing that Gemma models do not per
     </tr>
     <tr>
       <td>Rubra Enhanced Gemma-1.1 2B Instruct</td>
-      <td>42.85%</td>
+      <td>45.00%</td>
       <td>38.85</td>
       <td>24.55</td>
       <td>6.14</td>

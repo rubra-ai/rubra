@@ -11,6 +11,14 @@ When evaluating what LLM to use, it's important to consider the model's "intelli
 
 <BenchmarkTable />
 
+:::info
+[MT-bench](https://github.com/lm-sys/FastChat/blob/main/fastchat/llm_judge/README.md) for all models was run in June 2024 using GPT-4.
+
+MMLU, GPQA, GSM-8K & MATH were all calculated using the [Language Model Evaluation Harness](https://github.com/EleutherAI/lm-evaluation-harness).
+
+Our proprietary function calling benchmark will be open sourced in the coming months - half of it is composed of quickstart examples found in [gptscript](https://github.com/gptscript-ai/gptscript/tree/main/examples). 
+:::
+
 :::::note
 Some of the LLMs above require using custom libraries to post-process LLM generated tool calls. We followed those models' recommendations and guidelines in our evaluation.
 
@@ -22,12 +30,6 @@ Some of the LLMs above require using custom libraries to post-process LLM genera
 
 `Nexusflow/NexusRaven-V2-13B` required [nexusraven-pip](https://github.com/nexusflowai/nexusraven-pip).
 
-:::info
-[MT-bench](https://github.com/lm-sys/FastChat/blob/main/fastchat/llm_judge/README.md) for all models was run in June 2024 using GPT-4.
-
-MMLU, GPQA, GSM-8K & MATH were all calculated using the [Language Model Evaluation Harness](https://github.com/EleutherAI/lm-evaluation-harness).
-
-Our proprietary function calling benchmark will be open sourced in the coming months - half of it is composed of quickstart examples found in [gptscript](https://github.com/gptscript-ai/gptscript/tree/main/examples). 
-:::
-
 :::::
+
+∔ `Nexusflow/NexusRaven-V2-13B` and `gorilla-llm/gorilla-openfunctions-v2` don't accept tool observations, the result of running a tool or function once the LLM calls it, so we appended the observation to the prompt.
