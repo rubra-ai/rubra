@@ -129,7 +129,7 @@ functions = [
 
 **3. Start the conversation with a simple math chaining question:**
 ```python
-from llama_tools import preprocess_input, postprocess_output
+from rubra_tools import preprocess_input, postprocess_output
 
 messages = [
     {"role": "system", "content": "You are a helpful assistant."},
