@@ -28,7 +28,7 @@ npm install jsonrepair
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 
-model_id = "sanjay920/Llama-3-8b-function-calling-alpha-v1"
+model_id = "rubra-ai/Llama-3-8b-function-calling-alpha-v1"
 
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_pretrained(
