@@ -1,30 +1,31 @@
 ---
+
 sidebar_position: 3
 title: HuggingFace Transformers
 ---
 
-Hugging Face's [transformers](https://huggingface.co/docs/transformers/index) is an open-source library designed to facilitate the use of natural language processing (NLP) models.
-You can directly run Rubra's LLMs using the `transformers` library with the support of Rubra's inferencing tool package, [rubra_tools](https://github.com/rubra-ai/rubra-tools/tree/main). This guide will walk you through the steps to seamlessly integrate and utilize Rubra's models with the `transformers` library.
-
+Hugging Face's [transformers](https://huggingface.co/docs/transformers/index) is an open-source library designed to facilitate the use of natural language processing (NLP) models. You can directly run Rubra's LLMs using the `transformers` library with the support of Rubra's inferencing tool package, [rubra_tools](https://github.com/rubra-ai/rubra-tools/tree/main). This guide will walk you through the steps to seamlessly integrate and utilize Rubra's models with the `transformers` library.
 
 ## Prerequisites
+
 :::info 
 Before you move forward, it's recommended to use a GPU, which can significantly speed up the inference processes.
 :::
 
-*pip install rubra-tools, torch, transformers:*
+### Install Required Packages
+Use pip to install the necessary Python packages:
 ```
 pip install rubra_tools torch==2.3.0 transformers
 ```
 
-*Use npm to install package `jsonrepair` to help fix some rare edgecases.*
+Use npm to install the `jsonrepair` package to help fix some rare edge cases:
 ```
 npm install jsonrepair
 ```
 
 ## Quickstart
 
-### 1. load a rubra function calling model:
+### 1. Load a Rubra Model
 ```python
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
@@ -40,9 +41,9 @@ model = AutoModelForCausalLM.from_pretrained(
 )
 ```
 
-### 2. Define functions
+### 2. Define Functions
 
-Here we use 4 functions for a simple math chaining question.
+Here we use 4 functions for a simple math chaining question:
 ```python
 functions = [
     {
@@ -132,7 +133,7 @@ functions = [
 ]
 ```
 
-### 3. Start the conversation with a simple math chaining question:
+### 3. Start the conversation
 ```python
 messages = [
     {"role": "system", "content": "You are a helpful assistant."},
@@ -175,12 +176,12 @@ else:
     print(raw_output)
 ```
 
-You should see this output, which is a function call made by the ai assistant:
+You should see this output, which is a function call made by the AI assistant:
 ```
 [{'id': 'fc65a533', 'function': {'name': 'addition', 'arguments': '{"a": "4", "b": "6"}'}, 'type': 'function'}]
 ```
 
-### Continue the conversation by provide the function call result
+### 4. Add Executed Tool Result to Message History & Continue the Conversation
 
 ```python
 if function_call:
@@ -197,7 +198,7 @@ if function_call:
         print(raw_output)
 ```
 
-The AI will make another call
+The LLM will make another call
 ```
 [{'id': '2ffc3de4', 'function': {'name': 'addition', 'arguments': '{"a": "10", "b": "2"}'}, 'type': 'function'}]
 ```

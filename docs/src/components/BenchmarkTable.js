@@ -161,7 +161,7 @@ const data = [
         gpqa: '28.79',
         gsm8k: '22.67',
         math: '7.12',
-        mtBench:'-',
+        mtBench:'5.36',
     },
     {
         model: 'NousResearch/Hermes-2-Pro-Llama-3-8B',
@@ -171,7 +171,7 @@ const data = [
         gpqa: '31.92',
         gsm8k: '73.92',
         math: '21.58',
-        mtBench:'-',
+        mtBench:'7.83',
     },
     {
         model: 'gorilla-llm/gorilla-openfunctions-v2',
@@ -181,7 +181,7 @@ const data = [
         gpqa: '23.66',
         gsm8k: '48.29',
         math: '17.54',
-        mtBench:'-',
+        mtBench:'5.13',
     },
     {
         model: 'GPT-4o',
