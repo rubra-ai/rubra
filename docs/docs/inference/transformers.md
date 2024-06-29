@@ -132,7 +132,7 @@ functions = [
 ]
 ```
 
-### 3. Start the conversation with a simple math chaining question:
+### 3. Start the Conversation with a Simple Math Chaining Question:
 ```python
 messages = [
     {"role": "system", "content": "You are a helpful assistant."},
@@ -180,7 +180,7 @@ You should see this output, which is a function call made by the ai assistant:
 [{'id': 'fc65a533', 'function': {'name': 'addition', 'arguments': '{"a": "4", "b": "6"}'}, 'type': 'function'}]
 ```
 
-### Continue the conversation by provide the function call result
+### Add Executed Tool Result to Message History & Continue the Conversation
 
 ```python
 if function_call:
@@ -197,7 +197,7 @@ if function_call:
         print(raw_output)
 ```
 
-The AI will make another call
+The LLM will make another call
 ```
 [{'id': '2ffc3de4', 'function': {'name': 'addition', 'arguments': '{"a": "10", "b": "2"}'}, 'type': 'function'}]
 ```
