@@ -14,7 +14,7 @@ Before you move forward, it's recommended to use a GPU, which can significantly 
 
 *pip install rubra-tools, torch, transformers:*
 ```
-pip install rubra_tools torch==2.3.0 transformers
+pip install rubra_tools torch==2.3.0 transformers accelerate
 ```
 
 *Use npm to install package `jsonrepair` to help fix some rare edgecases.*
