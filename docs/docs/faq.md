@@ -9,38 +9,172 @@ This page will cover common questions and issues that users may encounter when u
 
 ### FAQ
 
-#### Who is Rubra designed for?
-Rubra is for anyone using OpenAI to develop LLM applications. Rubra allows you to locally develop your assistants, ensuring data privacy and reducing costs.
+#### Who are the intended users of Rubra?
+Rubra models are for anyone looking to use open source LLMs with native function calling support, which yields superior results in local LLMs when compared to prompting models to return tool calls.
 
-#### Why would I use Rubra instead of OpenAI’s Assistants API?
-Rubra allows you to develop your assistants locally without having to pay for tools and chat completions.
+---
 
-#### Why would I use Rubra instead of ChatGPT?
-Rubra allows you to chat with your LLMs and Assistants while keeping your data private, secure, and local.
+#### Why use Rubra models over Llama, Mistral, or other popular fine tunes like Hermes Pro or Gorilla OpenFunctions?
+Rubra models are capable of complex, multi-step, function calls (chain of function) and enhance popular open source instruct LLMs while retaining their original capabilities. While Hermes Pro is exceptional at chat and Gorilla OpenFunctions is good at basic function calling, Rubra models excel in both chat and complex, multi-step function calling.
 
-#### How is Rubra different from Local AI, Ollama, and LM Studio?
-Local AI, Ollama, and LM Studio are all great model inferencing engines for chat completions. In addition to model inferencing, Rubra provides an OpenAI compatible Assistants API powered by our optimized LLM.
+---
 
-#### How is Rubra different from Langchain OpenGPTs?
-Rubra ships with an optimized LLM and includes built-in tools to get you started building assistants immediately. Additionally, Rubra is OpenAI API compatible, so you can easily shift back and forth between local and cloud development.
+#### Mistral-7B-Instruct-v0.3 has tool calling capability, so why use Rubra enhanced Mistral-7B-Instruct-v0.3
+Rubra enhanced Mistral-7B-Instruct-v0.3 is capable of complex tool calling that original model falls short of. For instance, given query: *Find all .py pattern files in the current dir and count the lines of text in each file, add the result and print it*
 
-#### What makes Rubra private and secure?
-Rubra runs on your machine. Additionally, your chat history and the files you use for knowledge retrieval (RAG) never leave your machine.
-
-#### Does Rubra support other models?
-Yes, Rubra supports OpenAI and Anthropic models in addition to the Rubra local model or one that [you configure yourself](https://github.com/rubra-ai/rubra/tree/main/deploy_local_llm). We are working on introducing larger, more capable local models in the near future.
-
-#### Why isn't knowledge retrieval working?
-Our RAG pipeline uses an embedding model. If you're running in quickstart mode, the model is running on CPU and could be very slow, depending on machine. If you just created the assistant, it may take a few minutes to index the knowledge base. If you're still having issues, please check the logs for any errors.
-
-* On macOS:
-  * You need to install the Xcode Command Line Tools: `xcode-select --install`
-  * ```ImportError: libtorch_cpu.so: cannot enable executable stack as shared object requires: Invalid argument``` can be resolved by not using Rosetta for x86/amd64 emulation on Apple Silicon in Docker.
-
-#### How do I force remove data?
-
-If you need to [remove all Rubra data](/installation/uninstall), you can use the following command:
-
-```bash
-curl -sfL https://get.rubra.ai | sh -s -- delete
+and a list of available functions: find, count and sum
+<details>
+<summary>function definitions</summary>
+```json
+[
+    {
+            "type": "function",
+            "function": {
+                "name": "find",
+                "description": "List all files in a directory, optionally with a certain pattern",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "directory": {
+                            "type": "string",
+                            "description": "the directory to list files from"
+                        },
+                        "pattern": {
+                            "type": "string",
+                            "description": "the pattern to search for files",
+                        }
+                    },
+                    "required": [
+                        "directory"
+                    ]
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "count",
+                "description": "count the number of text lines in a file",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "filename": {
+                            "type": "string",
+                            "description": "filename to count"
+                        }
+                    },
+                    "required": [
+                        "name"
+                    ]
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "sum",
+                "description": "sum a list of numbers, separate by comma",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "nums": {
+                            "type": "string",
+                            "description": "a list of numbers, separate by comma"
+                        }
+                    },
+                    "required": [
+                        "nums"
+                    ]
+                }
+            }
+        }
+]
 ```
+</details>
+
+
+The original Mistral-7B-Instruct-v0.3 model responds with a list of hallucinated function calls.
+```
+[{"name": "find", "arguments": {"directory": "."}}, {"name": "filter", "arguments": {"function": "lambda x: x.endswith('.py')"}}, {"name": "map", "arguments": {"function": "lambda x: find(directory=x, pattern='.py')"}}, {"name": "flatMap", "arguments": {}}, {"name": "map", "arguments": {"function": "lambda x: count(filename=x)"}}, {"name": "reduce", "arguments": {"function": "sum"}}]
+```
+
+Rubra's enhanced Mistral model handles it step by step.
+```
+1. find all the .py files:
+[{'id': '13d12cbf', 'function': {'name': 'find', 'arguments': '{"directory": ".", "pattern": "*.py"}'}, 'type': 'function'}]
+assume the output of this function call is `[count.py, utils.py]`
+
+2. count each of the .py file:
+[{'id': 'j2k001nh', 'function': {'name': 'count', 'arguments': '{"filename": "count.py"}'}, 'type': 'function'}]
+[{'id': '05711d44', 'function': {'name': 'count', 'arguments': '{"filename": "utils.py"}'}, 'type': 'function'}]
+assume the output of each function here is `43` and `379`
+
+3. sum the numbers:
+[{'id': 'v34sdf0k', 'function': {'name': 'sum', 'arguments': '{"nums": "43, 379"}'}, 'type': 'function'}]
+thus the final result is `422`.
+```
+
+
+---
+
+#### vLLM has tool calling capability, so why use Rubra?
+vLLM expects that if you pass in tools, the LLM response will make a tool call. It inhibits the user's ability to chat with the model and puts the responsibility of passing in tools to the user or whatever is orchestrating the chat. 
+Using Rubra enhanced models and custom vLLM will give the LLM full discretion on when to make a tool call and when to reply with an assistant message - the same way OpenAI models work.
+
+---
+
+#### How were Rubra models trained?
+We curated a high quality tool calling dataset consisting of over 1 million conversations and TODO n million tool calls. The dataset consists of TODO N billion tokens. We spent 1000s of A100 and H100 GPU hours training the models. The smaller models were block expanded to ensure the parent model capabilities weren't lost, while the larger models followed an iterative training technique in which guide tokens were introduced initially for fast convergence, and removed in later stages to reduce token usage. We anticipate publishing a technical report on our recipe in the future.
+
+---
+
+#### Why do the benchmark results differ from the ones found in parent model cards?
+We use 2 popular tools to compute our benchmarks - see below. These tools are constantly improving and evolving, so the evaluation results can differ from when the parent model lab ran their benchmarks due to a variety of reasons. From what we've observed, all numbers we produce are in the same ballpark as parent models, and our numbers are consistent across all evaluated models as of June 2024. For MT-bench, the model under evaluation is judged by GPT-4, so any update by OpenAI to GPT-4 will change the results, but not by much. **We do not try to game the benchmarks with our Rubra enhanced models.**
+
+1. [Language Model Evaluation Harness](https://github.com/EleutherAI/lm-evaluation-harness)
+	- For MMLU, GPQA, GSM-8k, MATH
+	- vLLM was used and this occasionally differs in output from Huggingface - which may explain the difference in scores
+2. [FastChat LLM Judge](https://github.com/lm-sys/FastChat/tree/main/fastchat/llm_judge)
+	- For MT-bench
+
+---
+
+#### How did you construct the training set for Rubra models?
+We came up with a phrase named "chain of function". Chain of function is the process of calling and chaining multiple and/or consecutive function calls to achieve an end goal. This method is particularly relevant when integrating the LLM with user-defined tools, allowing for complex workflows and operations.
+
+Here's an example: Customer Feedback Processing
+
+**Prompt**: "Retrieve raw customer feedback using `getFeedback`, clean the data using `cleanFeedback`, analyze the cleaned data using `analyzeFeedback`, and generate a report using `generateReport`."
+
+**Available Functions**:
+- `getFeedback`: Retrieves raw customer feedback from a database.
+  - **Parameters**: None.
+  - **Result**: Returns a JSON array of feedback entries, each containing text and metadata.
+- `cleanFeedback`: Cleans the retrieved feedback by removing spam, correcting typos, and standardizing text format.
+  - **Parameters**:
+    - `feedbackData`: A JSON array of raw customer feedback.
+  - **Result**: Returns a JSON array of cleaned feedback entries.
+- `analyzeFeedback`: Analyzes the cleaned feedback to identify key themes and sentiments.
+  - **Parameters**:
+    - `cleanedData`: A JSON array of cleaned feedback.
+  - **Result**: Returns a summary object with counts of positive, negative, and neutral feedback, along with common themes.
+- `generateReport`: Generates a detailed report based on the analysis, summarizing key insights and recommendations.
+  - **Parameters**:
+    - `analysisResults`: An object containing analysis results of customer feedback.
+  - **Result**: Returns a formatted text report detailing customer satisfaction and areas for improvement.
+
+**Expected Function Calls**:
+1. **`getFeedback`**:
+   - **Arguments**: None
+   - **Result**: `[{"id": 1, "comment": "Great service!", "metadata": {"timestamp": "2023-06-01"}}, {"id": 2, "comment": "Poor experience.", "metadata": {"timestamp": "2023-06-01"}}]`
+2. **`cleanFeedback`**:
+   - **Arguments**: `{ "feedbackData": [{"id": 1, "comment": "Great service!", "metadata": {"timestamp": "2023-06-01"}}, {"id": 2, "comment": "Poor experience.", "metadata": {"timestamp": "2023-06-01"}}] }`
+   - **Result**: `[{"id": 1, "comment": "Great service"}, {"id": 2, "comment": "Poor experience"}]`
+3. **`analyzeFeedback`**:
+   - **Arguments**: `{ "cleanedData": [{"id": 1, "comment": "Great service"}, {"id": 2, "comment": "Poor experience"}] }`
+   - **Result**: `{ "positive": 1, "negative": 1, "themes": ["service quality"] }`
+4. **`generateReport`**:
+   - **Arguments**: `{ "analysisResults": { "positive": 1, "negative": 1, "themes": ["service quality"] } }`
+   - **Result**: `"Customer Feedback Report: 1 positive feedback, 1 negative feedback. Key theme identified: Service Quality. Recommendations: Enhance training on customer interaction."`
+
+**Final Answer Should**: "The answer should indicate that the final output is a detailed report titled 'Customer Feedback Report', which synthesizes all previous processing steps into actionable insights."

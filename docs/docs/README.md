@@ -3,59 +3,52 @@ sidebar_position: 0
 title: What is Rubra?
 ---
 
-# Introduction
+# Rubra
 
-## Overview
-Rubra is an open-source ChatGPT. It's designed for users who want to:
+#### Rubra is a collection of open-weight, tool-calling LLMs.
 
-* **Engage with LLMs:** Utilize a chat UI that offers benefits such as multi-model selection and caching to save on token costs.
-* **Develop and Utilize Assistants:** An Assistant is an LLM with access to tools. With Rubra, you can select from a variety of LLMs, including a Rubra-optimized local one, and tools to create your own assistant.
-* **OpenAI Compatible API:** Rubra provides an API that is compatible with OpenAI's assistants API, allowing you to use OpenAI's Python and JavaScript libraries to interact with Rubra.
-* **Self-Host:** Rubra is designed to be self-hosted, which helps ensure that your data stays private and secure.
+Rubra enhances the top open-weight large language models with tool-calling capability. The ability to call user-defined external tools in a deterministic manner while reasoning and chatting makes Rubra models ideal for agentic use cases.
 
-## Key Components
+All models are enhanced from the top open-source LLMs with further post-training and methods that effectively teach instruct-tuned models new skills while mitigating catastrophic forgetting. For easy use, we extend popular inferencing projects, allowing you to run Rubra models easily.
 
-### Large Language Models
-Rubra allows you to interact with a variety of large language models in one place. Rubra ships with a local model and allows you to connect to other models, such as ones from OpenAI and Anthropic.
+## Enhanced Models
 
-### Tools
-Rubra provides a variety of tools to help you develop and utilize your own assistants. These tools include:
-- **Web Search**: Allow your assistant to utilize the web to find information.
-- **Knowledge Retrieval**: Augment your assitant with knowledge from files you upload. Once you upload your files, Rubra will automatically chunk your documents, index and store the embeddings, and implement retrieval augmented generation (RAG) to answer queries related to the documents.
+| Enhanced Model                                                        | Context Length | Size  | GGUF Quants |
+|-----------------------------------------------------------------------|----------------|-------|-------------|
+| [rubra-ai/Meta-Llama-3-8B-Instruct](https://huggingface.co/rubra-ai/Meta-Llama-3-8B-Instruct)             | 8,000          | 8B    | [rubra-ai/Meta-Llama-3-8B-Instruct-GGUF](https://huggingface.co/rubra-ai/Meta-Llama-3-8B-Instruct-GGUF)     |
+| [rubra-ai/Meta-Llama-3-70B-Instruct](https://huggingface.co/rubra-ai/Meta-Llama-3-70B-Instruct)           | 8,000          | 70B   | [rubra-ai/Meta-Llama-3-70B-Instruct-GGUF](https://huggingface.co/rubra-ai/Meta-Llama-3-70B-Instruct-GGUF)   |
+| [rubra-ai/gemma-1.1-2b-it](https://huggingface.co/rubra-ai/gemma-1.1-2b-it)                               | 8,192          | 2B    | [rubra-ai/gemma-1.1-2b-it-GGUF](https://huggingface.co/rubra-ai/gemma-1.1-2b-it-GGUF)                         |
+| [rubra-ai/Mistral-7B-Instruct-v0.3](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.3)             | 32,000         | 7B    | [rubra-ai/Mistral-7B-Instruct-v0.3-GGUF](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.3-GGUF)       |
+| [rubra-ai/Mistral-7B-Instruct-v0.2](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.2)             | 32,000         | 7B    | [rubra-ai/Mistral-7B-Instruct-v0.2-GGUF](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.2-GGUF)       |
+| [rubra-ai/Phi-3-mini-128k-instruct](https://huggingface.co/rubra-ai/Phi-3-mini-128k-instruct)             | 128,000        | 3B    | [rubra-ai/Phi-3-mini-128k-instruct-GGUF](https://huggingface.co/rubra-ai/Phi-3-mini-128k-instruct-GGUF)       |
+| [rubra-ai/Qwen2-7B-Instruct](https://huggingface.co/rubra-ai/Qwen2-7B-Instruct)                           | 131,072        | 7B    | [rubra-ai/Qwen2-7B-Instruct-GGUF](https://huggingface.co/rubra-ai/Qwen2-7B-Instruct-GGUF)                     |
 
-OpenAI's tools cost money. Code interpreter costs $0.03 per session and Knowledge Retrieval costs $0.20/GB per assistant per day. Rubra runs on your own hardware and is free.
+## Demo
 
-Function calling, code interpreter, and more tools will be available soon.
+Try out the models immediately without downloading anything in [Huggingface Spaces](https://huggingface.co/spaces/sanjay920/rubra-v0.1-dev)! It's free and requires no login.
 
-### Interfaces
+<!-- <iframe 
+  src="https://gokaygokay-florence-2.hf.space"
+  frameborder="0"
+  style={{ width: '120%', height: '1200px' }}
+  allowfullscreen
+></iframe> -->
 
-#### Chat UI
-Rubra provides a familiar chat interface that allows you to interact with your models and assistants. You can:
+## Run Rubra Models Locally
 
-- Create assistants with a few clicks - no coding necessary
-- Manage models and API keys
-- Chat with your LLMs and assistants
+We extend the following inferencing tools to run Rubra models in an OpenAI-compatible tool-calling format for local use:
 
-#### OpenAI Compatible API
+- [llama.cpp](https://github.com/ggerganov/llama.cpp)
+- [vllm](https://github.com/vllm-project/vllm)
 
-Rubra provides an API that is compatible with OpenAI's assistants API, allowing you to use OpenAI's Python and JavaScript libraries to interact with Rubra. Simply:
+## Contributing
 
-```python
-from openai import OpenAI
+Contributions to Rubra are welcome! We'd love to improve tool-calling capability in the models based on your feedback. Please submit issues to the GitHub repository.
 
-client = OpenAI(
-    base_url="http://localhost:8000",  # points at locally running Rubra backend
-    api_key=""
-)
+## License
 
-assistant = client.beta.assistants.create(
-  instructions="You are a customer support chatbot. Use your knowledge base to best respond to customer queries.",
-  model="rubra_local",
-  tools=[{"type": "retrieval"}],
-  file_ids=[client.files.create(file=open("knowledge.txt", "rb"),purpose='assistants').id]
-)
-```
+Rubra code is licensed under the Apache 2.0 License. Rubra enhanced models are published under the same license as the parent model.
 
-## Getting Started
+---
 
-Rubra is designed to run on your machine, ensuring your data remains private and secure. Refer to the [quickstart guide](./quickstart) to get started!
+For more details and documentation, visit the [Rubra GitHub page](https://github.com/rubra-ai/rubra).

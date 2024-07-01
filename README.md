@@ -1,59 +1,42 @@
+<p align="left">
+    <a href="README_CN.md">中文</a>&nbsp ｜ &nbspEnglish&nbsp </a>
+</p>
+<br><br>
+
 # Rubra
 
-Rubra is an open-source ChatGPT. It's designed for users who want:
+#### Rubra is a collection of open-weight, tool-calling LLMs.
 
-- **Multi-Model Support:** Rubra integrates with a variety of LLMs, including a local model optimized for Rubra, as well as models from OpenAI and Anthropic. More providers will be added in the future.
-- **Assistant Tools:** Create powerful assistants using tools for web search, knowledge retrieval, and more, all designed to augment your LLMs with the information they need to be truly helpful.
-- **OpenAI API Compatibility:** Use Rubra's OpenAI-compatible Assistants API, allowing you to use OpenAI's Python and JavaScript libraries to create and manage Assistants.
-- **Self-Hosting:** Keep your data private and secure by running Rubra on your own hardware.
+Rubra enhances the top open-weight large language models with tool-calling capability. The ability to call user-defined external tools in a deterministic manner while reasoning and chatting makes Rubra models ideal for agentic use cases.
 
-## Getting Started
+All models are enhanced from the top open-source LLMs with further post-training and methods that effectively teach instruct-tuned models new skills while mitigating catastrophic forgetting. For easy use, we extend popular inferencing projects, allowing you to run Rubra models easily.
 
-### Prerequisites
+## Enhanced Models
 
-- M-series Mac or Linux with GPU
-  - On MacOS you need to have Xcode Command Line Tools installed: `xcode-select --install`
-- At least 16 GB RAM
-- At least 10 GB of available disk space
-- Docker and Docker Compose (>= v2.17.0) installed
+| Enhanced Model                                                        | Context Length | Size | Parent Model Publisher |
+|-----------------------------------------------------------------------|----------------|------|------------------------|
+| [rubra-ai/Meta-Llama-3-8B-Instruct](https://huggingface.co/rubra-ai/Meta-Llama-3-8B-Instruct)   | 8,000          | 8B   | Meta             |
+| [rubra-ai/Meta-Llama-3-70B-Instruct](https://huggingface.co/rubra-ai/Meta-Llama-3-70B-Instruct) | 8,000          | 70B  | Meta             |
+| [rubra-ai/gemma-1.1-2b-it](https://huggingface.co/rubra-ai/gemma-1.1-2b-it)                     | 8,192          | 2B   | Google                 |
+| [rubra-ai/Mistral-7B-Instruct-v0.3](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.3)   | 32,000         | 7B   | Mistral              |
+| [rubra-ai/Mistral-7B-Instruct-v0.2](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.2)    | 32,000         | 7B   | Mistral              |
+| [rubra-ai/Phi-3-vision-128k-instruct](https://huggingface.co/rubra-ai/Phi-3-vision-128k-instruct)| 128,000        | 3B   | Microsoft              |
+| [rubra-ai/Qwen2-7B-Instruct](https://huggingface.co/rubra-ai/Qwen2-7B-Instruct)                 | 131,072        | 7B   | Qwen                   |
 
-### Installation
+## Demo
 
-Rubra offers a simple one-command installation:
+Try out the models immediately without downloading anything in Our [Huggingface Spaces](https://huggingface.co/spaces/sanjay920/rubra-v0.1-dev)! It's free and requires no login.
 
-```bash
-curl -sfL https://get.rubra.ai | sh -s -- start
-```
+## Run Rubra Models Locally
 
-After installation, access the Rubra UI at `http://localhost:8501` and start exploring the capabilities of your new ChatGPT-like assistant.
+We extend the following inferencing tools to run Rubra models in an OpenAI-compatible tool-calling format for local use:
 
-## Usage
-
-Here's a quick example of how to create an assistant using Rubra's API, compatible with OpenAI's libraries:
-
-```python
-from openai import OpenAI
-
-client = OpenAI(
-    base_url="http://localhost:8000",  # Rubra backend
-    api_key=""
-)
-
-assistant = client.beta.assistants.create(
-  instructions="You are a customer support chatbot. Use your knowledge base to best respond to customer queries.",
-  model="rubra_local",
-  tools=[{"type": "retrieval"}],
-  file_ids=[client.files.create(file=open("knowledge.txt", "rb"), purpose='assistants').id]
-)
-```
+- [llama.cpp](https://github.com/ggerganov/llama.cpp)
+- [vllm](https://github.com/vllm-project/vllm)
 
 ## Contributing
 
-We welcome contributions from the developer community! Whether it's adding new features, fixing bugs, or improving documentation, your help is invaluable. Check out our [contributing guidelines](CONTRIBUTING.md) for more information on how to get involved.
-
-## Support
-
-If you encounter any issues or have questions, please file an issue on GitHub. For more detailed guidance and discussions, join our community on [Discord](https://discord.gg/swvAH2DXZH) or [Slack](https://slack.acorn.io) or start a [Github discussion](https://github.com/rubra-ai/rubra/discussions).
+Contributions to Rubra are welcome! We'd love to improve tool-calling capability in the models based on your feedback. Please open an issue if your tool doesn't work.
 
 ---
 

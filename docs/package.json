@@ -22,6 +22,7 @@
     "prism-react-renderer": "^2.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-table": "^7.8.0",
     "url": "^0.11.3"
   },
   "devDependencies": {
