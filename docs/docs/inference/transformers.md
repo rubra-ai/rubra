@@ -139,7 +139,7 @@ messages = [
     {"role": "user", "content": "What is the result of four plus six? Take the result and add 2? Then multiply by 5 and then divide by two"},
 ]
 
-# run_model function for models beside Qwen2
+# run_model function for Rubra models (except Qwen2, see below)
 def run_model(messages, functions):
     ## Format messages in Rubra's format
     formatted_msgs = preprocess_input(msgs=messages, tools=functions)
