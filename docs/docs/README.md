@@ -25,7 +25,7 @@ All models are enhanced from the top open-source LLMs with further post-training
 
 ## Demo
 
-Try out the models immediately without downloading anything in [Huggingface Spaces](https://huggingface.co/spaces/sanjay920/rubra-v0.1-dev)! It's free and requires no login.
+Try out the models immediately without downloading anything in [Huggingface Spaces](https://huggingface.co/spaces/sanjay920/rubra-v0.1-function-calling)! It's free and requires no login.
 
 <!-- <iframe 
   src="https://gokaygokay-florence-2.hf.space"
