@@ -23,6 +23,8 @@ We recommend this model for any task exceeding the context limit found in Llama-
 
 ## Qwen2 7B Instruct
 
+- [rubra-ai/Qwen2-7B-Instruct](https://huggingface.co/rubra-ai/Qwen2-7B-Instruct)
+- [rubra-ai/Qwen2-7B-Instruct-GGUF](https://huggingface.co/rubra-ai/Qwen2-7B-Instruct-GGUF)
 
 #### MT-bench Pairwise Comparison:
 

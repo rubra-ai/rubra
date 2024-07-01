@@ -16,6 +16,9 @@ Mistral is a series of open weight models that set the bar for efficiency, and a
 
 ## Mistral 7B Instruct v3
 
+- [rubra-ai/Mistral-7B-Instruct-v0.3](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.3)
+- [rubra-ai/Mistral-7B-Instruct-v0.3-GGUF](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.3-GGUF)
+
 <table>
   <thead>
     <tr>
@@ -73,6 +76,9 @@ Mistral is a series of open weight models that set the bar for efficiency, and a
 
 
 ## Mistral 7B Instruct v2
+
+- [rubra-ai/Mistral-7B-Instruct-v0.2](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.2)
+- [rubra-ai/Mistral-7B-Instruct-v0.2-GGUF](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.2-GGUF)
 
 <table>
   <thead>

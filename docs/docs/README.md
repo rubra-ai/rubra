@@ -13,14 +13,15 @@ All models are enhanced from the top open-source LLMs with further post-training
 
 ## Enhanced Models
 
-| Enhanced Model                                                        | Context Length | Size | Parent Model Publisher |
-|-----------------------------------------------------------------------|----------------|------|------------------------|
-| [rubra-ai/Meta-Llama-3-8B-Instruct](https://huggingface.co/rubra-ai/Meta-Llama-3-8B-Instruct)   | 8,000          | 8B   | Meta             |
-| [rubra-ai/Meta-Llama-3-70B-Instruct](https://huggingface.co/rubra-ai/Meta-Llama-3-70B-Instruct) | 8,000          | 70B  | Meta             |
-| [rubra-ai/gemma-1.1-2b-it](https://huggingface.co/rubra-ai/gemma-1.1-2b-it)                     | 8,192          | 2B   | Google                 |
-| [rubra-ai/Mistral-7B-Instruct-v0.3](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.3)   | 32,000         | 7B   | Mistral              |
-| [rubra-ai/Phi-3-vision-128k-instruct](https://huggingface.co/rubra-ai/Phi-3-vision-128k-instruct)| 128,000        | 3B   | Microsoft              |
-| [rubra-ai/Qwen2-7B-Instruct](https://huggingface.co/rubra-ai/Qwen2-7B-Instruct)                 | 131,072        | 7B   | Qwen                   |
+| Enhanced Model                                                        | Context Length | Size  | GGUF Quants |
+|-----------------------------------------------------------------------|----------------|-------|-------------|
+| [rubra-ai/Meta-Llama-3-8B-Instruct](https://huggingface.co/rubra-ai/Meta-Llama-3-8B-Instruct)             | 8,000          | 8B    | [rubra-ai/Meta-Llama-3-8B-Instruct-GGUF](https://huggingface.co/rubra-ai/Meta-Llama-3-8B-Instruct-GGUF)     |
+| [rubra-ai/Meta-Llama-3-70B-Instruct](https://huggingface.co/rubra-ai/Meta-Llama-3-70B-Instruct)           | 8,000          | 70B   | [rubra-ai/Meta-Llama-3-70B-Instruct-GGUF](https://huggingface.co/rubra-ai/Meta-Llama-3-70B-Instruct-GGUF)   |
+| [rubra-ai/gemma-1.1-2b-it](https://huggingface.co/rubra-ai/gemma-1.1-2b-it)                               | 8,192          | 2B    | [rubra-ai/gemma-1.1-2b-it-GGUF](https://huggingface.co/rubra-ai/gemma-1.1-2b-it-GGUF)                         |
+| [rubra-ai/Mistral-7B-Instruct-v0.3](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.3)             | 32,000         | 7B    | [rubra-ai/Mistral-7B-Instruct-v0.3-GGUF](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.3-GGUF)       |
+| [rubra-ai/Mistral-7B-Instruct-v0.2](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.2)             | 32,000         | 7B    | [rubra-ai/Mistral-7B-Instruct-v0.2-GGUF](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.2-GGUF)       |
+| [rubra-ai/Phi-3-mini-128k-instruct](https://huggingface.co/rubra-ai/Phi-3-mini-128k-instruct)             | 128,000        | 3B    | [rubra-ai/Phi-3-mini-128k-instruct-GGUF](https://huggingface.co/rubra-ai/Phi-3-mini-128k-instruct-GGUF)       |
+| [rubra-ai/Qwen2-7B-Instruct](https://huggingface.co/rubra-ai/Qwen2-7B-Instruct)                           | 131,072        | 7B    | [rubra-ai/Qwen2-7B-Instruct-GGUF](https://huggingface.co/rubra-ai/Qwen2-7B-Instruct-GGUF)                     |
 
 ## Demo
 

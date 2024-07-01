@@ -36,7 +36,7 @@ npm install jsonrepair
 
 ### 2. Start the Server with a Rubra function calling model:
 ```
-python -m vllm.entrypoints.openai.api_server --model rubra-ai/Phi-3-mini-128k-instruct-function-calling-alpha-v1  --dtype auto --api-key token-abc123 --max-model-len 8000 --gpu-memory-utilization 0.96 --enforce-eager
+python -m vllm.entrypoints.openai.api_server --model rubra-ai/Phi-3-mini-128k-instruct --dtype auto --api-key token-abc123 --max-model-len 8000 --gpu-memory-utilization 0.96 --enforce-eager
 ```
 The model will get downloaded automatically from huggingface.
 
@@ -46,7 +46,7 @@ curl localhost:8000/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer token-abc123" \
   -d '{
-    "model": "rubra-ai/Phi-3-mini-128k-instruct-function-calling-alpha-v1",
+    "model": "rubra-ai/Phi-3-mini-128k-instruct",
     "messages": [
       {
         "role": "system",
@@ -61,7 +61,7 @@ curl localhost:8000/v1/chat/completions \
 ```
 You should see a response like this:
 ```
-{"choices":[{"finish_reason":"stop","index":0,"message":{"content":" Hello! How can I assist you today? If you have any questions or need information on a particular topic, feel free to ask.","role":"assistant"}}],"created":1719608774,"model":"rubra-ai/Phi-3-mini-128k-instruct-function-calling-alpha-v1","object":"chat.completion","usage":{"completion_tokens":28,"prompt_tokens":13,"total_tokens":41},"id":"chatcmpl-2Pr8BAD6b5Gc7sQyLWv7i6l8Sh3QMeI3"}
+{"choices":[{"finish_reason":"stop","index":0,"message":{"content":" Hello! How can I assist you today? If you have any questions or need information on a particular topic, feel free to ask.","role":"assistant"}}],"created":1719608774,"model":"rubra-ai/Phi-3-mini-128k-instruct","object":"chat.completion","usage":{"completion_tokens":28,"prompt_tokens":13,"total_tokens":41},"id":"chatcmpl-2Pr8BAD6b5Gc7sQyLWv7i6l8Sh3QMeI3"}
 ```
 
 ### 4. Try a python function calling example:
@@ -92,7 +92,7 @@ tools = [
 ]
 messages = [{"role": "user", "content": "What's the weather like in Boston today?"}]
 completion = client.chat.completions.create(
-  model="rubra-ai/Phi-3-mini-128k-instruct-function-calling-alpha-v1",
+  model="rubra-ai/Phi-3-mini-128k-instruct",
   messages=messages,
   tools=tools,
   tool_choice="auto"

@@ -18,6 +18,10 @@ We observe in the benchmarks and in our own testing that Gemma models do not per
 
 ## Gemma-1.1 2B Instruct
 
+- [rubra-ai/gemma-1.1-2b-it](https://huggingface.co/rubra-ai/gemma-1.1-2b-it)
+- [rubra-ai/gemma-1.1-2b-it-GGUF](https://huggingface.co/rubra-ai/gemma-1.1-2b-it-GGUF)
+
+
 <table>
   <thead>
     <tr>

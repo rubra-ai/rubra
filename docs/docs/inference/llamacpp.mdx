@@ -39,21 +39,23 @@ Assumes you have Node.js and npm installed
 :::
 
 ```bash
-npm install jsonrepair
+npm install jsonrepair --no-bin-links
 ```
+
+* You may need to run the above with `sudo` depending on user permsisions
 
 ### 4. Download a Compatible Rubra GGUF Model
 
 For example:
 
 ```bash
-wget https://huggingface.co/rubra-ai/Llama-3-8b-function-calling-alpha-v1.gguf/resolve/main/Llama-3-8b-function-calling-alpha-v1.gguf
+wget https://huggingface.co/rubra-ai/Meta-Llama-3-8B-Instruct-GGUF/resolve/main/rubra-meta-llama-3-8b-instruct.Q8_0.gguf
 ```
 
 ### 5. Start the OpenAI Compatible Server
 
 ```bash
-./llama-server -ngl 37 -m Llama-3-8b-function-calling-alpha-v1.gguf --port 1234 --host 0.0.0.0 -c 8000 --chat-template llama3
+./llama-server -ngl 37 -m rubra-meta-llama-3-8b-instruct.Q8_0.gguf --port 1234 --host 0.0.0.0 -c 8000 --chat-template llama3
 ```
 
 ### 6. Test the Server to Ensure Availability
@@ -143,7 +145,7 @@ Make sure you turn `stream` off when making API calls to the server, as the stre
 | Gemma   |     gemma     |
 | Qwen2   |     chatml    |
 
-For example, to run [Rubra's enhanced Phi3 model](https://huggingface.co/rubra-ai/Phi-3-mini-128k-instruct-function-calling-alpha-v1-GGUF), use the following command:
+For example, to run [Rubra's enhanced Phi3 model](https://huggingface.co/rubra-ai/Phi-3-mini-128k-instruct-GGUF), use the following command:
 
 ```bash
-./llama-server -ngl 37 -m phi-3-mini-128k-instruct-function-calling-alpha-v1.Q8_0.gguf --port 1234 --host 0.0.0.0 -c 32000 --chat-template phi3
+./llama-server -ngl 37 -m rubra-phi-3-mini-128k-instruct.Q8_0.gguf --port 1234 --host 0.0.0.0 -c 32000 --chat-template phi3

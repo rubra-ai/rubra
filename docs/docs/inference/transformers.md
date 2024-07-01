@@ -36,7 +36,7 @@ model_id = "rubra-ai/Meta-Llama-3-8B-Instruct"
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_pretrained(
     model_id,
-    torch_dtype=torch.bfloat16,
+    torch_dtype="auto",
     device_map="auto",
 )
 ```

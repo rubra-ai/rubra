@@ -15,6 +15,9 @@ Phi-3 is a state of the art, lightweight model. It performs exceptionally well d
 
 ## Phi-3 Mini 128k Instruct
 
+- [rubra-ai/Phi-3-mini-128k-instruct](https://huggingface.co/rubra-ai/Phi-3-mini-128k-instruct)
+- [rubra-ai/Phi-3-mini-128k-instruct-GGUF](https://huggingface.co/rubra-ai/Phi-3-mini-128k-instruct-GGUF)
+
 <table>
   <thead>
     <tr>
