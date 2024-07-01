@@ -139,6 +139,7 @@ messages = [
     {"role": "user", "content": "What is the result of four plus six? Take the result and add 2? Then multiply by 5 and then divide by two"},
 ]
 
+# run_model function for models beside Qwen2
 def run_model(messages, functions):
     ## Format messages in Rubra's format
     formatted_msgs = preprocess_input(msgs=messages, tools=functions)
@@ -166,6 +167,30 @@ def run_model(messages, functions):
     raw_output = tokenizer.decode(response, skip_special_tokens=True)
     return raw_output
 
+# run_model function for Qwen2 model
+# def run_model(messages, functions):
+#     ## Format messages in Rubra's format
+#     formatted_msgs = preprocess_input(msgs=messages, tools=functions)
+
+#     text = tokenizer.apply_chat_template(
+#         formatted_msgs,
+#         tokenize=False,
+#         add_generation_prompt=True
+#     )
+#     model_inputs = tokenizer([text], return_tensors="pt").to(model.device)
+
+#     generated_ids = model.generate(
+#         model_inputs.input_ids,
+#         max_new_tokens=512
+#     )
+#     generated_ids = [
+#         output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
+#     ]
+
+#     response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+#     return response
+
+
 raw_output = run_model(messages, functions)
 # Check if there's a function call
 function_call = postprocess_output(raw_output)
@@ -179,6 +204,7 @@ You should see this output, which is a function call made by the ai assistant:
 ```
 [{'id': 'fc65a533', 'function': {'name': 'addition', 'arguments': '{"a": "4", "b": "6"}'}, 'type': 'function'}]
 ```
+
 
 ### Add Executed Tool Result to Message History & Continue the Conversation
 
