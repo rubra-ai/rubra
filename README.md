@@ -1,3 +1,8 @@
+<p align="left">
+    <a href="README_CN.md">中文</a>&nbsp ｜ &nbspEnglish&nbsp </a>
+</p>
+<br><br>
+
 # Rubra
 
 #### Rubra is a collection of open-weight, tool-calling LLMs.
@@ -19,7 +24,7 @@ All models are enhanced from the top open-source LLMs with further post-training
 
 ## Demo
 
-Try out the models immediately without downloading anything in [Huggingface Spaces](https://huggingface.co/spaces/sanjay920/rubra-v0.1-dev)! It's free and requires no login.
+Try out the models immediately without downloading anything in Our [Huggingface Spaces](https://huggingface.co/spaces/sanjay920/rubra-v0.1-dev)! It's free and requires no login.
 
 ## Run Rubra Models Locally
 
