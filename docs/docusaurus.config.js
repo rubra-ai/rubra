@@ -74,6 +74,11 @@ const config = {
             to: 'https://github.com/rubra-ai/rubra',
             label: 'GitHub',
             position: 'right',
+          },
+          {
+            to: 'https://discord.gg/9sSf4UyAMC',
+            label: 'Discord',
+            position: 'right',
           }
         ],
       },
@@ -90,7 +95,7 @@ const config = {
           },
           {
             label: 'Discord',
-            to: 'https://discord.gg/swvAH2DXZH',
+            to: 'https://discord.gg/9sSf4UyAMC',
           },
         ],
         copyright: `Copyright © ${new Date().getFullYear()} Acorn Labs, Inc.`,

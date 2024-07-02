@@ -29,6 +29,6 @@ If you have any ideas or suggestions for new features or improvements to Rubra, 
 
 ## Contact
 
-If you have any questions or need further assistance, you can reach out to the Rubra development team at [rubra@acorn.io](mailto:rubra@acorn.io) or join our community on [Discord](https://discord.gg/swvAH2DXZH) or [Slack](https://slack.acorn.io).
+If you have any questions or need further assistance, you can reach out to the Rubra development team at [rubra@acorn.io](mailto:rubra@acorn.io) or join our community on [Discord](https://discord.gg/9sSf4UyAMC).
 
 We appreciate your contributions and look forward to working with you!
