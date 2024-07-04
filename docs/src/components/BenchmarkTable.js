@@ -203,6 +203,7 @@ const data = [
     },
     {
         model: 'functionary-medium-v3.0',
+        params: 70.6,
         functionCalling: '46.43%',
         mmlu: '-',
         gpqa: '-',
@@ -212,6 +213,7 @@ const data = [
     },
     {
         model: 'functionary-small-v2.5',
+        params: 8.03,
         functionCalling: '57.14%',
         mmlu: '-',
         gpqa: '-',
