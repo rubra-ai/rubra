@@ -34,6 +34,20 @@ We extend the following inferencing tools to run Rubra models in an OpenAI-compa
 - [llama.cpp](https://github.com/ggerganov/llama.cpp)
 - [vllm](https://github.com/vllm-project/vllm)
 
+## Benchmark
+
+View full benchmark results for Rubra models and other models here: https://docs.rubra.ai/benchmark
+
+| Model                                                     | Function Calling | MMLU (5-shot) | GPQA (0-shot) | GSM-8K (8-shot, CoT) | MATH (4-shot, CoT) | MT-bench |
+|-----------------------------------------------------------|------------------|---------------|---------------|----------------------|--------------------|----------|
+| [**Rubra Llama-3 70B Instruct**](https://huggingface.co/rubra-ai/Meta-Llama-3-70B-Instruct)       | 97.85%           | 75.90         | 33.93         | 82.26                | 34.24              | 8.36     |
+| [**Rubra Llama-3 8B Instruct**](https://huggingface.co/rubra-ai/Meta-Llama-3-8B-Instruct)        | 89.28%           | 64.39         | 31.70         | 68.99                | 23.76              | 8.03     |
+| [**Rubra Qwen2 7B Instruct**](https://huggingface.co/rubra-ai/Qwen2-7B-Instruct)                 | 85.71%           | 68.88         | 30.36         | 75.82                | 28.72              | 8.08     |
+| [**Rubra Mistral 7B Instruct v0.3**](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.3)   | 73.57%           | 59.12         | 29.91         | 43.29                | 11.14              | 7.69     |
+| [**Rubra Phi-3 Mini 128k Instruct**](https://huggingface.co/rubra-ai/Phi-3-mini-128k-instruct)   | 65.71%           | 66.66         | 29.24         | 74.09                | 26.84              | 7.45     |
+| [**Rubra Mistral 7B Instruct v0.2**](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.2)   | 69.28%           | 58.90         | 29.91         | 34.12                | 8.36               | 7.36     |
+| [**Rubra Gemma-1.1 2B Instruct**](https://huggingface.co/rubra-ai/gemma-1.1-2b-it)               | 45.00%           | 38.85         | 24.55         | 6.14                 | 2.38               | 5.75     |
+
 ## Contributing
 
 Contributions to Rubra are welcome! We'd love to improve tool-calling capability in the models based on your feedback. Please open an issue if your tool doesn't work.
