@@ -86,6 +86,7 @@ We recommend this model for complex tool calling scenarios, but users should be 
 
 - [rubra-ai/Meta-Llama-3-70B-Instruct](https://huggingface.co/rubra-ai/Meta-Llama-3-70B-Instruct)
 - [rubra-ai/Meta-Llama-3-70B-Instruct-GGUF](https://huggingface.co/rubra-ai/Meta-Llama-3-70B-Instruct-GGUF)
+- [rubra-ai/Meta-Llama-3-70B-Instruct-AWQ](https://huggingface.co/rubra-ai/Meta-Llama-3-70B-Instruct-AWQ)
 
 <table>
   <thead>
