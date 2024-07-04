@@ -200,6 +200,24 @@ const data = [
         gsm8k: '-',
         math: '-',
         mtBench:'-',
+    },
+    {
+        model: 'functionary-medium-v3.0',
+        functionCalling: '46.43%',
+        mmlu: '-',
+        gpqa: '-',
+        gsm8k: '-',
+        math: '-',
+        mtBench:'-',
+    },
+    {
+        model: 'functionary-small-v2.5',
+        functionCalling: '57.14%',
+        mmlu: '-',
+        gpqa: '-',
+        gsm8k: '-',
+        math: '-',
+        mtBench:'-',
     }
 ];
 
