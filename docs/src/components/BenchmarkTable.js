@@ -200,6 +200,26 @@ const data = [
         gsm8k: '-',
         math: '-',
         mtBench:'-',
+    },
+    {
+        model: 'functionary-medium-v3.0',
+        params: 70.6,
+        functionCalling: '46.43%',
+        mmlu: '79.85',
+        gpqa: '38.39',
+        gsm8k: '89.54',
+        math: '43.02',
+        mtBench:'5.49',
+    },
+    {
+        model: 'functionary-small-v2.5',
+        params: 8.03,
+        functionCalling: '57.14%',
+        mmlu: '63.92',
+        gpqa: '32.14',
+        gsm8k: '66.11',
+        math: '20.54',
+        mtBench:'7.09',
     }
 ];
 

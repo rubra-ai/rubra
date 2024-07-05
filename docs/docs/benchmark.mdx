@@ -30,6 +30,8 @@ Some of the LLMs above require using custom libraries to post-process LLM genera
 
 `Nexusflow/NexusRaven-V2-13B` required [nexusraven-pip](https://github.com/nexusflowai/nexusraven-pip).
 
+`functionary-small-v2.5` and `functionary-medium-v3.0` models are tested using [MeetKai's functionary](https://github.com/MeetKai/functionary?tab=readme-ov-file#setup) with the vllm framework. For each model, we compared the results with functionary's `Grammar Sampling` feature enabled and disabled, taking the highest score from either configuration. The `functionary-small-v2.5` model achieved a higher score than the `functionary-medium-v3.0` model, primarily due to the medium model exhibiting more hallucinations in some of our more advanced test cases.
+
 :::::
 
 ∔ `Nexusflow/NexusRaven-V2-13B` and `gorilla-llm/gorilla-openfunctions-v2` don't accept tool observations, the result of running a tool or function once the LLM calls it, so we appended the observation to the prompt.
