@@ -29,10 +29,13 @@ Try out the models immediately without downloading anything in Our [Huggingface 
 
 ## Run Rubra Models Locally
 
+Check out our [documentation](https://docs.rubra.ai/category/serving--inferencing) to learn how to run Rubra models locally.
 We extend the following inferencing tools to run Rubra models in an OpenAI-compatible tool-calling format for local use:
 
-- [llama.cpp](https://github.com/ggerganov/llama.cpp)
-- [vllm](https://github.com/vllm-project/vllm)
+- [llama.cpp](https://github.com/rubra-ai/tools.cpp)
+- [vLLM](https://github.com/rubra-ai/vllm)
+
+**Note**: Llama3 models, including the 8B and 70B variants, are known to experience increased perplexity and a subsequent degradation in function-calling performance as a result of quantization. We recommend serving them with either vLLM or using the fp16 quantization.
 
 ## Benchmark
 
