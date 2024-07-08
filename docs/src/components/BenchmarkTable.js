@@ -202,6 +202,15 @@ const data = [
         mtBench:'-',
     },
     {
+        model: 'Mistral-Large',
+        functionCalling: '48.60%',
+        mmlu: '-',
+        gpqa: '-',
+        gsm8k: '-',
+        math: '-',
+        mtBench:'-',
+    },
+    {
         model: 'meetkai/functionary-medium-v3.0',
         params: 70.6,
         functionCalling: '46.43%',
