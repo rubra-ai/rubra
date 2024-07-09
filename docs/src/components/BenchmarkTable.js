@@ -202,12 +202,12 @@ const data = [
         mtBench:'-',
     },
     {
-        model: 'Mistral-Large',
+        model: 'Mistral Large (closed-source)',
         functionCalling: '48.60%',
         mmlu: '-',
         gpqa: '-',
-        gsm8k: '-',
-        math: '-',
+        gsm8k: '91.21',
+        math: '45.0',
         mtBench:'-',
     },
     {
