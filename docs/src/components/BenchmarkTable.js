@@ -126,7 +126,7 @@ const data = [
     {
         model: 'Rubra Phi-3 Mini 128k Instruct',
         params: 4.27,
-        functionCalling: '65.71%',
+        functionCalling: '70.00%',
         mmlu: '66.66',
         gpqa: '29.24',
         gsm8k: '74.09',
