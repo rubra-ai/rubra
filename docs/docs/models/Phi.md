@@ -44,7 +44,7 @@ Phi-3 is a state of the art, lightweight model. It performs exceptionally well d
       <td>Phi-3 Mini 128k Instruct</td>
       <td>-</td>
       <td>68.17</td>
-      <td>30.58</td>
+      <td>25.90</td>
       <td>80.44</td>
       <td>28.12</td>
       <td>7.92</td>

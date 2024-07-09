@@ -118,7 +118,7 @@ const data = [
         params: 3.82,
         functionCalling: '-',
         mmlu: '68.17',
-        gpqa: '30.58',
+        gpqa: '25.90',
         gsm8k: '80.44',
         math: '28.12',
         mtBench: '7.92',
