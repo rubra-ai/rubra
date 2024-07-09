@@ -3,8 +3,37 @@ profile = "black"
 import_heading_stdlib = "Standard Library"
 import_heading_thirdparty = "Third Party"
 import_heading_firstparty = "Local"
-known_third_party = ["openai","click", "core", "elasticsearch", "elasticsearch5", "fastapi", "importlib_resources", "flask", "gensim", "loglizer", "logparser", "matplotlib", "numpy", "pandas", "pydantic", "pytest", "regex", "requests", "scipy", "sklearn", "sompy", "sqlalchemy", "starlette", "torch", "urllib3", "yaml"]
+known_third_party = [
+    "openai",
+    "click",
+    "core",
+    "elasticsearch",
+    "elasticsearch5",
+    "fastapi",
+    "importlib_resources",
+    "flask",
+    "gensim",
+    "loglizer",
+    "logparser",
+    "matplotlib",
+    "numpy",
+    "pandas",
+    "pydantic",
+    "pytest",
+    "regex",
+    "requests",
+    "scipy",
+    "sklearn",
+    "sompy",
+    "sqlalchemy",
+    "starlette",
+    "torch",
+    "urllib3",
+    "yaml",
+]
 known_first_party = ["tests", "app"]
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+case_sensitive = true
 multi_line_output = 3
 force_grid_wrap = 0
 use_parentheses = true
