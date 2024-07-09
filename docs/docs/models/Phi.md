@@ -43,32 +43,34 @@ Phi-3 is a state of the art, lightweight model. It performs exceptionally well d
     <tr>
       <td>Phi-3 Mini 128k Instruct</td>
       <td>-</td>
-      <td>68.17</td>
-      <td>25.90</td>
-      <td>80.44</td>
-      <td>28.12</td>
-      <td>7.92</td>
-      <td>51</td>
-      <td>45</td>
-      <td>64</td>
-      <td>0.31875</td>
-      <td>0.28125</td>
-      <td><strong>0.51875</strong></td>
+      <td>69.36</td>
+      <td>27.01</td>
+      <td>83.7</td>
+      <td>32.92</td>
+      <td>8.02</td>
+      <td>21</td>
+      <td>72</td>
+      <td>67</td>
+      <td>0.13125</td>
+      <td>0.45000</td>
+      <td>0.340625</td>
     </tr>
     <tr>
       <td>Rubra Enhanced Phi-3 Mini 128k Instruct</td>
-      <td>65.71%</td>
-      <td>66.66</td>
-      <td>29.24</td>
-      <td>74.09</td>
-      <td>26.84</td>
-      <td>7.45</td>
-      <td>45</td>
-      <td>51</td>
-      <td>64</td>
-      <td>0.28125</td>
-      <td>0.31875</td>
-      <td>0.48125</td>
+      <td>70.0%</td>
+      <td>67.87</td>
+      <td>29.69</td>
+      <td>79.45</td>
+      <td>30.80 </td>
+      <td>8.21</td>
+      <td>72</td>
+      <td>21</td>
+      <td>67</td>
+      <td>0.45000</td>
+      <td>0.13125</td>
+      <td><strong>0.659375</strong></td>
     </tr>
   </tbody>
 </table>
+
+* The above is based on the Phi-3 Mini that was updated by Microsoft in June 2024. The original Phi-3 mini came out in April and the Rubra enhanced model has been trained on both versions
