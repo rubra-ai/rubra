@@ -126,7 +126,7 @@ const data = [
     {
         model: 'Rubra Phi-3 Mini 128k Instruct',
         params: 4.27,
-        functionCalling: '65.71%',
+        functionCalling: '70.00%',
         mmlu: '66.66',
         gpqa: '29.24',
         gsm8k: '74.09',
@@ -199,6 +199,15 @@ const data = [
         gpqa: '59.4',
         gsm8k: '-',
         math: '-',
+        mtBench:'-',
+    },
+    {
+        model: 'Mistral Large (closed-source)',
+        functionCalling: '48.60%',
+        mmlu: '-',
+        gpqa: '-',
+        gsm8k: '91.21',
+        math: '45.0',
         mtBench:'-',
     },
     {

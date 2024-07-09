@@ -29,10 +29,27 @@ Try out the models immediately without downloading anything in Our [Huggingface 
 
 ## Run Rubra Models Locally
 
+Check out our [documentation](https://docs.rubra.ai/category/serving--inferencing) to learn how to run Rubra models locally.
 We extend the following inferencing tools to run Rubra models in an OpenAI-compatible tool-calling format for local use:
 
-- [llama.cpp](https://github.com/ggerganov/llama.cpp)
-- [vllm](https://github.com/vllm-project/vllm)
+- [llama.cpp](https://github.com/rubra-ai/tools.cpp)
+- [vLLM](https://github.com/rubra-ai/vllm)
+
+**Note**: Llama3 models, including the 8B and 70B variants, are known to experience increased perplexity and a subsequent degradation in function-calling performance as a result of quantization. We recommend serving them with either vLLM or using the fp16 quantization.
+
+## Benchmark
+
+View full benchmark results for Rubra models and other models here: https://docs.rubra.ai/benchmark
+
+| Model                                                     | Function Calling | MMLU (5-shot) | GPQA (0-shot) | GSM-8K (8-shot, CoT) | MATH (4-shot, CoT) | MT-bench |
+|-----------------------------------------------------------|------------------|---------------|---------------|----------------------|--------------------|----------|
+| [**Rubra Llama-3 70B Instruct**](https://huggingface.co/rubra-ai/Meta-Llama-3-70B-Instruct)       | 97.85%           | 75.90         | 33.93         | 82.26                | 34.24              | 8.36     |
+| [**Rubra Llama-3 8B Instruct**](https://huggingface.co/rubra-ai/Meta-Llama-3-8B-Instruct)        | 89.28%           | 64.39         | 31.70         | 68.99                | 23.76              | 8.03     |
+| [**Rubra Qwen2 7B Instruct**](https://huggingface.co/rubra-ai/Qwen2-7B-Instruct)                 | 85.71%           | 68.88         | 30.36         | 75.82                | 28.72              | 8.08     |
+| [**Rubra Mistral 7B Instruct v0.3**](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.3)   | 73.57%           | 59.12         | 29.91         | 43.29                | 11.14              | 7.69     |
+| [**Rubra Phi-3 Mini 128k Instruct**](https://huggingface.co/rubra-ai/Phi-3-mini-128k-instruct)   | 70.00%           | 66.66         | 29.24         | 74.09                | 26.84              | 7.45     |
+| [**Rubra Mistral 7B Instruct v0.2**](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.2)   | 69.28%           | 58.90         | 29.91         | 34.12                | 8.36               | 7.36     |
+| [**Rubra Gemma-1.1 2B Instruct**](https://huggingface.co/rubra-ai/gemma-1.1-2b-it)               | 45.00%           | 38.85         | 24.55         | 6.14                 | 2.38               | 5.75     |
 
 ## Contributing
 
