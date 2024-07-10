@@ -71,6 +71,11 @@ const config = {
             target: '_self',
           },
           {
+            to: 'https://huggingface.co/rubra-ai',
+            label: 'Hugging Face',
+            position: 'right',
+          },
+          {
             to: 'https://github.com/rubra-ai/rubra',
             label: 'GitHub',
             position: 'right',
