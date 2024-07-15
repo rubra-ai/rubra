@@ -28,12 +28,30 @@ Rubra 增强了当前最流行的一系列开放权重大模型（LLM）的工�
 
 在我们的 [Huggingface Spaces](https://huggingface.co/spaces/sanjay920/rubra-v0.1-dev) 上可以免费试用以上的大模型，不需要登录！
 
-## 本地部署运行 Rubra 模型
+## 在本地部署运行 Rubra 模型
 
-我们扩展了以下部署工具，以在 OpenAI 风格的API格式下本地运行 Rubra 模型：
+查看我们的[文档](https://docs.rubra.ai/category/serving--inferencing)以了解如何在本地运行 Rubra 模型。
+我们扩展了以下部署工具，支持OpenAI的工具调用格式，在本地运行Rubra模型：
 
-- [llama.cpp](https://github.com/ggerganov/llama.cpp)
-- [vllm](https://github.com/vllm-project/vllm)
+- [llama.cpp](https://github.com/rubra-ai/tools.cpp)
+- [vLLM](https://github.com/rubra-ai/vllm)
+
+**注意**: Llama3 模型，包括8B和70B的gguf版本，在量化（quantization）后会出现perplexity增加和函数调用性能下降的问题。我们建议使用 vLLM 或 fp16或更高（bf16， fp32） 量化来部署运行它们。
+
+## 基准测试
+
+查看 Rubra 模型及其他模型的完整基准测试结果： https://docs.rubra.ai/benchmark
+
+| 模型                                                     | 函数调用         | MMLU (5-shot) | GPQA (0-shot) | GSM-8K (8-shot, CoT) | MATH (4-shot, CoT) | MT-bench |
+|-----------------------------------------------------------|------------------|---------------|---------------|----------------------|--------------------|----------|
+| [**Rubra Llama-3 70B Instruct**](https://huggingface.co/rubra-ai/Meta-Llama-3-70B-Instruct)       | 97.85%           | 75.90         | 33.93         | 82.26                | 34.24              | 8.36     |
+| [**Rubra Llama-3 8B Instruct**](https://huggingface.co/rubra-ai/Meta-Llama-3-8B-Instruct)        | 89.28%           | 64.39         | 31.70         | 68.99                | 23.76              | 8.03     |
+| [**Rubra Qwen2 7B Instruct**](https://huggingface.co/rubra-ai/Qwen2-7B-Instruct)                 | 85.71%           | 68.88         | 30.36         | 75.82                | 28.72              | 8.08     |
+| [**Rubra Mistral 7B Instruct v0.3**](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.3)   | 73.57%           | 59.12         | 29.91         | 43.29                | 11.14              | 7.69     |
+| [**Rubra Phi-3 Mini 128k Instruct**](https://huggingface.co/rubra-ai/Phi-3-mini-128k-instruct)   | 70.00%           | 67.87         | 29.69         | 79.45                | 30.80              | 8.21     |
+| [**Rubra Mistral 7B Instruct v0.2**](https://huggingface.co/rubra-ai/Mistral-7B-Instruct-v0.2)   | 69.28%           | 58.90         | 29.91         | 34.12                | 8.36               | 7.36     |
+| [**Rubra Gemma-1.1 2B Instruct**](https://huggingface.co/rubra-ai/gemma-1.1-2b-it)               | 45.00%           | 38.85         | 24.55         | 6.14                 | 2.38               | 5.75     |
+
 
 ## 贡献
 
