@@ -229,6 +229,26 @@ const data = [
         gsm8k: '66.11',
         math: '20.54',
         mtBench:'7.09',
+    },
+    {
+        model: 'groq/Llama-3-Groq-8B-Tool-Use',
+        params: 8.03,
+        functionCalling: '45.70%',
+        mmlu: '-',
+        gpqa: '-',
+        gsm8k: '-',
+        math: '-',
+        mtBench:'-',
+    },
+    {
+        model: 'groq/Llama-3-Groq-70B-Tool-Use',
+        params: 70.6,
+        functionCalling: '74.29%',
+        mmlu: '-',
+        gpqa: '-',
+        gsm8k: '-',
+        math: '-',
+        mtBench:'-',
     }
 ];
 
