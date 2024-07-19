@@ -239,3 +239,7 @@ zipalign*
 *.sln
 *.sw?
 
+# demo files
+demo/credentials.json
+demo/token.json
+
