@@ -35,7 +35,6 @@ def run_agent(user_query, functions, system_prompt=default_system_prompt):
                 })
         res, msgs = run_chat(user_query=user_query,functions=functions, msgs=msgs)
     final_res = res.message.content
-    print(final_res)
     return final_res
 
 
@@ -126,6 +125,8 @@ def label_message(email_id) -> str:
     # some arbitrary keyword rule based stuff
     elif "REMINDER" in msg_detail["title"] or "important" in msg_detail["content_text"]: 
         label = "important"
+        
+    print(label)
     return f"Label: {label}"
     
 

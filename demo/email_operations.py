@@ -158,6 +158,8 @@ def list_messages(n=5, date = None):
                 if i >= n:
                     break
                 res.append(message["id"])
+        
+        print(res)
         return res
                 
                                 
