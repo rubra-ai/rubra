@@ -94,30 +94,49 @@ def mark_as_read( email_id):
     service.users().messages().modify(userId='me', id=email_id, body={'removeLabelIds': ['UNREAD']}).execute()
   
 
+
 def read_message(email_id):
     service = build("gmail", "v1", credentials=auth())
     msg = service.users().messages().get(userId='me', id=email_id).execute()   
 
-    # Extract the parts
+            # Extract the parts
     email_data = msg
-    content_text = ""
-    if "parts" not in email_data['payload']:
-        return content_text
-    else:
-        parts = email_data['payload']['parts']
-    decoded_parts = {}
+    headers = email_data['payload']['headers']
+    header_dict = {header['name']: header['value'] for header in headers}
 
-    for part in parts:
-        mime_type = part['mimeType']
-        encoded_data = part['body']['data']
-        decoded_content = decode_base64(encoded_data)
-        decoded_parts[mime_type] = decoded_content
-
-    # Extract necessary information
-    content_text = decoded_parts.get('text/plain', 'No Plain Text Content')
-    return content_text
+    # Print the extracted information
+    title = header_dict.get('Subject', 'No Subject')
+    sender = header_dict.get('From', 'No Sender')
+    receiver = header_dict.get('To', 'No Receiver')
+    date = header_dict.get("Date", "No Date Received")
     
+    content_text = ""
+    try:
+        if "parts" not in email_data['payload']:
+            parts = []
+        else:
+            parts = email_data['payload']['parts']
+        decoded_parts = {}
 
+        for part in parts:
+            mime_type = part['mimeType']
+            encoded_data = part['body']['data']
+            decoded_content = decode_base64(encoded_data)
+            decoded_parts[mime_type] = decoded_content
+
+        # Extract necessary information
+        content_text = decoded_parts.get('text/plain', 'No Plain Text Content')
+    except Exception as e:
+        print(e)
+    
+    return {
+        "id" : email_id,
+        "title": title,
+        "sender": sender,
+        "receiver": receiver,
+        "date": date,
+        "content_text": content_text
+    }
 
      
 def list_messages(n=5, date = None):
@@ -138,28 +157,9 @@ def list_messages(n=5, date = None):
             for i, message in enumerate(messages):
                 if i >= n:
                     break
-                msg = service.users().messages().get(userId='me', id=message['id']).execute()   
-
-                # Extract the parts
-                email_data = msg
-                headers = email_data['payload']['headers']
-                header_dict = {header['name']: header['value'] for header in headers}
-
-                # Print the extracted information
-                title = header_dict.get('Subject', 'No Subject')
-                sender = header_dict.get('From', 'No Sender')
-                receiver = header_dict.get('To', 'No Receiver')
-                date = header_dict.get("Date", "No Date Received")
-                res.append({
-                    "id" : message['id'],
-                    "title": title,
-                    "sender": sender,
-                    "receiver": receiver,
-                    "date": date,
-                    # "content": content_text,
-                })
-                # print(f"Content (HTML):\n{content_html}")
-        return res 
+                res.append(message["id"])
+        return res
+                
                                 
     except HttpError as error:
         print(f"An error occurred: {error}")
