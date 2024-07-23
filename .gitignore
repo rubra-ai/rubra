@@ -240,6 +240,7 @@ zipalign*
 *.sw?
 
 # demo files
-demo/credentials.json
-demo/token.json
+demo/email_assistant/credentials.json
+demo/email_assistant/token.json
 
+yarn.lock
