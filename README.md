@@ -27,6 +27,8 @@ All models are enhanced from the top open-source LLMs with further post-training
 
 Try out the models immediately without downloading anything in Our [Huggingface Spaces]([https://huggingface.co/spaces/sanjay920/rubra-v0.1-dev](https://huggingface.co/spaces/sanjay920/rubra-v0.1-function-calling))! It's free and requires no login.
 
+For more examples, please check out the `demo` directory.
+
 ## Run Rubra Models Locally
 
 Check out our [documentation](https://docs.rubra.ai/category/serving--inferencing) to learn how to run Rubra models locally.
