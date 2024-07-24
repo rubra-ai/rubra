@@ -34,6 +34,8 @@ Some of the LLMs above require using custom libraries to post-process LLM genera
 
 `groq/Llama-3-Groq-8B-Tool-Use` and `groq/Llama-3-Groq-70B-Tool-Use` are tested using [groq's API](https://console.groq.com/docs/tool-use).
 
+`Meta/Llama-3.1-8B-Instruct` and `Meta/Llama-3.1-70B-Instruct` are tested using Meta's [Llama3.1 official docs](https://llama.meta.com/docs/model-cards-and-prompt-formats/llama3_1/#user-defined-custom-tool-calling) of User-defined Custom tool calling.
+
 :::::
 
 ∔ `Nexusflow/NexusRaven-V2-13B` and `gorilla-llm/gorilla-openfunctions-v2` don't accept tool observations, the result of running a tool or function once the LLM calls it, so we appended the observation to the prompt.

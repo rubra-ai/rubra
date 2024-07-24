@@ -249,6 +249,26 @@ const data = [
         gsm8k: '-',
         math: '-',
         mtBench:'-',
+    },
+    {
+        model: 'Meta/Llama-3.1-8B-Instruct',
+        params: 8.03,
+        functionCalling: '32.50%',
+        mmlu: '-',
+        gpqa: '-',
+        gsm8k: '-',
+        math: '-',
+        mtBench:'-',
+    },
+    {
+        model: 'Meta/Llama-3.1-70B-Instruct',
+        params: 70.6,
+        functionCalling: '63.75%%',
+        mmlu: '-',
+        gpqa: '-',
+        gsm8k: '-',
+        math: '-',
+        mtBench:'-',
     }
 ];
 
